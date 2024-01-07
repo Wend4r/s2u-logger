@@ -37,3 +37,19 @@ LoggingResponse_t CLoggingError::ErrorFormat(const Color &aColor, const char *ps
 
 	return this->Error(aColor, (const char *)sBuffer);
 }
+
+LoggerScope CLoggingError::CreateErrorsScope(const char *pszStartWith, const char *pszEnd)
+{
+#ifdef DEBUG
+	char sDebugWith[32];
+
+	char *pDebugWithResult = V_strncpy((char *)sDebugWith, LOGGER_FORMAT_ERROR_STARTWITH, sizeof(sDebugWith));
+	size_t nResultSize = V_strlen(pDebugWithResult);
+
+	V_strncpy(&pDebugWithResult[nResultSize], pszStartWith, sizeof(sDebugWith) - nResultSize);
+
+	return {LOGGER_COLOR_ERROR, pDebugWithResult, pszEnd};
+#else
+	return {LOGGER_COLOR_ERROR};
+#endif
+}

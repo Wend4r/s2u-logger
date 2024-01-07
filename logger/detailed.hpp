@@ -2,6 +2,7 @@
 #define _INCLUDE_LOGGER_DETAILED_HPP_
 
 #include "ilogging.hpp"
+#include "scope.hpp"
 
 #define LOGGER_FORMAT_DETAILED_STARTWITH "DEV: "
 #define LOGGER_FORMAT_DETAILED_STARTWITH_PREFIX "[%s] " LOGGER_FORMAT_DETAILED_STARTWITH_ADDITIONAL
@@ -18,6 +19,9 @@ public:
 
 	virtual LoggingResponse_t DetailedFormat(const char *pszFormat, ...) FMTFUNCTION(2, 3);
 	virtual LoggingResponse_t DetailedFormat(const Color &aColor, const char *pszFormat, ...) FMTFUNCTION(3, 4);
+
+public:
+	LoggerScope CreateDetailsScope(const char *pszStartWith = "", const char *pszEnd = "\n");
 
 protected:
 	static const LoggingSeverity_t s_eSeverity = LS_DETAILED;

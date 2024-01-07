@@ -2,6 +2,7 @@
 #define _INCLUDE_LOGGER_ERROR_HPP_
 
 #include "ilogging.hpp"
+#include "scope.hpp"
 
 #define LOGGER_FORMAT_ERROR_STARTWITH "ERROR: "
 #define LOGGER_FORMAT_ERROR_STARTWITH_PREIFIX "[%s] " LOGGER_FORMAT_ERROR_STARTWITH
@@ -18,6 +19,9 @@ public:
 
 	virtual LoggingResponse_t ErrorFormat(const char *pszFormat, ...) FMTFUNCTION(2, 3);
 	virtual LoggingResponse_t ErrorFormat(const Color &aColor, const char *pszFormat, ...) FMTFUNCTION(3, 4);
+
+public:
+	LoggerScope CreateErrorsScope(const char *pszStartWith = "", const char *pszEnd = "\n");
 
 protected:
 	static const LoggingSeverity_t s_eSeverity = LS_ERROR;

@@ -37,3 +37,19 @@ LoggingResponse_t CLoggingDetailed::DetailedFormat(const Color &aColor, const ch
 
 	return this->Detailed(aColor, (const char *)sBuffer);
 }
+
+LoggerScope CLoggingDetailed::CreateDetailsScope(const char *pszStartWith = "", const char *pszEnd = "\n")
+{
+#ifdef DEBUG
+	char sDebugWith[32];
+
+	char *pDebugWithResult = V_strncpy((char *)sDebugWith, LOGGER_FORMAT_DETAILED_STARTWITH, sizeof(sDebugWith));
+	size_t nResultSize = V_strlen(pDebugWithResult);
+
+	V_strncpy(&pDebugWithResult[nResultSize], pszStartWith, sizeof(sDebugWith) - nResultSize);
+
+	return {LOGGER_COLOR_DETAILED, pDebugWithResult, pszEnd};
+#else
+	return {LOGGER_COLOR_DETAILED, pszStartWith, pszEnd};
+#endif
+}

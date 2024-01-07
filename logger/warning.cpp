@@ -37,3 +37,19 @@ LoggingResponse_t CLoggingWarning::WarningFormat(const Color &aColor, const char
 
 	return this->Warning(aColor, (const char *)sBuffer);
 }
+
+LoggerScope CLoggingWarning::CreateWarningsScope(const char *pszStartWith, const char *pszEnd)
+{
+#ifdef DEBUG
+	char sDebugWith[32];
+
+	char *pDebugWithResult = V_strncpy((char *)sDebugWith, LOGGER_FORMAT_WARNING_STARTWITH, sizeof(sDebugWith));
+	size_t nResultSize = V_strlen(pDebugWithResult);
+
+	V_strncpy(&pDebugWithResult[nResultSize], pszStartWith, sizeof(sDebugWith) - nResultSize);
+
+	return {LOGGER_COLOR_WARNING, pDebugWithResult, pszEnd};
+#else
+	return {LOGGER_COLOR_WARNING};
+#endif
+}

@@ -37,3 +37,12 @@ LoggingResponse_t CLoggingMessage::MessageFormat(const Color &aColor, const char
 
 	return this->Message(aColor, (const char *)sBuffer);
 }
+
+LoggerScope CLoggingMessage::CreateMessagesScope(const char *pszStartWith, const char *pszEnd)
+{
+#ifdef DEBUG
+	return {LOGGER_COLOR_MESSAGE, LOGGER_FORMAT_MESSAGE_STARTWITH};
+#else
+	return {LOGGER_COLOR_MESSAGE};
+#endif
+}

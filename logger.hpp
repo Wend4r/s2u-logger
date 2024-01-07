@@ -47,63 +47,6 @@ protected:
 
 	void DoTests();
 
-public:
-	class Scope
-	{
-		using This = Scope;
-
-	public:
-		using SendFunc = std::function<void (const char *)>;
-		using SendColorFunc = std::function<void (const Color &, const char *)>;
-
-		Scope(const Color &rgbaInit, const char *pszStartWith = "", const char *pszEnd = "\n");
-
-		Scope &operator+=(const Scope &);
-
-		const Color &GetColor() const;
-		const char *GetStartWith() const;
-		const char *GetEnd() const;
-		size_t Count() const;
-
-		void SetColor(const Color &rgba);
-
-		size_t Push(const char *pszContent);
-		size_t Push(const Color &rgba, const char *pszContent);
-
-		size_t PushFormat(const char *pszFormat, ...) FMTFUNCTION(2, 3);
-		size_t PushFormat(const Color &rgba, const char *pszFormat, ...) FMTFUNCTION(3, 4);
-
-		size_t Send(SendFunc funcOn);
-		size_t SendColor(SendColorFunc funcOn);
-
-		class Message
-		{
-		public:
-			Message(const Color &rgbaInit, const char *pszContent = "");
-
-			const Color &GetColor() const;
-			const std::string &Get() const;
-			size_t SetWithCopy(const char *pszContent);
-
-		private:
-			Color m_aColor;
-			std::string m_sContent;
-		};
-
-	private:
-		Color m_aColor;
-
-		std::string m_aStartWith;
-		std::vector<Message> m_vec;
-		std::string m_aEnd;
-	}; // Logger::Scope
-
-	Scope CreateDetailsScope(const char *pszStartWith = "", const char *pszEnd = "\n");
-	Scope CreateMessagesScope(const char *pszStartWith = "", const char *pszEnd = "\n");
-	Scope CreateWarningsScope(const char *pszStartWith = "", const char *pszEnd = "\n");
-	Scope CreateAssertScope(const char *pszStartWith = "", const char *pszEnd = "\n");
-	Scope CreateErrorsScope(const char *pszStartWith = "", const char *pszEnd = "\n");
-
 private:
 	LoggingChannelID_t m_nChannelID;
 }; // Logger

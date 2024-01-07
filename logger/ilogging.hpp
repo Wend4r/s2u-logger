@@ -15,6 +15,6 @@ protected:
 	virtual LoggingResponse_t InternalMessageFormat(LoggingSeverity_t eSeverity, const Color &aColor, const char *pszFormat, ...) = 0;
 	virtual LoggingResponse_t InternalMessageFormat(LoggingSeverity_t eSeverity, const LeafCodeInfo_t &aCode, const char *pszFormat, ...) = 0;
 	virtual LoggingResponse_t InternalMessageFormat(LoggingSeverity_t eSeverity, const LeafCodeInfo_t &aCode, const Color &aColor, const char *pszFormat, ...) = 0;
-};
+}; // ILogging
 
 #endif // _INCLUDE_LOGGER_ILOGGING_HPP_

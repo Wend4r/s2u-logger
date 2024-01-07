@@ -96,7 +96,7 @@ public:
 		std::string m_aStartWith;
 		std::vector<Message> m_vec;
 		std::string m_aEnd;
-	};
+	}; // Logger::Scope
 
 	Scope CreateDetailsScope(const char *pszStartWith = "", const char *pszEnd = "\n");
 	Scope CreateMessagesScope(const char *pszStartWith = "", const char *pszEnd = "\n");
@@ -106,6 +106,6 @@ public:
 
 private:
 	LoggingChannelID_t m_nChannelID;
-};
+}; // Logger
 
 #endif // _INCLUDE_LOGGER_HPP_

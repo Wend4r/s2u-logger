@@ -20,6 +20,6 @@ public:
 
 protected:
 	static const LoggingSeverity_t s_eSeverity = LS_WARNING;
-};
+}; // CLoggingWarning
 
 #endif // _INCLUDE_LOGGER_WARNING_HPP_

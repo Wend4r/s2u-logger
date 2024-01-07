@@ -21,6 +21,6 @@ public:
 
 protected:
 	static const LoggingSeverity_t s_eSeverity = LS_ERROR;
-};
+}; // CLoggingError
 
 #endif // _INCLUDE_LOGGER_ERROR_HPP_

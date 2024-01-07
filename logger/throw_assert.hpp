@@ -21,6 +21,6 @@ public:
 
 protected:
 	static const LoggingSeverity_t s_eSeverity = LS_ASSERT;
-};
+}; // CLoggingThrowAssert
 
 #endif // _INCLUDE_LOGGER_THROW_ASSERT_HPP_

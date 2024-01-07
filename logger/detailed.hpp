@@ -21,6 +21,6 @@ public:
 
 protected:
 	static const LoggingSeverity_t s_eSeverity = LS_DETAILED;
-};
+}; // CLoggingDetailed
 
 #endif // _INCLUDE_LOGGER_DETAILED_HPP_

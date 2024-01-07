@@ -6,7 +6,6 @@
  * ======================================================
  */
 
-#include "entity_manager.h"
 #include "logger.hpp"
 
 #include <stdarg.h>
@@ -16,164 +15,161 @@ Logger::Logger(const char *pszName, RegisterTagsFunc pfnRegisterTagsFunc, int iF
 	this->m_nChannelID = LoggingSystem_RegisterLoggingChannel(pszName, pfnRegisterTagsFunc, iFlags, eVerbosity, aDefault);
 }
 
-void Logger::Detailed(const char *pszContent)
+bool Logger::IsChannelEnabled(LoggingSeverity_t eSeverity)
 {
-	LoggingSystem_LogDirect(this->m_nChannelID, LS_DETAILED, pszContent);
+	return LoggingSystem_IsChannelEnabled(this->m_nChannelID, eSeverity);
 }
 
-void Logger::Detailed(Color aColor, const char *pszContent)
+bool Logger::IsChannelEnabled(LoggingVerbosity_t eVerbosity)
 {
-	LoggingSystem_LogDirect(this->m_nChannelID, LS_DETAILED, aColor, pszContent);
+	return LoggingSystem_IsChannelEnabled(this->m_nChannelID, eVerbosity);
 }
 
-void Logger::DetailedFormat(const char *pszFormat, ...)
+LoggingVerbosity_t Logger::GetChannelVerbosity()
 {
-	va_list aParams;
-
-	va_start(aParams, pszFormat);
-	V_vsnprintf((char *)this->m_sFormatBuffer, sizeof(this->m_sFormatBuffer), pszFormat, aParams);
-	va_end(aParams);
-
-	this->Detailed((const char *)this->m_sFormatBuffer);
+	return LoggingSystem_GetChannelVerbosity(this->m_nChannelID);
 }
 
-void Logger::DetailedFormat(Color aColor, const char *pszFormat, ...)
+Color Logger::GetColor()
 {
-	va_list aParams;
+	Color rgba;
 
-	va_start(aParams, pszFormat);
-	V_vsnprintf((char *)this->m_sFormatBuffer, sizeof(this->m_sFormatBuffer), pszFormat, aParams);
-	va_end(aParams);
+	rgba.SetRawColor(LoggingSystem_GetChannelColor(this->m_nChannelID));
 
-	this->Detailed(aColor, (const char *)this->m_sFormatBuffer);
+	return rgba;
 }
 
-void Logger::Message(const char *pszContent)
+LoggingChannelFlags_t Logger::GetFlags()
 {
-	LoggingSystem_LogDirect(this->m_nChannelID, LS_MESSAGE, pszContent);
+	return LoggingSystem_GetChannelFlags(this->m_nChannelID);
 }
 
-void Logger::Message(Color aColor, const char *pszContent)
+LoggingResponse_t Logger::InternalMessage(LoggingSeverity_t eSeverity, const char *pszContent)
 {
-	LoggingSystem_LogDirect(this->m_nChannelID, LS_MESSAGE, aColor, pszContent);
+	LoggingResponse_t eResponse = LR_ABORT;
+
+	if(this->IsChannelEnabled(eSeverity))
+	{
+		eResponse = LoggingSystem_LogDirect(this->m_nChannelID, eSeverity, pszContent);
+	}
+
+	return eResponse;
 }
 
-void Logger::MessageFormat(const char *pszFormat, ...)
+LoggingResponse_t Logger::InternalMessage(LoggingSeverity_t eSeverity, const Color &aColor, const char *pszContent)
 {
-	va_list aParams;
+	LoggingResponse_t eResponse = LR_ABORT;
 
-	va_start(aParams, pszFormat);
-	V_vsnprintf((char *)this->m_sFormatBuffer, sizeof(this->m_sFormatBuffer), pszFormat, aParams);
-	va_end(aParams);
+	if(this->IsChannelEnabled(eSeverity))
+	{
+		eResponse = LoggingSystem_LogDirect(this->m_nChannelID, eSeverity, aColor, pszContent);
+	}
 
-	this->Message((const char *)this->m_sFormatBuffer);
+	return eResponse;
 }
 
-void Logger::MessageFormat(Color aColor, const char *pszFormat, ...)
+LoggingResponse_t Logger::InternalMessage(LoggingSeverity_t eSeverity, const LeafCodeInfo_t &aCode, const char *pszContent)
 {
-	va_list aParams;
+	LoggingResponse_t eResponse = LR_ABORT;
 
-	va_start(aParams, pszFormat);
-	V_vsnprintf((char *)this->m_sFormatBuffer, sizeof(this->m_sFormatBuffer), pszFormat, aParams);
-	va_end(aParams);
+	if(this->IsChannelEnabled(eSeverity))
+	{
+		eResponse = LoggingSystem_LogDirect(this->m_nChannelID, eSeverity, aCode, pszContent);
+	}
 
-	this->Message(aColor, (const char *)this->m_sFormatBuffer);
+	return eResponse;
 }
 
-void Logger::Warning(const char *pszContent)
+LoggingResponse_t Logger::InternalMessage(LoggingSeverity_t eSeverity, const LeafCodeInfo_t &aCode, const Color &aColor, const char *pszContent)
 {
-	LoggingSystem_LogDirect(this->m_nChannelID, LS_WARNING, pszContent);
+	LoggingResponse_t eResponse = LR_ABORT;
+
+	if(this->IsChannelEnabled(eSeverity))
+	{
+		eResponse = LoggingSystem_LogDirect(this->m_nChannelID, eSeverity, aCode, aColor, pszContent);
+	}
+
+	return eResponse;
 }
 
-void Logger::Warning(Color aColor, const char *pszContent)
+LoggingResponse_t Logger::InternalMessageFormat(LoggingSeverity_t eSeverity, const char *pszFormat, ...)
 {
-	LoggingSystem_LogDirect(this->m_nChannelID, LS_WARNING, aColor, pszContent);
+	LoggingResponse_t eResponse = LR_ABORT;
+
+	if(this->IsChannelEnabled(eSeverity))
+	{
+		char sBuffer[1024];
+
+		va_list aParams;
+
+		va_start(aParams, pszFormat);
+		V_vsnprintf((char *)sBuffer, sizeof(sBuffer), pszFormat, aParams);
+		va_end(aParams);
+
+		eResponse = this->InternalMessage(eSeverity, (const char *)sBuffer);
+	}
+
+	return eResponse;
 }
 
-void Logger::WarningFormat(const char *pszFormat, ...)
+LoggingResponse_t Logger::InternalMessageFormat(LoggingSeverity_t eSeverity, const Color &aColor, const char *pszFormat, ...)
 {
-	va_list aParams;
+	LoggingResponse_t eResponse = LR_ABORT;
 
-	va_start(aParams, pszFormat);
-	V_vsnprintf((char *)this->m_sFormatBuffer, sizeof(this->m_sFormatBuffer), pszFormat, aParams);
-	va_end(aParams);
+	if(this->IsChannelEnabled(eSeverity))
+	{
+		char sBuffer[1024];
 
-	this->Warning((const char *)this->m_sFormatBuffer);
+		va_list aParams;
+
+		va_start(aParams, pszFormat);
+		V_vsnprintf((char *)sBuffer, sizeof(sBuffer), pszFormat, aParams);
+		va_end(aParams);
+
+		eResponse = this->InternalMessage(eSeverity, aColor, (const char *)sBuffer);
+	}
+
+	return eResponse;
 }
 
-void Logger::WarningFormat(Color aColor, const char *pszFormat, ...)
+LoggingResponse_t Logger::InternalMessageFormat(LoggingSeverity_t eSeverity, const LeafCodeInfo_t &aCode, const char *pszFormat, ...)
 {
-	va_list aParams;
+	LoggingResponse_t eResponse = LR_ABORT;
 
-	va_start(aParams, pszFormat);
-	V_vsnprintf((char *)this->m_sFormatBuffer, sizeof(this->m_sFormatBuffer), pszFormat, aParams);
-	va_end(aParams);
+	if(this->IsChannelEnabled(eSeverity))
+	{
+		char sBuffer[1024];
 
-	this->Warning(aColor, (const char *)this->m_sFormatBuffer);
+		va_list aParams;
+
+		va_start(aParams, pszFormat);
+		V_vsnprintf((char *)sBuffer, sizeof(sBuffer), pszFormat, aParams);
+		va_end(aParams);
+
+		eResponse = this->InternalMessage(eSeverity, (const char *)sBuffer);
+	}
+
+	return eResponse;
 }
 
-void Logger::ThrowAssert(const char *pszFilename, int iLine, const char *pszContent)
+LoggingResponse_t Logger::InternalMessageFormat(LoggingSeverity_t eSeverity, const LeafCodeInfo_t &aCode, const Color &aColor, const char *pszFormat, ...)
 {
-	LoggingSystem_Log(this->m_nChannelID, LS_ASSERT, "%s (%d) : %s", pszFilename, iLine, pszContent);
-}
+	LoggingResponse_t eResponse = LR_ABORT;
 
-void Logger::ThrowAssert(const char *pszFilename, int iLine, Color aColor, const char *pszContent)
-{
-	LoggingSystem_Log(this->m_nChannelID, LS_ASSERT, aColor, "%s (%d) : %s", pszFilename, iLine, pszContent);
-}
+	if(this->IsChannelEnabled(eSeverity))
+	{
+		char sBuffer[1024];
 
-void Logger::ThrowAssertFormat(const char *pszFilename, int iLine, const char *pszFormat, ...)
-{
-	va_list aParams;
+		va_list aParams;
 
-	va_start(aParams, pszFormat);
-	V_vsnprintf((char *)this->m_sFormatBuffer, sizeof(this->m_sFormatBuffer), pszFormat, aParams);
-	va_end(aParams);
+		va_start(aParams, pszFormat);
+		V_vsnprintf((char *)sBuffer, sizeof(sBuffer), pszFormat, aParams);
+		va_end(aParams);
 
-	this->ThrowAssert(pszFilename, iLine, (const char *)this->m_sFormatBuffer);
-}
+		eResponse = this->InternalMessage(eSeverity, aColor, (const char *)sBuffer);
+	}
 
-void Logger::ThrowAssertFormat(const char *pszFilename, int iLine, Color aColor, const char *pszFormat, ...)
-{
-	va_list aParams;
-
-	va_start(aParams, pszFormat);
-	V_vsnprintf((char *)this->m_sFormatBuffer, sizeof(this->m_sFormatBuffer), pszFormat, aParams);
-	va_end(aParams);
-
-	this->ThrowAssert(pszFilename, iLine, aColor, (const char *)this->m_sFormatBuffer);
-}
-
-void Logger::Error(const char *pszContent)
-{
-	LoggingSystem_LogDirect(this->m_nChannelID, LS_ERROR, pszContent);
-}
-
-void Logger::Error(Color aColor, const char *pszContent)
-{
-	LoggingSystem_LogDirect(this->m_nChannelID, LS_ERROR, aColor, pszContent);
-}
-
-void Logger::ErrorFormat(const char *pszFormat, ...)
-{
-	va_list aParams;
-
-	va_start(aParams, pszFormat);
-	V_vsnprintf((char *)this->m_sFormatBuffer, sizeof(this->m_sFormatBuffer), pszFormat, aParams);
-	va_end(aParams);
-
-	this->Error((const char *)this->m_sFormatBuffer);
-}
-
-void Logger::ErrorFormat(Color aColor, const char *pszFormat, ...)
-{
-	va_list aParams;
-
-	va_start(aParams, pszFormat);
-	V_vsnprintf((char *)this->m_sFormatBuffer, sizeof(this->m_sFormatBuffer), pszFormat, aParams);
-	va_end(aParams);
-
-	this->Error(aColor, (const char *)this->m_sFormatBuffer);
+	return eResponse;
 }
 
 void Logger::DoTests()
@@ -181,7 +177,7 @@ void Logger::DoTests()
 	this->DetailedFormat("LS_DETAILED = %d\n", LS_DETAILED);
 	this->MessageFormat("LS_MESSAGE = %d\n", LS_MESSAGE);
 	this->WarningFormat("LS_WARNING = %d\n", LS_WARNING);
-	this->ThrowAssertFormat(__FILE__, __LINE__, "LS_ASSERT = %d\n", LS_ASSERT);
+	this->ThrowAssertFormat({__FILE__, __LINE__, __FUNCTION__}, "LS_ASSERT = %d\n", LS_ASSERT);
 	this->ErrorFormat("LS_ERROR = %d\n", LS_ERROR);
 }
 
@@ -310,15 +306,17 @@ size_t Logger::Scope::Push(const Color &rgba, const char *pszContent)
 
 size_t Logger::Scope::PushFormat(const char *pszFormat, ...)
 {
+	char sBuffer[MAX_LOGGING_MESSAGE_LENGTH];
+
 	va_list aParams;
 
 	va_start(aParams, pszFormat);
-	V_vsnprintf((char *)this->m_sFormatBuffer, sizeof(this->m_sFormatBuffer), pszFormat, aParams);
+	V_vsnprintf((char *)sBuffer, sizeof(sBuffer), pszFormat, aParams);
 	va_end(aParams);
 
 	Message aMsg(this->m_aColor);
 
-	size_t nStoredLength = aMsg.SetWithCopy((const char *)this->m_sFormatBuffer);
+	size_t nStoredLength = aMsg.SetWithCopy((const char *)sBuffer);
 
 	this->m_vec.push_back(aMsg);
 
@@ -327,15 +325,17 @@ size_t Logger::Scope::PushFormat(const char *pszFormat, ...)
 
 size_t Logger::Scope::PushFormat(const Color &rgba, const char *pszFormat, ...)
 {
+	char sBuffer[MAX_LOGGING_MESSAGE_LENGTH];
+
 	va_list aParams;
 
 	va_start(aParams, pszFormat);
-	V_vsnprintf((char *)this->m_sFormatBuffer, sizeof(this->m_sFormatBuffer), pszFormat, aParams);
+	V_vsnprintf((char *)sBuffer, sizeof(sBuffer), pszFormat, aParams);
 	va_end(aParams);
 
 	Message aMsg(rgba);
 
-	size_t nStoredLength = aMsg.SetWithCopy((const char *)this->m_sFormatBuffer);
+	size_t nStoredLength = aMsg.SetWithCopy((const char *)sBuffer);
 
 	this->m_vec.push_back(aMsg);
 

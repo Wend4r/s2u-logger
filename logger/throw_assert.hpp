@@ -10,7 +10,7 @@
 
 class CLoggingThrowAssert : virtual protected ILogging
 {
-	using ThisClass = CLoggingThrowAssert;
+	using This = CLoggingThrowAssert;
 
 public:
 	virtual LoggingResponse_t ThrowAssert(const LeafCodeInfo_t &aCode, const char *pszContent);

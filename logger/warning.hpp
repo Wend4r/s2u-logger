@@ -10,7 +10,7 @@
 
 class CLoggingWarning : virtual protected ILogging
 {
-	using ThisClass = CLoggingWarning;
+	using This = CLoggingWarning;
 
 public:
 	virtual LoggingResponse_t Warning(const char *pszContent);

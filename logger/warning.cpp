@@ -4,12 +4,12 @@
 
 LoggingResponse_t CLoggingWarning::Warning(const char *pszContent)
 {
-	return this->InternalMessage(ThisClass::s_eSeverity, pszContent);
+	return this->InternalMessage(This::s_eSeverity, pszContent);
 }
 
 LoggingResponse_t CLoggingWarning::Warning(const Color &aColor, const char *pszContent)
 {
-	return this->InternalMessage(ThisClass::s_eSeverity, aColor, pszContent);
+	return this->InternalMessage(This::s_eSeverity, aColor, pszContent);
 }
 
 LoggingResponse_t CLoggingWarning::WarningFormat(const char *pszFormat, ...)

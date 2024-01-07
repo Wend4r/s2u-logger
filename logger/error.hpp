@@ -10,7 +10,7 @@
 
 class CLoggingError : virtual protected ILogging
 {
-	using ThisClass = CLoggingError;
+	using This = CLoggingError;
 
 public:
 	virtual LoggingResponse_t Error(const char *pszContent);

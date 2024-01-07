@@ -10,7 +10,7 @@
 
 class CLoggingDetailed : virtual protected ILogging
 {
-	using ThisClass = CLoggingDetailed;
+	using This = CLoggingDetailed;
 
 public:
 	virtual LoggingResponse_t Detailed(const char *pszContent);

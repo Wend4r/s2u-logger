@@ -4,12 +4,12 @@
 
 LoggingResponse_t CLoggingThrowAssert::ThrowAssert(const LeafCodeInfo_t &aCode, const char *pszContent)
 {
-	return this->InternalMessage(ThisClass::s_eSeverity, aCode, pszContent);
+	return this->InternalMessage(This::s_eSeverity, aCode, pszContent);
 }
 
 LoggingResponse_t CLoggingThrowAssert::ThrowAssert(const LeafCodeInfo_t &aCode, const Color &aColor, const char *pszContent)
 {
-	return this->InternalMessage(ThisClass::s_eSeverity, aCode, aColor, pszContent);
+	return this->InternalMessage(This::s_eSeverity, aCode, aColor, pszContent);
 }
 
 LoggingResponse_t CLoggingThrowAssert::ThrowAssertFormat(const LeafCodeInfo_t &aCode, const char *pszFormat, ...)

@@ -89,8 +89,6 @@ public:
 		};
 
 	private:
-		char m_sFormatBuffer[MAX_LOGGING_MESSAGE_LENGTH];
-
 		Color m_aColor;
 
 		std::string m_aStartWith;

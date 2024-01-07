@@ -50,9 +50,11 @@ protected:
 public:
 	class Scope
 	{
+		using This = Scope;
+
 	public:
-		typedef std::function<void (const char *)> SendFunc;
-		typedef std::function<void (const Color &, const char *)> SendColorFunc;
+		using SendFunc = std::function<void (const char *)>;
+		using SendColorFunc = std::function<void (const Color &, const char *)>;
 
 		Scope(const Color &rgbaInit, const char *pszStartWith = "", const char *pszEnd = "\n");
 

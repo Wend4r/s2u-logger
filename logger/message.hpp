@@ -21,7 +21,7 @@ public:
 	virtual LoggingResponse_t MessageFormat(const Color &aColor, const char *pszFormat, ...) FMTFUNCTION(3, 4);
 
 public:
-	LoggerScope CreateMessagesScope(const char *pszStartWith = "", const char *pszEnd = "\n");
+	virtual LoggerScope CreateMessagesScope(const char *pszStartWith = "", const char *pszEnd = "\n");
 
 protected:
 	static const LoggingSeverity_t s_eSeverity = LS_MESSAGE;

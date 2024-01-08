@@ -21,7 +21,7 @@ public:
 	virtual LoggingResponse_t DetailedFormat(const Color &aColor, const char *pszFormat, ...) FMTFUNCTION(3, 4);
 
 public:
-	LoggerScope CreateDetailsScope(const char *pszStartWith = "", const char *pszEnd = "\n");
+	virtual LoggerScope CreateDetailsScope(const char *pszStartWith = "", const char *pszEnd = "\n");
 
 protected:
 	static const LoggingSeverity_t s_eSeverity = LS_DETAILED;

@@ -34,6 +34,8 @@ public:
 	Color GetColor();
 	LoggingChannelFlags_t GetFlags();
 
+	using Scope = LoggerScope;
+
 protected:
 	LoggingResponse_t InternalMessage(LoggingSeverity_t eSeverity, const char *pszContent);
 	LoggingResponse_t InternalMessage(LoggingSeverity_t eSeverity, const Color &aColor, const char *pszContent);

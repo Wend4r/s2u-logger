@@ -38,7 +38,7 @@ LoggingResponse_t CLoggingDetailed::DetailedFormat(const Color &aColor, const ch
 	return this->Detailed(aColor, (const char *)sBuffer);
 }
 
-LoggerScope CLoggingDetailed::CreateDetailsScope(const char *pszStartWith = "", const char *pszEnd = "\n")
+LoggerScope CLoggingDetailed::CreateDetailsScope(const char *pszStartWith, const char *pszEnd)
 {
 #ifdef DEBUG
 	char sDebugWith[32];

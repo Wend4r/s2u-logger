@@ -45,13 +45,16 @@ LoggerScope CLoggingWarning::CreateWarningsScope(const char *pszStartWith, const
 #ifdef DEBUG
 	char sDebugWith[32];
 
-	char *pDebugWithResult = V_strncpy((char *)sDebugWith, LOGGER_FORMAT_WARNING_STARTWITH, sizeof(sDebugWith));
+	char *pDebugWithResult = (char *)sDebugWith;
+
+	V_strncpy(pDebugWithResult, LOGGER_FORMAT_WARNING_STARTWITH, sizeof(sDebugWith));
+
 	size_t nResultSize = V_strlen(pDebugWithResult);
 
-	V_strncpy(&pDebugWithResult[nResultSize], pszStartWith, sizeof(sDebugWith) - nResultSize);
+	V_strncpy(&pDebugWithResult[nResultSize], pszStartWith, (int)(sizeof(sDebugWith) - nResultSize));
 
 	return {LOGGER_COLOR_WARNING, pDebugWithResult, pszEnd};
 #else
-	return {LOGGER_COLOR_WARNING};
+	return {LOGGER_COLOR_WARNING, pszStartWith, pszEnd};
 #endif
 }

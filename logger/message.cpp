@@ -43,8 +43,18 @@ LoggingResponse_t CLoggingMessage::MessageFormat(const Color &aColor, const char
 LoggerScope CLoggingMessage::CreateMessagesScope(const char *pszStartWith, const char *pszEnd)
 {
 #ifdef DEBUG
-	return {LOGGER_COLOR_MESSAGE, LOGGER_FORMAT_MESSAGE_STARTWITH};
+	char sDebugWith[32];
+
+	char *pDebugWithResult = (char *)sDebugWith;
+
+	V_strncpy(pDebugWithResult, LOGGER_FORMAT_MESSAGE_STARTWITH, sizeof(sDebugWith));
+
+	size_t nResultSize = V_strlen(pDebugWithResult);
+
+	V_strncpy(&pDebugWithResult[nResultSize], pszStartWith, (int)(sizeof(sDebugWith) - nResultSize));
+
+	return {LOGGER_COLOR_MESSAGE, pDebugWithResult, pszEnd};
 #else
-	return {LOGGER_COLOR_MESSAGE};
+	return {LOGGER_COLOR_MESSAGE, pszStartWith, pszEnd};
 #endif
 }

@@ -1,5 +1,7 @@
 #include "warning.hpp"
 
+#include <stdarg.h>
+
 #include <tier0/strtools.h>
 
 LoggingResponse_t CLoggingWarning::Warning(const char *pszContent)

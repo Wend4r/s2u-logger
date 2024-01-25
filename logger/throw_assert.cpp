@@ -1,5 +1,7 @@
 #include "throw_assert.hpp"
 
+#include <stdarg.h>
+
 #include <tier0/strtools.h>
 
 LoggingResponse_t CLoggingThrowAssert::ThrowAssert(const LeafCodeInfo_t &aCode, const char *pszContent)

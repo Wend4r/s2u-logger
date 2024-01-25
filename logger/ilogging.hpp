@@ -2,6 +2,7 @@
 #define _INCLUDE_LOGGER_ILOGGING_HPP_
 
 #include <tier0/logging.h>
+#include <stdarg.h>
 
 class ILogging
 {

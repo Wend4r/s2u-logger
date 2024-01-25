@@ -1,5 +1,7 @@
 #include "message.hpp"
 
+#include <stdarg.h>
+
 #include <tier0/strtools.h>
 
 LoggingResponse_t CLoggingMessage::Message(const char *pszContent)

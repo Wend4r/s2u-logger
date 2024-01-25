@@ -1,5 +1,7 @@
 #include "scope.hpp"
 
+#include <stdarg.h>
+
 #include <tier0/logging.h>
 #include <tier0/strtools.h>
 

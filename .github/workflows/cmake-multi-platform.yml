@@ -10,7 +10,7 @@ on:
 
 env:
   HL2SDK_BRANCH: cs2
-  HL2SDK_ROOT: hl2sdk-${{ env.HL2SDK_BRANCH }}
+  HL2SDK_ROOT: hl2sdk-cs2
 
 jobs:
   build:

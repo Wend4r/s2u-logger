@@ -59,6 +59,7 @@ jobs:
         echo "build-output-dir=${{ github.workspace }}/build" >> "$GITHUB_OUTPUT"
 
     - name: Checkout HL2SDK
+      uses: actions/checkout@v4
       with:
         repository: Wend4r/hl2sdk
         ref: ${{ env.HL2SDK_BRANCH }}

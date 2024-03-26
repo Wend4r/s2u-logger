@@ -16,6 +16,9 @@ if(NOT SOURCESDK_DIR)
 	set(SOURCESDK_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../hl2sdk-wend4r/hl2sdk-cs2)
 endif()
 
+set(INCLUDE_DIR "include")
+set(SOURCE_DIR "src")
+
 include("cmake/platform/shared.cmake")
 
 if(LINUX)
@@ -26,15 +29,18 @@ endif()
 
 include("cmake/sourcesdk.cmake")
 
+include_directories(
+	${INCLUDE_DIR}
+)
+
 set(SOURCE_FILES
-	logger/detailed.cpp
-	logger/message.cpp
-	logger/warning.cpp
-	logger/throw_assert.cpp
-	logger/error.cpp
-	logger/scope.cpp
-	logger.cpp
-	logger.cpp
+	${SOURCE_DIR}/${PROJECT_NAME}/detailed.cpp
+	${SOURCE_DIR}/${PROJECT_NAME}/message.cpp
+	${SOURCE_DIR}/${PROJECT_NAME}/warning.cpp
+	${SOURCE_DIR}/${PROJECT_NAME}/throw_assert.cpp
+	${SOURCE_DIR}/${PROJECT_NAME}/error.cpp
+	${SOURCE_DIR}/${PROJECT_NAME}/scope.cpp
+	${SOURCE_DIR}/${PROJECT_NAME}.cpp
 )
 
 add_library(${PROJECT_NAME} STATIC ${SOURCE_FILES})

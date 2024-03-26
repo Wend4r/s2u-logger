@@ -6,7 +6,7 @@
  * ======================================================
  */
 
-#include "logger.hpp"
+#include <logger.hpp>
 
 Logger::Logger(const char *pszName, RegisterTagsFunc pfnRegisterTagsFunc, int iFlags, LoggingVerbosity_t eVerbosity, const Color &aDefault)
 {

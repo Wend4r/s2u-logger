@@ -1,4 +1,4 @@
-#include "detailed.hpp"
+#include <logger/detailed.hpp>
 
 #include <stdarg.h>
 

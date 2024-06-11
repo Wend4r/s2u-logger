@@ -8,7 +8,7 @@ on:
 
 env:
   HL2SDK_BRANCH: cs2
-  HL2SDK_ROOT: hl2sdk-cs2
+  HL2SDK_ROOT: ${{ github.workspace }}/hl2sdk-cs2
 
 jobs:
   build:
@@ -40,6 +40,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+      with:
+        submodules: true
 
     - name: Set reusable strings
       id: strings

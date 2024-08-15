@@ -5,7 +5,7 @@ if(POLICY CMP0092)
 endif()
 
 project(logger
-	VERSION 1.0.0
+	VERSION 1.0.1
 	DESCRIPTION "Logger"
 	HOMEPAGE_URL "https://github.com/Wend4r/s2u-logger"
 	LANGUAGES C CXX

@@ -1,3 +1,7 @@
+# Logger
+# Copyright (C) 2023-2024 Wend4r
+# Licensed under the GPLv3 license. See LICENSE file in the project root for details.
+
 cmake_minimum_required(VERSION 3.14 FATAL_ERROR)
 
 if(POLICY CMP0092)

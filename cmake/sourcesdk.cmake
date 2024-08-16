@@ -1,5 +1,5 @@
-# {project}
-# Copyright (C) {year} {name of author}
+# Logger
+# Copyright (C) 2023-2024 Wend4r
 # Licensed under the GPLv3 license. See LICENSE file in the project root for details.
 
 if(NOT SOURCESDK_DIR)

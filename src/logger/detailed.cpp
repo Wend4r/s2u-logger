@@ -4,14 +4,14 @@
 
 #include <tier0/strtools.h>
 
-LoggingResponse_t CLoggingDetailed::Detailed(const char *pszContent)
+LoggingResponse_t CLoggingDetailed::Detailed(CUtlString sContent)
 {
-	return this->InternalMessage(This::s_eSeverity, pszContent);
+	return this->InternalMessage(This::s_eSeverity, sContent);
 }
 
-LoggingResponse_t CLoggingDetailed::Detailed(const Color &aColor, const char *pszContent)
+LoggingResponse_t CLoggingDetailed::Detailed(Color aColor, CUtlString sContent)
 {
-	return this->InternalMessage(This::s_eSeverity, aColor, pszContent);
+	return this->InternalMessage(This::s_eSeverity, aColor, sContent);
 }
 
 LoggingResponse_t CLoggingDetailed::DetailedFormat(const char *pszFormat, ...)
@@ -24,10 +24,10 @@ LoggingResponse_t CLoggingDetailed::DetailedFormat(const char *pszFormat, ...)
 	V_vsnprintf((char *)sBuffer, sizeof(sBuffer), pszFormat, aParams);
 	va_end(aParams);
 
-	return this->Detailed((const char *)sBuffer);
+	return this->Detailed(sBuffer);
 }
 
-LoggingResponse_t CLoggingDetailed::DetailedFormat(const Color &aColor, const char *pszFormat, ...)
+LoggingResponse_t CLoggingDetailed::DetailedFormat(Color aColor, const char *pszFormat, ...)
 {
 	char sBuffer[MAX_LOGGING_MESSAGE_LENGTH];
 
@@ -37,10 +37,10 @@ LoggingResponse_t CLoggingDetailed::DetailedFormat(const Color &aColor, const ch
 	V_vsnprintf((char *)sBuffer, sizeof(sBuffer), pszFormat, aParams);
 	va_end(aParams);
 
-	return this->Detailed(aColor, (const char *)sBuffer);
+	return this->Detailed(aColor, sBuffer);
 }
 
-LoggerScope CLoggingDetailed::CreateDetailsScope(const char *pszStartWith, const char *pszEnd)
+LoggerScope CLoggingDetailed::CreateDetailsScope(CUtlString sStartWith, CUtlString sEnd)
 {
 #ifdef DEBUG
 	char sDebugWith[32];
@@ -49,12 +49,12 @@ LoggerScope CLoggingDetailed::CreateDetailsScope(const char *pszStartWith, const
 
 	V_strncpy(pDebugWithResult, LOGGER_FORMAT_DETAILED_STARTWITH, sizeof(sDebugWith));
 
-	size_t nResultSize = V_strlen(pDebugWithResult);
+	int nResultSize = V_strlen(pDebugWithResult);
 
-	V_strncpy(&pDebugWithResult[nResultSize], pszStartWith, (int)(sizeof(sDebugWith) - nResultSize));
+	V_strncpy(&pDebugWithResult[nResultSize], sStartWith, (int)(sizeof(sDebugWith) - nResultSize));
 
-	return {LOGGER_COLOR_DETAILED, pDebugWithResult, pszEnd};
+	return {LOGGER_COLOR_DETAILED, pDebugWithResult, sEnd};
 #else
-	return {LOGGER_COLOR_DETAILED, pszStartWith, pszEnd};
+	return {LOGGER_COLOR_DETAILED, sStartWith, sEnd};
 #endif
 }

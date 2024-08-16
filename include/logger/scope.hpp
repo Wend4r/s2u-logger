@@ -2,60 +2,60 @@
 #define _INCLUDE_LOGGER_SCOPE_HPP_
 
 #include <functional>
-#include <string>
-#include <vector>
 
 #include <color.h>
 #include <tier0/platform.h>
+#include <tier0/utlstring.h>
+#include <tier1/utlvector.h>
 
 class LoggerScope
 {
 	using This = LoggerScope;
 
 public:
-	using SendFunc = std::function<void (const char *)>;
-	using SendColorFunc = std::function<void (const Color &, const char *)>;
+	using SendFunc = std::function<void (CUtlString)>;
+	using SendColorFunc = std::function<void (Color, CUtlString)>;
 
-	LoggerScope(const Color &rgbaInit, const char *pszStartWith = "", const char *pszEnd = "\n");
+	LoggerScope(Color rgbaInit, CUtlString sStartWith = "", CUtlString sEnd = "\n");
 
 	LoggerScope &operator+=(const LoggerScope &);
 
-	const Color &GetColor() const;
-	const char *GetStartWith() const;
-	const char *GetEnd() const;
-	size_t Count() const;
+	Color GetColor() const;
+	CUtlString GetStartWith() const;
+	CUtlString GetEnd() const;
+	int Count() const;
 
-	void SetColor(const Color &rgba);
+	void SetColor(Color rgba);
 
-	size_t Push(const char *pszContent);
-	size_t Push(const Color &rgba, const char *pszContent);
+	int Push(CUtlString sContent);
+	int Push(Color rgba, CUtlString sContent);
 
-	size_t PushFormat(const char *pszFormat, ...) FMTFUNCTION(2, 3);
-	size_t PushFormat(const Color &rgba, const char *pszFormat, ...) FMTFUNCTION(3, 4);
+	int PushFormat(const char *pszFormat, ...) FMTFUNCTION(2, 3);
+	int PushFormat(Color rgba, const char *pszFormat, ...) FMTFUNCTION(3, 4);
 
-	size_t Send(SendFunc funcOn);
-	size_t SendColor(SendColorFunc funcOn);
+	int Send(SendFunc funcOn);
+	int SendColor(SendColorFunc funcOn);
 
 	class Message
 	{
 	public:
-		Message(const Color &rgbaInit, const char *pszContent = "");
+		Message(Color rgbaInit, CUtlString sContent = "");
 
-		const Color &GetColor() const;
-		const std::string &Get() const;
-		size_t SetWithCopy(const char *pszContent);
+		Color GetColor() const;
+		CUtlString Get() const;
+		int SetWithCopy(CUtlString sContent);
 
 	private:
 		Color m_aColor;
-		std::string m_sContent;
+		CUtlString m_sContent;
 	}; // LoggerScope::Message
 
 private:
 	Color m_aColor;
 
-	std::string m_aStartWith;
-	std::vector<Message> m_vec;
-	std::string m_aEnd;
+	CUtlString m_sStartWith;
+	CUtlVector<Message> m_vec;
+	CUtlString m_aEnd;
 }; // LoggerScope
 
 #endif // _INCLUDE_LOGGER_SCOPE_HPP_

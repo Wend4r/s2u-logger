@@ -4,14 +4,14 @@
 
 #include <tier0/strtools.h>
 
-LoggingResponse_t CLoggingThrowAssert::ThrowAssert(const LeafCodeInfo_t &aCode, const char *pszContent)
+LoggingResponse_t CLoggingThrowAssert::ThrowAssert(const LeafCodeInfo_t &aCode, CUtlString sContent)
 {
-	return this->InternalMessage(This::s_eSeverity, aCode, pszContent);
+	return this->InternalMessage(This::s_eSeverity, aCode, sContent);
 }
 
-LoggingResponse_t CLoggingThrowAssert::ThrowAssert(const LeafCodeInfo_t &aCode, const Color &aColor, const char *pszContent)
+LoggingResponse_t CLoggingThrowAssert::ThrowAssert(const LeafCodeInfo_t &aCode, Color aColor, CUtlString sContent)
 {
-	return this->InternalMessage(This::s_eSeverity, aCode, aColor, pszContent);
+	return this->InternalMessage(This::s_eSeverity, aCode, aColor, sContent);
 }
 
 LoggingResponse_t CLoggingThrowAssert::ThrowAssertFormat(const LeafCodeInfo_t &aCode, const char *pszFormat, ...)
@@ -24,10 +24,10 @@ LoggingResponse_t CLoggingThrowAssert::ThrowAssertFormat(const LeafCodeInfo_t &a
 	V_vsnprintf((char *)sBuffer, sizeof(sBuffer), pszFormat, aParams);
 	va_end(aParams);
 
-	return this->ThrowAssert(aCode, (const char *)sBuffer);
+	return this->ThrowAssert(aCode, sBuffer);
 }
 
-LoggingResponse_t CLoggingThrowAssert::ThrowAssertFormat(const LeafCodeInfo_t &aCode, const Color &aColor, const char *pszFormat, ...)
+LoggingResponse_t CLoggingThrowAssert::ThrowAssertFormat(const LeafCodeInfo_t &aCode, Color aColor, const char *pszFormat, ...)
 {
 	char sBuffer[MAX_LOGGING_MESSAGE_LENGTH];
 
@@ -37,10 +37,10 @@ LoggingResponse_t CLoggingThrowAssert::ThrowAssertFormat(const LeafCodeInfo_t &a
 	V_vsnprintf((char *)sBuffer, sizeof(sBuffer), pszFormat, aParams);
 	va_end(aParams);
 
-	return this->ThrowAssert(aCode, aColor, (const char *)sBuffer);
+	return this->ThrowAssert(aCode, aColor, sBuffer);
 }
 
-LoggerScope CLoggingThrowAssert::CreateAssertScope(const char *pszStartWith, const char *pszEnd)
+LoggerScope CLoggingThrowAssert::CreateAssertScope(CUtlString sStartWith, CUtlString sEnd)
 {
 #ifdef DEBUG
 	char sDebugWith[32];
@@ -49,13 +49,13 @@ LoggerScope CLoggingThrowAssert::CreateAssertScope(const char *pszStartWith, con
 
 	V_strncpy(pDebugWithResult, LOGGER_FORMAT_ASSERT_STARTWITH, sizeof(sDebugWith));
 
-	size_t nResultSize = V_strlen(pDebugWithResult);
+	int nResultSize = V_strlen(pDebugWithResult);
 
-	V_strncpy(&pDebugWithResult[nResultSize], pszStartWith, (int)(sizeof(sDebugWith) - nResultSize));
+	V_strncpy(&pDebugWithResult[nResultSize], sStartWith, (int)(sizeof(sDebugWith) - nResultSize));
 
-	return {LOGGER_COLOR_ASSERT, pDebugWithResult, pszEnd};
+	return {LOGGER_COLOR_ASSERT, pDebugWithResult, sEnd};
 #else
-	return {LOGGER_COLOR_ASSERT, pszStartWith, pszEnd};
+	return {LOGGER_COLOR_ASSERT, sStartWith, sEnd};
 #endif
 }
 

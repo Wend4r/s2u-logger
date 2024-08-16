@@ -5,26 +5,26 @@
 #include <tier0/logging.h>
 #include <tier0/strtools.h>
 
-LoggerScope::LoggerScope(const Color &rgba, const char *pszStartWith, const char *pszEnd)
+LoggerScope::LoggerScope(Color rgba, CUtlString sStartWith, CUtlString sEnd)
 {
 	this->m_aColor = rgba;
 
-	this->m_aStartWith = pszStartWith;
-	this->m_aEnd = pszEnd;
+	this->m_sStartWith = sStartWith;
+	this->m_aEnd = sEnd;
 }
 
 LoggerScope &LoggerScope::operator+=(const LoggerScope &aTarget)
 {
 	if(aTarget.Count())
 	{
-		std::string sResultContent;
+		CUtlString sResultContent;
 
-		size_t nSize = aTarget.m_vec.size();
+		int nSize = aTarget.m_vec.Count();
 
 		Color rgbaSave = aTarget.m_aColor;
 
 		{
-			size_t n = 0;
+			int n = 0;
 
 			bool bNextIsColorCollide = aTarget.m_vec[0].GetColor() == rgbaSave;
 
@@ -36,21 +36,21 @@ LoggerScope &LoggerScope::operator+=(const LoggerScope &aTarget)
 				{
 					if(n)
 					{
-						sResultContent += this->m_aStartWith;
+						sResultContent += this->m_sStartWith;
 					}
 
-					sResultContent += aTarget.m_aStartWith + aMsg.Get();
+					sResultContent += aTarget.m_sStartWith + aMsg.Get();
 				}
 				else
 				{
-					this->Push(rgbaSave, sResultContent.c_str());
+					this->Push(rgbaSave, sResultContent);
 
 					if(n)
 					{
-						sResultContent += this->m_aStartWith;
+						sResultContent += this->m_sStartWith;
 					}
 
-					sResultContent = aTarget.m_aStartWith + aMsg.Get();
+					sResultContent = aTarget.m_sStartWith + aMsg.Get();
 					rgbaSave = aMsg.GetColor();
 				}
 
@@ -72,63 +72,63 @@ LoggerScope &LoggerScope::operator+=(const LoggerScope &aTarget)
 			}
 		}
 
-		if(sResultContent.size())
+		if(!sResultContent.IsEmpty())
 		{
-			this->Push(rgbaSave, sResultContent.c_str());
+			this->Push(rgbaSave, sResultContent);
 		}
 	}
 
 	return *this;
 }
 
-const Color &LoggerScope::GetColor() const
+Color LoggerScope::GetColor() const
 {
 	return this->m_aColor;
 }
 
-const char *LoggerScope::GetStartWith() const
+CUtlString LoggerScope::GetStartWith() const
 {
-	return this->m_aStartWith.c_str();
+	return this->m_sStartWith;
 }
 
-const char *LoggerScope::GetEnd() const
+CUtlString LoggerScope::GetEnd() const
 {
-	return this->m_aEnd.c_str();
+	return this->m_aEnd;
 }
 
-size_t LoggerScope::Count() const
+int LoggerScope::Count() const
 {
-	return this->m_vec.size();
+	return this->m_vec.Count();
 }
 
-void LoggerScope::SetColor(const Color &rgba)
+void LoggerScope::SetColor(Color rgba)
 {
 	this->m_aColor = rgba;
 }
 
-size_t LoggerScope::Push(const char *pszContent)
+int LoggerScope::Push(CUtlString sContent)
 {
 	Message aMsg(this->m_aColor);
 
-	size_t nStoredLength = aMsg.SetWithCopy(pszContent);
+	int nStoredLength = aMsg.SetWithCopy(sContent);
 
-	this->m_vec.push_back(aMsg);
+	this->m_vec.AddToTail(aMsg);
 
 	return nStoredLength;
 }
 
-size_t LoggerScope::Push(const Color &rgba, const char *pszContent)
+int LoggerScope::Push(Color rgba, CUtlString sContent)
 {
 	Message aMsg(rgba);
 
-	size_t nStoredLength = aMsg.SetWithCopy(pszContent);
+	int nStoredLength = aMsg.SetWithCopy(sContent);
 
-	this->m_vec.push_back(aMsg);
+	this->m_vec.AddToTail(aMsg);
 
 	return nStoredLength;
 }
 
-size_t LoggerScope::PushFormat(const char *pszFormat, ...)
+int LoggerScope::PushFormat(const char *pszFormat, ...)
 {
 	char sBuffer[MAX_LOGGING_MESSAGE_LENGTH];
 
@@ -140,14 +140,14 @@ size_t LoggerScope::PushFormat(const char *pszFormat, ...)
 
 	Message aMsg(this->m_aColor);
 
-	size_t nStoredLength = aMsg.SetWithCopy((const char *)sBuffer);
+	int nStoredLength = aMsg.SetWithCopy(sBuffer);
 
-	this->m_vec.push_back(aMsg);
+	this->m_vec.AddToTail(aMsg);
 
 	return nStoredLength;
 }
 
-size_t LoggerScope::PushFormat(const Color &rgba, const char *pszFormat, ...)
+int LoggerScope::PushFormat(Color rgba, const char *pszFormat, ...)
 {
 	char sBuffer[MAX_LOGGING_MESSAGE_LENGTH];
 
@@ -159,81 +159,81 @@ size_t LoggerScope::PushFormat(const Color &rgba, const char *pszFormat, ...)
 
 	Message aMsg(rgba);
 
-	size_t nStoredLength = aMsg.SetWithCopy((const char *)sBuffer);
+	int nStoredLength = aMsg.SetWithCopy(sBuffer);
 
-	this->m_vec.push_back(aMsg);
+	this->m_vec.AddToTail(aMsg);
 
 	return nStoredLength;
 }
 
-size_t LoggerScope::Send(SendFunc funcOn)
+int LoggerScope::Send(SendFunc funcOn)
 {
-	std::string sResultContent;
+	CUtlString sResultContent;
 
-	size_t nSize = this->m_vec.size();
+	int nSize = this->m_vec.Count();
 	
-	for(size_t n = 0; n < nSize; n++)
+	for(int n = 0; n < nSize; n++)
 	{
-		sResultContent += this->m_aStartWith + this->m_vec[n].Get() + this->m_aEnd;
+		sResultContent += this->m_sStartWith + this->m_vec[n].Get() + this->m_aEnd;
 	}
 
-	funcOn(sResultContent.c_str());
+	funcOn(sResultContent);
 
 	return nSize;
 }
 
-size_t LoggerScope::SendColor(SendColorFunc funcOn)
+int LoggerScope::SendColor(SendColorFunc funcOn)
 {
-	std::string sResultContent;
+	CUtlString sResultContent;
 
-	size_t nSize = this->m_vec.size();
+	int nSize = this->m_vec.Count();
 
 	Color rgbaSave = this->m_aColor;
 
-	for(size_t n = 0; n < nSize; n++)
+	for(int n = 0; n < nSize; n++)
 	{
 		const auto &aMsg = this->m_vec[n];
 
 		if(aMsg.GetColor() == rgbaSave)
 		{
-			sResultContent += this->m_aStartWith + aMsg.Get() + this->m_aEnd;
+			sResultContent += this->m_sStartWith + aMsg.Get() + this->m_aEnd;
 		}
 		else
 		{
-			funcOn(rgbaSave, sResultContent.c_str());
+			funcOn(rgbaSave, sResultContent);
 
-			sResultContent = this->m_aStartWith + aMsg.Get() + this->m_aEnd;
+			sResultContent = this->m_sStartWith + aMsg.Get() + this->m_aEnd;
 			rgbaSave = aMsg.GetColor();
 		}
 	}
 
-	if(sResultContent.size())
+	if(!sResultContent.IsEmpty())
 	{
-		funcOn(rgbaSave, sResultContent.c_str());
+		funcOn(rgbaSave, sResultContent);
 	}
 
 	return nSize;
 }
 
-LoggerScope::Message::Message(const Color &rgbaInit, const char *pszContent)
+LoggerScope::Message::Message(Color rgbaInit, CUtlString sContent)
  :  m_aColor(rgbaInit),
-    m_sContent(pszContent)
+    m_sContent(sContent)
 {
 }
 
-const Color &LoggerScope::Message::GetColor() const
+Color LoggerScope::Message::GetColor() const
 {
 	return this->m_aColor;
 }
 
-const std::string &LoggerScope::Message::Get() const
+CUtlString LoggerScope::Message::Get() const
 {
 	return this->m_sContent;
 }
 
-size_t LoggerScope::Message::SetWithCopy(const char *pszContent)
+int LoggerScope::Message::SetWithCopy(CUtlString sContent)
 {
-	this->m_sContent = pszContent;
+	this->m_sContent = sContent;
 
-	return this->m_sContent.size();
+	return this->m_sContent.Length();
 }

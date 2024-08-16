@@ -14,13 +14,13 @@ class CLoggingWarning : virtual protected ILogging
 	using This = CLoggingWarning;
 
 public:
-	virtual LoggingResponse_t Warning(const char *pszContent);
-	virtual LoggingResponse_t Warning(const Color &aColor, const char *pszContent);
+	virtual LoggingResponse_t Warning(CUtlString sContent);
+	virtual LoggingResponse_t Warning(Color aColor, CUtlString sContent);
 	virtual LoggingResponse_t WarningFormat(const char *pszFormat, ...) FMTFUNCTION(2, 3);
-	virtual LoggingResponse_t WarningFormat(const Color &aColor, const char *pszFormat, ...) FMTFUNCTION(3, 4);
+	virtual LoggingResponse_t WarningFormat(Color aColor, const char *pszFormat, ...) FMTFUNCTION(3, 4);
 
 public:
-	virtual LoggerScope CreateWarningsScope(const char *pszStartWith = "", const char *pszEnd = "\n");
+	virtual LoggerScope CreateWarningsScope(CUtlString sStartWith = "", CUtlString sEnd = "\n");
 
 protected:
 	static const LoggingSeverity_t s_eSeverity = LS_WARNING;

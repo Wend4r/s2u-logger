@@ -21,9 +21,9 @@
 
 #include <logger.hpp>
 
-Logger::Logger(const char *pszName, RegisterTagsFunc pfnRegisterTagsFunc, int iFlags, LoggingVerbosity_t eVerbosity, const Color &aDefault)
+Logger::Logger(CUtlString sName, RegisterTagsFunc pfnRegisterTagsFunc, int iFlags, LoggingVerbosity_t eVerbosity, Color aDefault)
 {
-	this->m_nChannelID = LoggingSystem_RegisterLoggingChannel(pszName, pfnRegisterTagsFunc, iFlags, eVerbosity, aDefault);
+	this->m_nChannelID = LoggingSystem_RegisterLoggingChannel(sName, pfnRegisterTagsFunc, iFlags, eVerbosity, aDefault);
 }
 
 bool Logger::IsChannelEnabled(LoggingSeverity_t eSeverity)
@@ -55,49 +55,49 @@ LoggingChannelFlags_t Logger::GetFlags()
 	return LoggingSystem_GetChannelFlags(this->m_nChannelID);
 }
 
-LoggingResponse_t Logger::InternalMessage(LoggingSeverity_t eSeverity, const char *pszContent)
+LoggingResponse_t Logger::InternalMessage(LoggingSeverity_t eSeverity, CUtlString sContent)
 {
 	LoggingResponse_t eResponse = LR_ABORT;
 
 	if(this->IsChannelEnabled(eSeverity))
 	{
-		eResponse = LoggingSystem_LogDirect(this->m_nChannelID, eSeverity, pszContent);
+		eResponse = LoggingSystem_LogDirect(this->m_nChannelID, eSeverity, sContent);
 	}
 
 	return eResponse;
 }
 
-LoggingResponse_t Logger::InternalMessage(LoggingSeverity_t eSeverity, const Color &aColor, const char *pszContent)
+LoggingResponse_t Logger::InternalMessage(LoggingSeverity_t eSeverity, Color aColor, CUtlString sContent)
 {
 	LoggingResponse_t eResponse = LR_ABORT;
 
 	if(this->IsChannelEnabled(eSeverity))
 	{
-		eResponse = LoggingSystem_LogDirect(this->m_nChannelID, eSeverity, aColor, pszContent);
+		eResponse = LoggingSystem_LogDirect(this->m_nChannelID, eSeverity, aColor, sContent);
 	}
 
 	return eResponse;
 }
 
-LoggingResponse_t Logger::InternalMessage(LoggingSeverity_t eSeverity, const LeafCodeInfo_t &aCode, const char *pszContent)
+LoggingResponse_t Logger::InternalMessage(LoggingSeverity_t eSeverity, const LeafCodeInfo_t &aCode, CUtlString sContent)
 {
 	LoggingResponse_t eResponse = LR_ABORT;
 
 	if(this->IsChannelEnabled(eSeverity))
 	{
-		eResponse = LoggingSystem_LogDirect(this->m_nChannelID, eSeverity, aCode, pszContent);
+		eResponse = LoggingSystem_LogDirect(this->m_nChannelID, eSeverity, aCode, sContent);
 	}
 
 	return eResponse;
 }
 
-LoggingResponse_t Logger::InternalMessage(LoggingSeverity_t eSeverity, const LeafCodeInfo_t &aCode, const Color &aColor, const char *pszContent)
+LoggingResponse_t Logger::InternalMessage(LoggingSeverity_t eSeverity, const LeafCodeInfo_t &aCode, Color aColor, CUtlString sContent)
 {
 	LoggingResponse_t eResponse = LR_ABORT;
 
 	if(this->IsChannelEnabled(eSeverity))
 	{
-		eResponse = LoggingSystem_LogDirect(this->m_nChannelID, eSeverity, aCode, aColor, pszContent);
+		eResponse = LoggingSystem_LogDirect(this->m_nChannelID, eSeverity, aCode, aColor, sContent);
 	}
 
 	return eResponse;
@@ -117,13 +117,13 @@ LoggingResponse_t Logger::InternalMessageFormat(LoggingSeverity_t eSeverity, con
 		V_vsnprintf((char *)sBuffer, sizeof(sBuffer), pszFormat, aParams);
 		va_end(aParams);
 
-		eResponse = this->InternalMessage(eSeverity, (const char *)sBuffer);
+		eResponse = this->InternalMessage(eSeverity, sBuffer);
 	}
 
 	return eResponse;
 }
 
-LoggingResponse_t Logger::InternalMessageFormat(LoggingSeverity_t eSeverity, const Color &aColor, const char *pszFormat, ...)
+LoggingResponse_t Logger::InternalMessageFormat(LoggingSeverity_t eSeverity, Color aColor, const char *pszFormat, ...)
 {
 	LoggingResponse_t eResponse = LR_ABORT;
 
@@ -137,7 +137,7 @@ LoggingResponse_t Logger::InternalMessageFormat(LoggingSeverity_t eSeverity, con
 		V_vsnprintf((char *)sBuffer, sizeof(sBuffer), pszFormat, aParams);
 		va_end(aParams);
 
-		eResponse = this->InternalMessage(eSeverity, aColor, (const char *)sBuffer);
+		eResponse = this->InternalMessage(eSeverity, aColor, sBuffer);
 	}
 
 	return eResponse;
@@ -157,13 +157,13 @@ LoggingResponse_t Logger::InternalMessageFormat(LoggingSeverity_t eSeverity, con
 		V_vsnprintf((char *)sBuffer, sizeof(sBuffer), pszFormat, aParams);
 		va_end(aParams);
 
-		eResponse = this->InternalMessage(eSeverity, (const char *)sBuffer);
+		eResponse = this->InternalMessage(eSeverity, sBuffer);
 	}
 
 	return eResponse;
 }
 
-LoggingResponse_t Logger::InternalMessageFormat(LoggingSeverity_t eSeverity, const LeafCodeInfo_t &aCode, const Color &aColor, const char *pszFormat, ...)
+LoggingResponse_t Logger::InternalMessageFormat(LoggingSeverity_t eSeverity, const LeafCodeInfo_t &aCode, Color aColor, const char *pszFormat, ...)
 {
 	LoggingResponse_t eResponse = LR_ABORT;
 
@@ -177,7 +177,7 @@ LoggingResponse_t Logger::InternalMessageFormat(LoggingSeverity_t eSeverity, con
 		V_vsnprintf((char *)sBuffer, sizeof(sBuffer), pszFormat, aParams);
 		va_end(aParams);
 
-		eResponse = this->InternalMessage(eSeverity, aColor, (const char *)sBuffer);
+		eResponse = this->InternalMessage(eSeverity, aColor, sBuffer);
 	}
 
 	return eResponse;

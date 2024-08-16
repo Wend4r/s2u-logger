@@ -14,14 +14,14 @@ class CLoggingThrowAssert : virtual protected ILogging
 	using This = CLoggingThrowAssert;
 
 public:
-	virtual LoggingResponse_t ThrowAssert(const LeafCodeInfo_t &aCode, const char *pszContent);
-	virtual LoggingResponse_t ThrowAssert(const LeafCodeInfo_t &aCode, const Color &aColor, const char *pszContent);
+	virtual LoggingResponse_t ThrowAssert(const LeafCodeInfo_t &aCode, CUtlString sContent);
+	virtual LoggingResponse_t ThrowAssert(const LeafCodeInfo_t &aCode, Color aColor, CUtlString sContent);
 
 	virtual LoggingResponse_t ThrowAssertFormat(const LeafCodeInfo_t &aCode, const char *pszFormat, ...) FMTFUNCTION(3, 4);
-	virtual LoggingResponse_t ThrowAssertFormat(const LeafCodeInfo_t &aCode, const Color &aColor, const char *pszFormat, ...) FMTFUNCTION(4, 5);
+	virtual LoggingResponse_t ThrowAssertFormat(const LeafCodeInfo_t &aCode, Color aColor, const char *pszFormat, ...) FMTFUNCTION(4, 5);
 
 public:
-	virtual LoggerScope CreateAssertScope(const char *pszStartWith = "", const char *pszEnd = "\n");
+	virtual LoggerScope CreateAssertScope(CUtlString sStartWith = "", CUtlString sEnd = "\n");
 
 protected:
 	static const LoggingSeverity_t s_eSeverity = LS_ASSERT;

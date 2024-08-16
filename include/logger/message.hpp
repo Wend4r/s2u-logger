@@ -14,14 +14,14 @@ class CLoggingMessage : virtual protected ILogging
 	using This = CLoggingMessage;
 
 public:
-	virtual LoggingResponse_t Message(const char *pszContent);
-	virtual LoggingResponse_t Message(const Color &aColor, const char *pszContent);
+	virtual LoggingResponse_t Message(CUtlString sContent);
+	virtual LoggingResponse_t Message(Color aColor, CUtlString sContent);
 
 	virtual LoggingResponse_t MessageFormat(const char *pszFormat, ...) FMTFUNCTION(2, 3);
-	virtual LoggingResponse_t MessageFormat(const Color &aColor, const char *pszFormat, ...) FMTFUNCTION(3, 4);
+	virtual LoggingResponse_t MessageFormat(Color aColor, const char *pszFormat, ...) FMTFUNCTION(3, 4);
 
 public:
-	virtual LoggerScope CreateMessagesScope(const char *pszStartWith = "", const char *pszEnd = "\n");
+	virtual LoggerScope CreateMessagesScope(CUtlString sStartWith = "", CUtlString sEnd = "\n");
 
 protected:
 	static const LoggingSeverity_t s_eSeverity = LS_MESSAGE;

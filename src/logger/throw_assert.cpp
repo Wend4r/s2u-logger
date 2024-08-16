@@ -6,12 +6,12 @@
 
 LoggingResponse_t CLoggingThrowAssert::ThrowAssert(const LeafCodeInfo_t &aCode, CUtlString sContent)
 {
-	return this->InternalMessage(This::s_eSeverity, aCode, sContent);
+	return InternalMessage(This::s_eSeverity, aCode, sContent);
 }
 
 LoggingResponse_t CLoggingThrowAssert::ThrowAssert(const LeafCodeInfo_t &aCode, Color aColor, CUtlString sContent)
 {
-	return this->InternalMessage(This::s_eSeverity, aCode, aColor, sContent);
+	return InternalMessage(This::s_eSeverity, aCode, aColor, sContent);
 }
 
 LoggingResponse_t CLoggingThrowAssert::ThrowAssertFormat(const LeafCodeInfo_t &aCode, const char *pszFormat, ...)
@@ -24,7 +24,7 @@ LoggingResponse_t CLoggingThrowAssert::ThrowAssertFormat(const LeafCodeInfo_t &a
 	V_vsnprintf((char *)sBuffer, sizeof(sBuffer), pszFormat, aParams);
 	va_end(aParams);
 
-	return this->ThrowAssert(aCode, sBuffer);
+	return ThrowAssert(aCode, sBuffer);
 }
 
 LoggingResponse_t CLoggingThrowAssert::ThrowAssertFormat(const LeafCodeInfo_t &aCode, Color aColor, const char *pszFormat, ...)
@@ -37,7 +37,7 @@ LoggingResponse_t CLoggingThrowAssert::ThrowAssertFormat(const LeafCodeInfo_t &a
 	V_vsnprintf((char *)sBuffer, sizeof(sBuffer), pszFormat, aParams);
 	va_end(aParams);
 
-	return this->ThrowAssert(aCode, aColor, sBuffer);
+	return ThrowAssert(aCode, aColor, sBuffer);
 }
 
 LoggerScope CLoggingThrowAssert::CreateAssertScope(CUtlString sStartWith, CUtlString sEnd)

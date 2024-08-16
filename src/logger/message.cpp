@@ -6,12 +6,12 @@
 
 LoggingResponse_t CLoggingMessage::Message(CUtlString sContent)
 {
-	return this->InternalMessage(This::s_eSeverity, sContent);
+	return InternalMessage(This::s_eSeverity, sContent);
 }
 
 LoggingResponse_t CLoggingMessage::Message(Color aColor, CUtlString sContent)
 {
-	return this->InternalMessage(This::s_eSeverity, aColor, sContent);
+	return InternalMessage(This::s_eSeverity, aColor, sContent);
 }
 
 LoggingResponse_t CLoggingMessage::MessageFormat(const char *pszFormat, ...)
@@ -24,7 +24,7 @@ LoggingResponse_t CLoggingMessage::MessageFormat(const char *pszFormat, ...)
 	V_vsnprintf((char *)sBuffer, sizeof(sBuffer), pszFormat, aParams);
 	va_end(aParams);
 
-	return this->Message(sBuffer);
+	return Message(sBuffer);
 }
 
 LoggingResponse_t CLoggingMessage::MessageFormat(Color aColor, const char *pszFormat, ...)
@@ -37,7 +37,7 @@ LoggingResponse_t CLoggingMessage::MessageFormat(Color aColor, const char *pszFo
 	V_vsnprintf((char *)sBuffer, sizeof(sBuffer), pszFormat, aParams);
 	va_end(aParams);
 
-	return this->Message(aColor, sBuffer);
+	return Message(aColor, sBuffer);
 }
 
 LoggerScope CLoggingMessage::CreateMessagesScope(CUtlString sStartWith, CUtlString sEnd)

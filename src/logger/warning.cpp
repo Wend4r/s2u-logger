@@ -4,14 +4,14 @@
 
 #include <tier0/strtools.h>
 
-LoggingResponse_t CLoggingWarning::Warning(const char *pszContent)
+LoggingResponse_t CLoggingWarning::Warning(CUtlString sContent)
 {
-	return this->InternalMessage(This::s_eSeverity, pszContent);
+	return InternalMessage(This::s_eSeverity, sContent);
 }
 
-LoggingResponse_t CLoggingWarning::Warning(const Color &aColor, const char *pszContent)
+LoggingResponse_t CLoggingWarning::Warning(Color aColor, CUtlString sContent)
 {
-	return this->InternalMessage(This::s_eSeverity, aColor, pszContent);
+	return InternalMessage(This::s_eSeverity, aColor, sContent);
 }
 
 LoggingResponse_t CLoggingWarning::WarningFormat(const char *pszFormat, ...)
@@ -24,10 +24,10 @@ LoggingResponse_t CLoggingWarning::WarningFormat(const char *pszFormat, ...)
 	V_vsnprintf((char *)sBuffer, sizeof(sBuffer), pszFormat, aParams);
 	va_end(aParams);
 
-	return this->Warning((const char *)sBuffer);
+	return Warning(sBuffer);
 }
 
-LoggingResponse_t CLoggingWarning::WarningFormat(const Color &aColor, const char *pszFormat, ...)
+LoggingResponse_t CLoggingWarning::WarningFormat(Color aColor, const char *pszFormat, ...)
 {
 	char sBuffer[MAX_LOGGING_MESSAGE_LENGTH];
 
@@ -37,10 +37,10 @@ LoggingResponse_t CLoggingWarning::WarningFormat(const Color &aColor, const char
 	V_vsnprintf((char *)sBuffer, sizeof(sBuffer), pszFormat, aParams);
 	va_end(aParams);
 
-	return this->Warning(aColor, (const char *)sBuffer);
+	return Warning(aColor, sBuffer);
 }
 
-LoggerScope CLoggingWarning::CreateWarningsScope(const char *pszStartWith, const char *pszEnd)
+LoggerScope CLoggingWarning::CreateWarningsScope(CUtlString sStartWith, CUtlString sEnd)
 {
 #ifdef DEBUG
 	char sDebugWith[32];
@@ -49,12 +49,12 @@ LoggerScope CLoggingWarning::CreateWarningsScope(const char *pszStartWith, const
 
 	V_strncpy(pDebugWithResult, LOGGER_FORMAT_WARNING_STARTWITH, sizeof(sDebugWith));
 
-	size_t nResultSize = V_strlen(pDebugWithResult);
+	int nResultSize = V_strlen(pDebugWithResult);
 
-	V_strncpy(&pDebugWithResult[nResultSize], pszStartWith, (int)(sizeof(sDebugWith) - nResultSize));
+	V_strncpy(&pDebugWithResult[nResultSize], sStartWith, (int)(sizeof(sDebugWith) - nResultSize));
 
-	return {LOGGER_COLOR_WARNING, pDebugWithResult, pszEnd};
+	return {LOGGER_COLOR_WARNING, pDebugWithResult, sEnd};
 #else
-	return {LOGGER_COLOR_WARNING, pszStartWith, pszEnd};
+	return {LOGGER_COLOR_WARNING, sStartWith, sEnd};
 #endif
 }

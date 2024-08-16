@@ -1,0 +1,3 @@
+[submodule "HL2SDK"]
+	path = external/hl2sdk
+	url = https://github.com/Wend4r/hl2sdk.git

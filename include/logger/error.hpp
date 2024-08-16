@@ -14,14 +14,14 @@ class CLoggingError : virtual protected ILogging
 	using This = CLoggingError;
 
 public:
-	virtual LoggingResponse_t Error(const char *pszContent);
-	virtual LoggingResponse_t Error(const Color &aColor, const char *pszContent);
+	virtual LoggingResponse_t Error(CUtlString sContent);
+	virtual LoggingResponse_t Error(Color aColor, CUtlString sContent);
 
 	virtual LoggingResponse_t ErrorFormat(const char *pszFormat, ...) FMTFUNCTION(2, 3);
-	virtual LoggingResponse_t ErrorFormat(const Color &aColor, const char *pszFormat, ...) FMTFUNCTION(3, 4);
+	virtual LoggingResponse_t ErrorFormat(Color aColor, const char *pszFormat, ...) FMTFUNCTION(3, 4);
 
 public:
-	virtual LoggerScope CreateErrorsScope(const char *pszStartWith = "", const char *pszEnd = "\n");
+	virtual LoggerScope CreateErrorsScope(CUtlString sStartWith = "", CUtlString sEnd = "\n");
 
 protected:
 	static const LoggingSeverity_t s_eSeverity = LS_ERROR;

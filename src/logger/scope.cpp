@@ -166,7 +166,7 @@ int LoggerScope::PushFormat(Color rgba, const char *pszFormat, ...)
 	return nStoredLength;
 }
 
-int LoggerScope::Send(SendFunc funcOn)
+int LoggerScope::Send(const SendFunc &funcOn)
 {
 	CUtlString sResultContent;
 
@@ -182,7 +182,7 @@ int LoggerScope::Send(SendFunc funcOn)
 	return nSize;
 }
 
-int LoggerScope::SendColor(SendColorFunc funcOn)
+int LoggerScope::SendColor(const SendColorFunc &funcOn)
 {
 	CUtlString sResultContent;
 

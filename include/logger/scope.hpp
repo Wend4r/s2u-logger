@@ -33,8 +33,8 @@ public:
 	int PushFormat(const char *pszFormat, ...) FMTFUNCTION(2, 3);
 	int PushFormat(Color rgba, const char *pszFormat, ...) FMTFUNCTION(3, 4);
 
-	int Send(SendFunc funcOn);
-	int SendColor(SendColorFunc funcOn);
+	int Send(const SendFunc &funcOn);
+	int SendColor(const SendColorFunc &funcOn);
 
 	class Message
 	{

@@ -13,22 +13,22 @@ class LoggerScope
 	using This = LoggerScope;
 
 public:
-	using SendFunc = std::function<void (CUtlString)>;
-	using SendColorFunc = std::function<void (Color, CUtlString)>;
+	using SendFunc = std::function<void (const CUtlString &)>;
+	using SendColorFunc = std::function<void (Color, const CUtlString &)>;
 
-	LoggerScope(Color rgbaInit, CUtlString sStartWith = "", CUtlString sEnd = "\n");
+	LoggerScope(Color rgbaInit, const CUtlString &sStartWith = "", const CUtlString &sEnd = "\n");
 
 	LoggerScope &operator+=(const LoggerScope &);
 
 	Color GetColor() const;
-	CUtlString GetStartWith() const;
-	CUtlString GetEnd() const;
+	const CUtlString &GetStartWith() const;
+	const CUtlString &GetEnd() const;
 	int Count() const;
 
 	void SetColor(Color rgba);
 
-	int Push(CUtlString sContent);
-	int Push(Color rgba, CUtlString sContent);
+	int Push(const CUtlString &sContent);
+	int Push(Color rgba, const CUtlString &sContent);
 
 	int PushFormat(const char *pszFormat, ...) FMTFUNCTION(2, 3);
 	int PushFormat(Color rgba, const char *pszFormat, ...) FMTFUNCTION(3, 4);
@@ -39,11 +39,11 @@ public:
 	class Message
 	{
 	public:
-		Message(Color rgbaInit, CUtlString sContent = "");
+		Message(Color rgbaInit, const CUtlString &sContent = "");
 
 		Color GetColor() const;
-		CUtlString Get() const;
-		int SetWithCopy(CUtlString sContent);
+		const CUtlString &Get() const;
+		int SetWithCopy(const CUtlString &sContent);
 
 	private:
 		Color m_aColor;

@@ -4,12 +4,12 @@
 
 #include <tier0/strtools.h>
 
-LoggingResponse_t CLoggingWarning::Warning(CUtlString sContent)
+LoggingResponse_t CLoggingWarning::Warning(const CUtlString &sContent)
 {
 	return InternalMessage(This::s_eSeverity, sContent);
 }
 
-LoggingResponse_t CLoggingWarning::Warning(Color aColor, CUtlString sContent)
+LoggingResponse_t CLoggingWarning::Warning(Color aColor, const CUtlString &sContent)
 {
 	return InternalMessage(This::s_eSeverity, aColor, sContent);
 }
@@ -40,7 +40,7 @@ LoggingResponse_t CLoggingWarning::WarningFormat(Color aColor, const char *pszFo
 	return Warning(aColor, sBuffer);
 }
 
-LoggerScope CLoggingWarning::CreateWarningsScope(CUtlString sStartWith, CUtlString sEnd)
+LoggerScope CLoggingWarning::CreateWarningsScope(const CUtlString &sStartWith, const CUtlString &sEnd)
 {
 #ifdef DEBUG
 	char sDebugWith[32];

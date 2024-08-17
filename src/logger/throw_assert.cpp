@@ -4,12 +4,12 @@
 
 #include <tier0/strtools.h>
 
-LoggingResponse_t CLoggingThrowAssert::ThrowAssert(const LeafCodeInfo_t &aCode, CUtlString sContent)
+LoggingResponse_t CLoggingThrowAssert::ThrowAssert(const LeafCodeInfo_t &aCode, const CUtlString &sContent)
 {
 	return InternalMessage(This::s_eSeverity, aCode, sContent);
 }
 
-LoggingResponse_t CLoggingThrowAssert::ThrowAssert(const LeafCodeInfo_t &aCode, Color aColor, CUtlString sContent)
+LoggingResponse_t CLoggingThrowAssert::ThrowAssert(const LeafCodeInfo_t &aCode, Color aColor, const CUtlString &sContent)
 {
 	return InternalMessage(This::s_eSeverity, aCode, aColor, sContent);
 }
@@ -40,7 +40,7 @@ LoggingResponse_t CLoggingThrowAssert::ThrowAssertFormat(const LeafCodeInfo_t &a
 	return ThrowAssert(aCode, aColor, sBuffer);
 }
 
-LoggerScope CLoggingThrowAssert::CreateAssertScope(CUtlString sStartWith, CUtlString sEnd)
+LoggerScope CLoggingThrowAssert::CreateAssertScope(const CUtlString &sStartWith, const CUtlString &sEnd)
 {
 #ifdef DEBUG
 	char sDebugWith[32];

@@ -4,12 +4,12 @@
 
 #include <tier0/strtools.h>
 
-LoggingResponse_t CLoggingDetailed::Detailed(CUtlString sContent)
+LoggingResponse_t CLoggingDetailed::Detailed(const CUtlString &sContent)
 {
 	return InternalMessage(This::s_eSeverity, sContent);
 }
 
-LoggingResponse_t CLoggingDetailed::Detailed(Color aColor, CUtlString sContent)
+LoggingResponse_t CLoggingDetailed::Detailed(Color aColor, const CUtlString &sContent)
 {
 	return InternalMessage(This::s_eSeverity, aColor, sContent);
 }
@@ -40,7 +40,7 @@ LoggingResponse_t CLoggingDetailed::DetailedFormat(Color aColor, const char *psz
 	return Detailed(aColor, sBuffer);
 }
 
-LoggerScope CLoggingDetailed::CreateDetailsScope(CUtlString sStartWith, CUtlString sEnd)
+LoggerScope CLoggingDetailed::CreateDetailsScope(const CUtlString &sStartWith, const CUtlString &sEnd)
 {
 #ifdef DEBUG
 	char sDebugWith[32];

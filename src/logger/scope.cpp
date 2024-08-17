@@ -5,7 +5,7 @@
 #include <tier0/logging.h>
 #include <tier0/strtools.h>
 
-LoggerScope::LoggerScope(Color rgba, CUtlString sStartWith, CUtlString sEnd)
+LoggerScope::LoggerScope(Color rgba, const CUtlString &sStartWith, const CUtlString &sEnd)
 {
 	m_aColor = rgba;
 
@@ -86,12 +86,12 @@ Color LoggerScope::GetColor() const
 	return m_aColor;
 }
 
-CUtlString LoggerScope::GetStartWith() const
+const CUtlString &LoggerScope::GetStartWith() const
 {
 	return m_sStartWith;
 }
 
-CUtlString LoggerScope::GetEnd() const
+const CUtlString &LoggerScope::GetEnd() const
 {
 	return m_aEnd;
 }
@@ -106,7 +106,7 @@ void LoggerScope::SetColor(Color rgba)
 	m_aColor = rgba;
 }
 
-int LoggerScope::Push(CUtlString sContent)
+int LoggerScope::Push(const CUtlString &sContent)
 {
 	Message aMsg(m_aColor);
 
@@ -117,7 +117,7 @@ int LoggerScope::Push(CUtlString sContent)
 	return nStoredLength;
 }
 
-int LoggerScope::Push(Color rgba, CUtlString sContent)
+int LoggerScope::Push(Color rgba, const CUtlString &sContent)
 {
 	Message aMsg(rgba);
 
@@ -215,7 +215,7 @@ int LoggerScope::SendColor(SendColorFunc funcOn)
 	return nSize;
 }
 
-LoggerScope::Message::Message(Color rgbaInit, CUtlString sContent)
+LoggerScope::Message::Message(Color rgbaInit, const CUtlString &sContent)
  :  m_aColor(rgbaInit),
     m_sContent(sContent)
 {
@@ -226,12 +226,12 @@ Color LoggerScope::Message::GetColor() const
 	return m_aColor;
 }
 
-CUtlString LoggerScope::Message::Get() const
+const CUtlString &LoggerScope::Message::Get() const
 {
 	return m_sContent;
 }
 
-int LoggerScope::Message::SetWithCopy(CUtlString sContent)
+int LoggerScope::Message::SetWithCopy(const CUtlString &sContent)
 {
 	m_sContent = sContent;
 

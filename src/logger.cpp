@@ -21,7 +21,7 @@
 
 #include <logger.hpp>
 
-Logger::Logger(CUtlString sName, RegisterTagsFunc pfnRegisterTagsFunc, int iFlags, LoggingVerbosity_t eVerbosity, Color aDefault)
+Logger::Logger(const CUtlString &sName, RegisterTagsFunc pfnRegisterTagsFunc, int iFlags, LoggingVerbosity_t eVerbosity, Color aDefault)
 {
 	m_nChannelID = LoggingSystem_RegisterLoggingChannel(sName, pfnRegisterTagsFunc, iFlags, eVerbosity, aDefault);
 }
@@ -55,7 +55,7 @@ LoggingChannelFlags_t Logger::GetFlags()
 	return LoggingSystem_GetChannelFlags(m_nChannelID);
 }
 
-LoggingResponse_t Logger::InternalMessage(LoggingSeverity_t eSeverity, CUtlString sContent)
+LoggingResponse_t Logger::InternalMessage(LoggingSeverity_t eSeverity, const CUtlString &sContent)
 {
 	LoggingResponse_t eResponse = LR_ABORT;
 
@@ -67,7 +67,7 @@ LoggingResponse_t Logger::InternalMessage(LoggingSeverity_t eSeverity, CUtlStrin
 	return eResponse;
 }
 
-LoggingResponse_t Logger::InternalMessage(LoggingSeverity_t eSeverity, Color aColor, CUtlString sContent)
+LoggingResponse_t Logger::InternalMessage(LoggingSeverity_t eSeverity, Color aColor, const CUtlString &sContent)
 {
 	LoggingResponse_t eResponse = LR_ABORT;
 
@@ -79,7 +79,7 @@ LoggingResponse_t Logger::InternalMessage(LoggingSeverity_t eSeverity, Color aCo
 	return eResponse;
 }
 
-LoggingResponse_t Logger::InternalMessage(LoggingSeverity_t eSeverity, const LeafCodeInfo_t &aCode, CUtlString sContent)
+LoggingResponse_t Logger::InternalMessage(LoggingSeverity_t eSeverity, const LeafCodeInfo_t &aCode, const CUtlString &sContent)
 {
 	LoggingResponse_t eResponse = LR_ABORT;
 
@@ -91,7 +91,7 @@ LoggingResponse_t Logger::InternalMessage(LoggingSeverity_t eSeverity, const Lea
 	return eResponse;
 }
 
-LoggingResponse_t Logger::InternalMessage(LoggingSeverity_t eSeverity, const LeafCodeInfo_t &aCode, Color aColor, CUtlString sContent)
+LoggingResponse_t Logger::InternalMessage(LoggingSeverity_t eSeverity, const LeafCodeInfo_t &aCode, Color aColor, const CUtlString &sContent)
 {
 	LoggingResponse_t eResponse = LR_ABORT;
 

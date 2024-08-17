@@ -14,14 +14,14 @@ class CLoggingDetailed : virtual protected ILogging
 	using This = CLoggingDetailed;
 
 public:
-	virtual LoggingResponse_t Detailed(CUtlString sContent);
-	virtual LoggingResponse_t Detailed(Color aColor, CUtlString sContent);
+	virtual LoggingResponse_t Detailed(const CUtlString &sContent);
+	virtual LoggingResponse_t Detailed(Color aColor, const CUtlString &sContent);
 
 	virtual LoggingResponse_t DetailedFormat(const char *pszFormat, ...) FMTFUNCTION(2, 3);
 	virtual LoggingResponse_t DetailedFormat(Color aColor, const char *pszFormat, ...) FMTFUNCTION(3, 4);
 
 public:
-	virtual LoggerScope CreateDetailsScope(CUtlString sStartWith = "", CUtlString sEnd = "\n");
+	virtual LoggerScope CreateDetailsScope(const CUtlString &sStartWith = "", const CUtlString &sEnd = "\n");
 
 protected:
 	static const LoggingSeverity_t s_eSeverity = LS_DETAILED;

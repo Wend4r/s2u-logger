@@ -8,10 +8,10 @@
 class ILogging
 {
 protected:
-	virtual LoggingResponse_t InternalMessage(LoggingSeverity_t eSeverity, CUtlString sContent) = 0;
-	virtual LoggingResponse_t InternalMessage(LoggingSeverity_t eSeverity, Color aColor, CUtlString sContent) = 0;
-	virtual LoggingResponse_t InternalMessage(LoggingSeverity_t eSeverity, const LeafCodeInfo_t &aCode, CUtlString sContent) = 0;
-	virtual LoggingResponse_t InternalMessage(LoggingSeverity_t eSeverity, const LeafCodeInfo_t &aCode, Color aColor, CUtlString sContent) = 0;
+	virtual LoggingResponse_t InternalMessage(LoggingSeverity_t eSeverity, const CUtlString &sContent) = 0;
+	virtual LoggingResponse_t InternalMessage(LoggingSeverity_t eSeverity, Color aColor, const CUtlString &sContent) = 0;
+	virtual LoggingResponse_t InternalMessage(LoggingSeverity_t eSeverity, const LeafCodeInfo_t &aCode, const CUtlString &sContent) = 0;
+	virtual LoggingResponse_t InternalMessage(LoggingSeverity_t eSeverity, const LeafCodeInfo_t &aCode, Color aColor, const CUtlString &sContent) = 0;
 
 	virtual LoggingResponse_t InternalMessageFormat(LoggingSeverity_t eSeverity, const char *pszFormat, ...) = 0;
 	virtual LoggingResponse_t InternalMessageFormat(LoggingSeverity_t eSeverity, Color aColor, const char *pszFormat, ...) = 0;

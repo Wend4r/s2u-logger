@@ -37,6 +37,14 @@ endif()
 
 include("cmake/platform/shared.cmake")
 
+if(WINDOWS)
+	include(cmake/platform/windows.cmake)
+elseif(LINUX)
+	include(cmake/platform/linux.cmake)
+elseif(MACOS)
+	include(cmake/platform/macos.cmake)
+endif()
+
 include("cmake/sourcesdk.cmake")
 
 set(SOURCE_FILES
@@ -73,10 +81,10 @@ elseif(MACOS)
 	set_target_properties(${PROJECT_NAME} PROPERTIES OSX_ARCHITECTURES "x86_64")
 endif()
 
-target_compile_options(${PROJECT_NAME} PRIVATE ${COMPILER_OPTIONS} ${SOURCESDK_COMPILE_OPTIONS})
-target_link_options(${PROJECT_NAME} PRIVATE ${LINK_OPTIONS} ${SOURCESDK_LINK_OPTIONS})
+target_compile_options(${PROJECT_NAME} PRIVATE ${COMPILER_OPTIONS} ${PLATFORM_COMPILE_OPTIONS} ${SOURCESDK_COMPILE_OPTIONS})
+target_link_options(${PROJECT_NAME} PRIVATE ${LINK_OPTIONS} ${PLATFORM_LINK_OPTIONS} ${SOURCESDK_LINK_OPTIONS})
 
-target_compile_definitions(${PROJECT_NAME} PRIVATE ${COMPILE_DEFINITIONS} ${SOURCESDK_COMPILE_DEFINITIONS})
+target_compile_definitions(${PROJECT_NAME} PRIVATE ${COMPILE_DEFINITIONS} ${PLATFORM_COMPILE_DEFINITIONS} ${SOURCESDK_COMPILE_DEFINITIONS})
 target_include_directories(${PROJECT_NAME} PRIVATE ${INCLUDE_DIRS} ${SOURCESDK_INCLUDE_DIRS})
 
 # target_link_libraries(${PROJECT_NAME} PRIVATE ${LINK_LIBRARIES} ${SOURCESDK_LINK_LIBRARIES}) # Will be linked in a final project

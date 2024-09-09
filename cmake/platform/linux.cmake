@@ -2,8 +2,8 @@
 # Copyright (C) 2023-2024 Wend4r
 # Licensed under the GPLv3 license. See LICENSE file in the project root for details.
 
-set(PLATFORM_COMPILER_OPTIONS
-	${PLATFORM_COMPILER_OPTIONS}
+set(PLATFORM_COMPILE_OPTIONS
+	${PLATFORM_COMPILE_OPTIONS}
 
 	-Wall
 	-Wno-array-bounds
@@ -22,8 +22,8 @@ set(PLATFORM_COMPILER_OPTIONS
 )
 
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
-	set(PLATFORM_COMPILER_OPTIONS
-		${PLATFORM_COMPILER_OPTIONS}
+	set(PLATFORM_COMPILE_OPTIONS
+		${PLATFORM_COMPILE_OPTIONS}
 
 		-g3 -ggdb
 	)

@@ -30,12 +30,13 @@ string(TIMESTAMP PROJECT_BUILD_TIME "%H:%M:%S")
 set(EXTERNAL_DIR "${CMAKE_CURRENT_SOURCE_DIR}/external")
 set(INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/include")
 set(SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/src")
+set(SOURCE_LOGGER_DIR "${SOURCE_DIR}/logger")
 
 if(SOURCESDK_DIR)
 	file(TO_CMAKE_PATH "${SOURCESDK_DIR}" SOURCESDK_DIR)
 endif()
 
-include("cmake/platform/shared.cmake")
+include(cmake/platform/shared.cmake)
 
 if(WINDOWS)
 	include(cmake/platform/windows.cmake)
@@ -45,15 +46,15 @@ elseif(MACOS)
 	include(cmake/platform/macos.cmake)
 endif()
 
-include("cmake/sourcesdk.cmake")
+include(cmake/sourcesdk.cmake)
 
 set(SOURCE_FILES
-	${SOURCE_DIR}/logger/detailed.cpp
-	${SOURCE_DIR}/logger/message.cpp
-	${SOURCE_DIR}/logger/warning.cpp
-	${SOURCE_DIR}/logger/throw_assert.cpp
-	${SOURCE_DIR}/logger/error.cpp
-	${SOURCE_DIR}/logger/scope.cpp
+	${SOURCE_LOGGER_DIR}/detailed.cpp
+	${SOURCE_LOGGER_DIR}/message.cpp
+	${SOURCE_LOGGER_DIR}/warning.cpp
+	${SOURCE_LOGGER_DIR}/throw_assert.cpp
+	${SOURCE_LOGGER_DIR}/error.cpp
+	${SOURCE_LOGGER_DIR}/scope.cpp
 	${SOURCE_DIR}/logger.cpp
 )
 

@@ -1,4 +1,4 @@
-name: Build on Windows
+name: Build on macOS
 
 on:
   push:
@@ -25,27 +25,33 @@ on:
       - 'trigger-build.txt'
 
 env:
-  CMAKE_DEBUG_PRESET_NAME: Windows/Debug
-  CMAKE_DEBUG_PRESET_PUBLIC_NAME: Debug
+  CMAKE_DEBUG_PRESET_NAME: Debug
   CMAKE_DEBUG_CONFIG_NAME: Debug
-  CMAKE_DEBUG_OUTPUT_PATTERN: build/Windows/Debug/Debug/*
-  CMAKE_RELEASE_PRESET_NAME: Windows/Release
-  CMAKE_RELEASE_PRESET_PUBLIC_NAME: Release
+  CMAKE_DEBUG_OUTPUT_PATTERN: build/Debug/*.a
+  CMAKE_RELEASE_PRESET_NAME: Release
   CMAKE_RELEASE_CONFIG_NAME: Release
-  CMAKE_RELEASE_OUTPUT_PATTERN: build/Windows/Release/Release/*
-  MSVC_CC: cl
-  MSVC_CXX: cl
-  MSVC_NAME: MSVC
+  CMAKE_RELEASE_OUTPUT_PATTERN: build/Release/*.a
 
   SOURCESDK_REPOSITORY: Wend4r/sourcesdk
   SOURCESDK_BRANCH: main
   SOURCESDK_ROOT: external/sourcesdk
+  SOURCESDK_MALLOC_OVERRIDE: ON
 
 jobs:
   build:
-    runs-on: windows-latest
+    name: ${{ matrix.compiler.name }}
+    runs-on: macos-latest
 
     strategy:
+      matrix:
+        compiler:
+          [
+            {
+              name: Clang,
+              cc: clang,
+              cxx: clang++,
+            }
+        ]
       fail-fast: false
 
     steps:
@@ -55,27 +61,36 @@ jobs:
         fetch-depth: 0
         fetch-tags: true
 
+    - name: Install dependencies
+      run: |
+        brew install ninja
+
     - name: Set up environment variables
       run: |
-        echo "REPOSITORY_NAME=$(basename ${env:GITHUB_REPOSITORY})" | Out-File -FilePath $env:GITHUB_ENV -Append
-        echo "ABSOLUTE_PATH=${env:GITHUB_WORKSPACE}" | Out-File -FilePath $env:GITHUB_ENV -Append
-      shell: pwsh
+        echo "ABSOLUTE_PATH=$(pwd)" >> $GITHUB_ENV
+        echo "REPOSITORY_NAME=$(basename ${GITHUB_REPOSITORY})" >> $GITHUB_ENV
 
     - name: Configure Git to treat current directory as safe
-      run: git config --global --add safe.directory $env:GITHUB_WORKSPACE
-      shell: pwsh
+      run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+
+    - name: Set up environment variables
+      run: |
+        echo "ABSOLUTE_PATH=$(pwd)" >> $GITHUB_ENV
+        echo "REPOSITORY_NAME=$(basename ${GITHUB_REPOSITORY})" >> $GITHUB_ENV
+
+    - name: Configure Git to treat current directory as safe
+      run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
 
     - name: Get latest tag
       id: get-latest-tag
       run: |
-        if ((git tag) -eq $null) {
+        if [ -z "$(git tag)" ]; then
           echo "No tags found"
-          echo "LATEST_TAG=none" | Out-File -FilePath $env:GITHUB_ENV -Append
-        } else {
-          $LATEST_TAG = git describe --tags (git rev-list --tags --max-count=1)
-          echo "LATEST_TAG=$LATEST_TAG" | Out-File -FilePath $env:GITHUB_ENV -Append
-        }
-      shell: pwsh
+          echo "LATEST_TAG=none" >> $GITHUB_ENV
+        else
+          LATEST_TAG=$(git describe --tags `git rev-list --tags --max-count=1`)
+          echo "LATEST_TAG=$LATEST_TAG" >> $GITHUB_ENV
+        fi
 
     - name: Checkout Source SDK
       uses: actions/checkout@v4
@@ -84,12 +99,14 @@ jobs:
         ref: ${{ env.SOURCESDK_BRANCH }}
         path: ${{ env.SOURCESDK_ROOT }}
 
+
     - name: Debug - Configure CMake
       run: >
         cmake --preset ${{ env.CMAKE_DEBUG_PRESET_NAME }}
-        -DCMAKE_C_COMPILER=${{ env.MSVC_CC }}
-        -DCMAKE_CXX_COMPILER=${{ env.MSVC_CXX }}
+        -DCMAKE_C_COMPILER=${{ matrix.compiler.cc }}
+        -DCMAKE_CLANG_CXX_COMPILER=${{ matrix.compiler.cxx }}
         -DSOURCESDK_DIR=${{ env.SOURCESDK_ROOT }}
+        -DSOURCESDK_MALLOC_OVERRIDE=${{ env.SOURCESDK_MALLOC_OVERRIDE }}
 
     - name: Debug - Build
       run: cmake --build --preset ${{ env.CMAKE_DEBUG_PRESET_NAME }} --parallel --config ${{ env.CMAKE_DEBUG_CONFIG_NAME }}
@@ -97,15 +114,17 @@ jobs:
     - name: Debug - Upload build artifact
       uses: actions/upload-artifact@v4
       with:
-        name: ${{ env.REPOSITORY_NAME }}-${{ env.LATEST_TAG }}-${{ runner.os }}-${{ env.MSVC_NAME }}-${{ env.CMAKE_DEBUG_PRESET_PUBLIC_NAME }}
-        path: ${{ env.CMAKE_DEBUG_OUTPUT_PATTERN }}
+        name: ${{ env.REPOSITORY_NAME }}-${{ env.LATEST_TAG }}-${{ runner.os }}-${{ matrix.compiler.name }}-${{ env.CMAKE_DEBUG_PRESET_NAME }}
+        path: |
+          ${{ env.CMAKE_DEBUG_OUTPUT_PATTERN }}
 
     - name: Release - Configure CMake
       run: >
         cmake --preset ${{ env.CMAKE_RELEASE_PRESET_NAME }}
-        -DCMAKE_C_COMPILER=${{ env.MSVC_CC }}
-        -DCMAKE_CXX_COMPILER=${{ env.MSVC_CXX }}
+        -DCMAKE_C_COMPILER=${{ matrix.compiler.cc }}
+        -DCMAKE_CLANG_CXX_COMPILER=${{ matrix.compiler.cxx }}
         -DSOURCESDK_DIR=${{ env.SOURCESDK_ROOT }}
+        -DSOURCESDK_MALLOC_OVERRIDE=${{ env.SOURCESDK_MALLOC_OVERRIDE }}
 
     - name: Release - Build
       run: cmake --build --preset ${{ env.CMAKE_RELEASE_PRESET_NAME }} --parallel --config ${{ env.CMAKE_RELEASE_CONFIG_NAME }}
@@ -113,5 +132,6 @@ jobs:
     - name: Release - Upload build artifact
       uses: actions/upload-artifact@v4
       with:
-        name: ${{ env.REPOSITORY_NAME }}-${{ env.LATEST_TAG }}-${{ runner.os }}-${{ env.MSVC_NAME }}-${{ env.CMAKE_RELEASE_PRESET_PUBLIC_NAME }}
-        path: ${{ env.CMAKE_RELEASE_OUTPUT_PATTERN }}
+        name: ${{ env.REPOSITORY_NAME }}-${{ env.LATEST_TAG }}-${{ runner.os }}-${{ matrix.compiler.name }}-${{ env.CMAKE_RELEASE_PRESET_NAME }}
+        path: |
+          ${{ env.CMAKE_RELEASE_OUTPUT_PATTERN }}

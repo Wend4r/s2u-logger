@@ -7,6 +7,7 @@ on:
       - '.github/workflows/**.yml'
       - 'cmake/**'
       - 'external/**'
+      - 'include/**'
       - 'src/**'
       - 'CMakeLists.txt'
       - 'CMakePresets.json'
@@ -17,6 +18,7 @@ on:
       - '.github/workflows/**.yml'
       - 'cmake/**'
       - 'external/**'
+      - 'include/**'
       - 'src/**'
       - 'CMakeLists.txt'
       - 'CMakePresets.json'
@@ -25,31 +27,49 @@ on:
 env:
   CMAKE_DEBUG_PRESET_NAME: Debug
   CMAKE_DEBUG_CONFIG_NAME: Debug
-  CMAKE_DEBUG_OUTPUT_PATTERN: build/Debug/*.so
+  CMAKE_DEBUG_OUTPUT_PATTERN: build/Debug/*.a
   CMAKE_RELEASE_PRESET_NAME: Release
   CMAKE_RELEASE_CONFIG_NAME: Release
-  CMAKE_RELEASE_OUTPUT_PATTERN: build/Release/*.so
-  CMAKE_CC: clang
-  CMAKE_CXX: clang++
+  CMAKE_RELEASE_OUTPUT_PATTERN: build/Release/*.a
+
+  SOURCESDK_REPOSITORY: Wend4r/sourcesdk
+  SOURCESDK_BRANCH: main
+  SOURCESDK_ROOT: external/sourcesdk
 
 jobs:
   build:
+    name: ${{ matrix.compiler.name }}
     runs-on: ubuntu-latest
     container: registry.gitlab.steamos.cloud/steamrt/sniper/sdk
 
     strategy:
+      matrix:
+        compiler:
+          [
+            {
+              name: Clang,
+              cc: clang,
+              cxx: clang++,
+            },
+            {
+              name: GCC,
+              cc: gcc-12,
+              cxx: g++-12,
+            }
+        ]
       fail-fast: false
 
     steps:
     - uses: actions/checkout@v4
       with:
-        submodules: true
+        submodules: recursive
         fetch-depth: 0
+        fetch-tags: true
 
     - name: Install dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y ninja-build
+        sudo apt-get install -y ninja-build ${{ matrix.compiler.cc }}
 
     - name: Set up environment variables
       run: |
@@ -70,11 +90,19 @@ jobs:
           echo "LATEST_TAG=$LATEST_TAG" >> $GITHUB_ENV
         fi
 
-    - name: Debug - Configure CMake (Clang)
+    - name: Checkout Source SDK
+      uses: actions/checkout@v4
+      with:
+        repository: ${{ env.SOURCESDK_REPOSITORY }}
+        ref: ${{ env.SOURCESDK_BRANCH }}
+        path: ${{ env.SOURCESDK_ROOT }}
+
+    - name: Debug - Configure CMake
       run: >
         cmake --preset ${{ env.CMAKE_DEBUG_PRESET_NAME }}
-        -DCMAKE_C_COMPILER=${{ env.CMAKE_CC }}
-        -DCMAKE_CXX_COMPILER=${{ env.CMAKE_CXX }}
+        -DCMAKE_C_COMPILER=${{ matrix.compiler.cc }}
+        -DCMAKE_CLANG_CXX_COMPILER=${{ matrix.compiler.cxx }}
+        -DSOURCESDK_DIR=${{ env.SOURCESDK_ROOT }}
 
     - name: Debug - Build
       run: cmake --build --preset ${{ env.CMAKE_DEBUG_PRESET_NAME }} --parallel --config ${{ env.CMAKE_DEBUG_CONFIG_NAME }}
@@ -82,15 +110,16 @@ jobs:
     - name: Debug - Upload build artifact
       uses: actions/upload-artifact@v4
       with:
-        name: ${{ env.REPOSITORY_NAME }}-${{ env.LATEST_TAG }}-${{ runner.os }}_${{ env.CMAKE_DEBUG_PRESET_NAME }}
+        name: ${{ env.REPOSITORY_NAME }}-${{ env.LATEST_TAG }}-${{ runner.os }}-${{ matrix.compiler.name }}-${{ env.CMAKE_DEBUG_PRESET_NAME }}
         path: |
           ${{ env.CMAKE_DEBUG_OUTPUT_PATTERN }}
 
-    - name: Release - Configure CMake (Clang)
+    - name: Release - Configure CMake
       run: >
         cmake --preset ${{ env.CMAKE_RELEASE_PRESET_NAME }}
-        -DCMAKE_C_COMPILER=${{ env.CMAKE_CC }}
-        -DCMAKE_CXX_COMPILER=${{ env.CMAKE_CXX }}
+        -DCMAKE_C_COMPILER=${{ matrix.compiler.cc }}
+        -DCMAKE_CLANG_CXX_COMPILER=${{ matrix.compiler.cxx }}
+        -DSOURCESDK_DIR=${{ env.SOURCESDK_ROOT }}
 
     - name: Release - Build
       run: cmake --build --preset ${{ env.CMAKE_RELEASE_PRESET_NAME }} --parallel --config ${{ env.CMAKE_RELEASE_CONFIG_NAME }}
@@ -98,6 +127,6 @@ jobs:
     - name: Release - Upload build artifact
       uses: actions/upload-artifact@v4
       with:
-        name: ${{ env.REPOSITORY_NAME }}-${{ env.LATEST_TAG }}-${{ runner.os }}_${{ env.CMAKE_RELEASE_PRESET_NAME }}
+        name: ${{ env.REPOSITORY_NAME }}-${{ env.LATEST_TAG }}-${{ runner.os }}-${{ matrix.compiler.name }}-${{ env.CMAKE_RELEASE_PRESET_NAME }}
         path: |
           ${{ env.CMAKE_RELEASE_OUTPUT_PATTERN }}

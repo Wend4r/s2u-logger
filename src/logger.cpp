@@ -57,130 +57,74 @@ LoggingChannelFlags_t Logger::GetFlags()
 
 LoggingResponse_t Logger::InternalMessage(LoggingSeverity_t eSeverity, const CUtlString &sContent)
 {
-	LoggingResponse_t eResponse = LR_ABORT;
-
-	if(IsChannelEnabled(eSeverity))
-	{
-		eResponse = LoggingSystem_LogDirect(m_nChannelID, eSeverity, sContent);
-	}
-
-	return eResponse;
+	return LoggingSystem_LogDirect(m_nChannelID, eSeverity, sContent);
 }
 
 LoggingResponse_t Logger::InternalMessage(LoggingSeverity_t eSeverity, Color aColor, const CUtlString &sContent)
 {
-	LoggingResponse_t eResponse = LR_ABORT;
-
-	if(IsChannelEnabled(eSeverity))
-	{
-		eResponse = LoggingSystem_LogDirect(m_nChannelID, eSeverity, aColor, sContent);
-	}
-
-	return eResponse;
+	return LoggingSystem_LogDirect(m_nChannelID, eSeverity, aColor, sContent);
 }
 
 LoggingResponse_t Logger::InternalMessage(LoggingSeverity_t eSeverity, const LeafCodeInfo_t &aCode, const CUtlString &sContent)
 {
-	LoggingResponse_t eResponse = LR_ABORT;
-
-	if(IsChannelEnabled(eSeverity))
-	{
-		eResponse = LoggingSystem_LogDirect(m_nChannelID, eSeverity, aCode, sContent);
-	}
-
-	return eResponse;
+	return LoggingSystem_LogDirect(m_nChannelID, eSeverity, aCode, sContent);
 }
 
 LoggingResponse_t Logger::InternalMessage(LoggingSeverity_t eSeverity, const LeafCodeInfo_t &aCode, Color aColor, const CUtlString &sContent)
 {
-	LoggingResponse_t eResponse = LR_ABORT;
-
-	if(IsChannelEnabled(eSeverity))
-	{
-		eResponse = LoggingSystem_LogDirect(m_nChannelID, eSeverity, aCode, aColor, sContent);
-	}
-
-	return eResponse;
+	return LoggingSystem_LogDirect(m_nChannelID, eSeverity, aCode, aColor, sContent);
 }
 
 LoggingResponse_t Logger::InternalMessageFormat(LoggingSeverity_t eSeverity, const char *pszFormat, ...)
 {
-	LoggingResponse_t eResponse = LR_ABORT;
+	char sBuffer[1024];
 
-	if(IsChannelEnabled(eSeverity))
-	{
-		char sBuffer[1024];
+	va_list aParams;
 
-		va_list aParams;
+	va_start(aParams, pszFormat);
+	V_vsnprintf((char *)sBuffer, sizeof(sBuffer), pszFormat, aParams);
+	va_end(aParams);
 
-		va_start(aParams, pszFormat);
-		V_vsnprintf((char *)sBuffer, sizeof(sBuffer), pszFormat, aParams);
-		va_end(aParams);
-
-		eResponse = InternalMessage(eSeverity, sBuffer);
-	}
-
-	return eResponse;
+	return InternalMessage(eSeverity, sBuffer);
 }
 
 LoggingResponse_t Logger::InternalMessageFormat(LoggingSeverity_t eSeverity, Color aColor, const char *pszFormat, ...)
 {
-	LoggingResponse_t eResponse = LR_ABORT;
+	char sBuffer[1024];
 
-	if(IsChannelEnabled(eSeverity))
-	{
-		char sBuffer[1024];
+	va_list aParams;
 
-		va_list aParams;
+	va_start(aParams, pszFormat);
+	V_vsnprintf((char *)sBuffer, sizeof(sBuffer), pszFormat, aParams);
+	va_end(aParams);
 
-		va_start(aParams, pszFormat);
-		V_vsnprintf((char *)sBuffer, sizeof(sBuffer), pszFormat, aParams);
-		va_end(aParams);
-
-		eResponse = InternalMessage(eSeverity, aColor, sBuffer);
-	}
-
-	return eResponse;
+	return InternalMessage(eSeverity, aColor, sBuffer);
 }
 
 LoggingResponse_t Logger::InternalMessageFormat(LoggingSeverity_t eSeverity, const LeafCodeInfo_t &aCode, const char *pszFormat, ...)
 {
-	LoggingResponse_t eResponse = LR_ABORT;
+	char sBuffer[1024];
 
-	if(IsChannelEnabled(eSeverity))
-	{
-		char sBuffer[1024];
+	va_list aParams;
 
-		va_list aParams;
+	va_start(aParams, pszFormat);
+	V_vsnprintf((char *)sBuffer, sizeof(sBuffer), pszFormat, aParams);
+	va_end(aParams);
 
-		va_start(aParams, pszFormat);
-		V_vsnprintf((char *)sBuffer, sizeof(sBuffer), pszFormat, aParams);
-		va_end(aParams);
-
-		eResponse = InternalMessage(eSeverity, sBuffer);
-	}
-
-	return eResponse;
+	return InternalMessage(eSeverity, sBuffer);
 }
 
 LoggingResponse_t Logger::InternalMessageFormat(LoggingSeverity_t eSeverity, const LeafCodeInfo_t &aCode, Color aColor, const char *pszFormat, ...)
 {
-	LoggingResponse_t eResponse = LR_ABORT;
+	char sBuffer[1024];
 
-	if(IsChannelEnabled(eSeverity))
-	{
-		char sBuffer[1024];
+	va_list aParams;
 
-		va_list aParams;
+	va_start(aParams, pszFormat);
+	V_vsnprintf((char *)sBuffer, sizeof(sBuffer), pszFormat, aParams);
+	va_end(aParams);
 
-		va_start(aParams, pszFormat);
-		V_vsnprintf((char *)sBuffer, sizeof(sBuffer), pszFormat, aParams);
-		va_end(aParams);
-
-		eResponse = InternalMessage(eSeverity, aColor, sBuffer);
-	}
-
-	return eResponse;
+	return InternalMessage(eSeverity, aColor, sBuffer);
 }
 
 void Logger::DoTests()

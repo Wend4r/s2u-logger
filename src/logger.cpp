@@ -90,7 +90,7 @@ LoggingResponse_t Logger::InternalMessageFormat(LoggingSeverity_t eSeverity, con
 
 LoggingResponse_t Logger::InternalMessageFormat(LoggingSeverity_t eSeverity, Color aColor, const char *pszFormat, ...)
 {
-	char sBuffer[1024];
+	char sBuffer[MAX_LOGGING_MESSAGE_LENGTH];
 
 	va_list aParams;
 
@@ -103,7 +103,7 @@ LoggingResponse_t Logger::InternalMessageFormat(LoggingSeverity_t eSeverity, Col
 
 LoggingResponse_t Logger::InternalMessageFormat(LoggingSeverity_t eSeverity, const LeafCodeInfo_t &aCode, const char *pszFormat, ...)
 {
-	char sBuffer[1024];
+	char sBuffer[MAX_LOGGING_MESSAGE_LENGTH];
 
 	va_list aParams;
 
@@ -116,7 +116,7 @@ LoggingResponse_t Logger::InternalMessageFormat(LoggingSeverity_t eSeverity, con
 
 LoggingResponse_t Logger::InternalMessageFormat(LoggingSeverity_t eSeverity, const LeafCodeInfo_t &aCode, Color aColor, const char *pszFormat, ...)
 {
-	char sBuffer[1024];
+	char sBuffer[MAX_LOGGING_MESSAGE_LENGTH];
 
 	va_list aParams;
 

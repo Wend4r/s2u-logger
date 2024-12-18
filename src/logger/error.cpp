@@ -40,6 +40,38 @@ LoggingResponse_t CLoggingError::ErrorFormat(Color aColor, const char *pszFormat
 	return Error(aColor, sBuffer);
 }
 
+LoggingResponse_t CLoggingError::ErrorFormatLn(const char *pszFormat, ...)
+{
+	char sBuffer[MAX_LOGGING_MESSAGE_LENGTH];
+
+	va_list aParams;
+
+	va_start(aParams, pszFormat);
+	int nLength = V_vsnprintf((char *)sBuffer, sizeof(sBuffer) - 1, pszFormat, aParams);
+	va_end(aParams);
+
+	sBuffer[nLength++] = '\n';
+	sBuffer[nLength++] = '\0';
+
+	return Error(sBuffer);
+}
+
+LoggingResponse_t CLoggingError::ErrorFormatLn(Color aColor, const char *pszFormat, ...)
+{
+	char sBuffer[MAX_LOGGING_MESSAGE_LENGTH];
+
+	va_list aParams;
+
+	va_start(aParams, pszFormat);
+	int nLength = V_vsnprintf((char *)sBuffer, sizeof(sBuffer) - 1, pszFormat, aParams);
+	va_end(aParams);
+
+	sBuffer[nLength++] = '\n';
+	sBuffer[nLength++] = '\0';
+
+	return Error(aColor, sBuffer);
+}
+
 LoggerScope CLoggingError::CreateErrorsScope(const CUtlString &sStartWith, const CUtlString &sEnd)
 {
 #ifdef DEBUG

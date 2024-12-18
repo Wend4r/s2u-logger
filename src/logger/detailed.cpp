@@ -40,6 +40,38 @@ LoggingResponse_t CLoggingDetailed::DetailedFormat(Color aColor, const char *psz
 	return Detailed(aColor, sBuffer);
 }
 
+LoggingResponse_t CLoggingDetailed::DetailedFormatLn(const char *pszFormat, ...)
+{
+	char sBuffer[MAX_LOGGING_MESSAGE_LENGTH];
+
+	va_list aParams;
+
+	va_start(aParams, pszFormat);
+	int nLength = V_vsnprintf((char *)sBuffer, sizeof(sBuffer) - 1, pszFormat, aParams);
+	va_end(aParams);
+
+	sBuffer[nLength++] = '\n';
+	sBuffer[nLength++] = '\0';
+
+	return Detailed(sBuffer);
+}
+
+LoggingResponse_t CLoggingDetailed::DetailedFormatLn(Color aColor, const char *pszFormat, ...)
+{
+	char sBuffer[MAX_LOGGING_MESSAGE_LENGTH];
+
+	va_list aParams;
+
+	va_start(aParams, pszFormat);
+	int nLength = V_vsnprintf((char *)sBuffer, sizeof(sBuffer) - 1, pszFormat, aParams);
+	va_end(aParams);
+
+	sBuffer[nLength++] = '\n';
+	sBuffer[nLength++] = '\0';
+
+	return Detailed(aColor, sBuffer);
+}
+
 LoggerScope CLoggingDetailed::CreateDetailsScope(const CUtlString &sStartWith, const CUtlString &sEnd)
 {
 #ifdef DEBUG

@@ -20,6 +20,9 @@ public:
 	virtual LoggingResponse_t ErrorFormat(const char *pszFormat, ...) FMTFUNCTION(2, 3);
 	virtual LoggingResponse_t ErrorFormat(Color aColor, const char *pszFormat, ...) FMTFUNCTION(3, 4);
 
+	virtual LoggingResponse_t ErrorFormatLn(const char *pszFormat, ...) FMTFUNCTION(2, 3);
+	virtual LoggingResponse_t ErrorFormatLn(Color aColor, const char *pszFormat, ...) FMTFUNCTION(3, 4);
+
 public:
 	virtual LoggerScope CreateErrorsScope(const CUtlString &sStartWith = "", const CUtlString &sEnd = "\n");
 

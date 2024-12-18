@@ -40,6 +40,38 @@ LoggingResponse_t CLoggingThrowAssert::ThrowAssertFormat(const LeafCodeInfo_t &a
 	return ThrowAssert(aCode, aColor, sBuffer);
 }
 
+LoggingResponse_t CLoggingThrowAssert::ThrowAssertFormatLn(const LeafCodeInfo_t &aCode, const char *pszFormat, ...)
+{
+	char sBuffer[MAX_LOGGING_MESSAGE_LENGTH];
+
+	va_list aParams;
+
+	va_start(aParams, pszFormat);
+	int nLength = V_vsnprintf((char *)sBuffer, sizeof(sBuffer) - 1, pszFormat, aParams);
+	va_end(aParams);
+
+	sBuffer[nLength++] = '\n';
+	sBuffer[nLength++] = '\0';
+
+	return ThrowAssert(aCode, sBuffer);
+}
+
+LoggingResponse_t CLoggingThrowAssert::ThrowAssertFormatLn(const LeafCodeInfo_t &aCode, Color aColor, const char *pszFormat, ...)
+{
+	char sBuffer[MAX_LOGGING_MESSAGE_LENGTH];
+
+	va_list aParams;
+
+	va_start(aParams, pszFormat);
+	int nLength = V_vsnprintf((char *)sBuffer, sizeof(sBuffer) - 1, pszFormat, aParams);
+	va_end(aParams);
+
+	sBuffer[nLength++] = '\n';
+	sBuffer[nLength++] = '\0';
+
+	return ThrowAssert(aCode, aColor, sBuffer);
+}
+
 LoggerScope CLoggingThrowAssert::CreateAssertScope(const CUtlString &sStartWith, const CUtlString &sEnd)
 {
 #ifdef DEBUG

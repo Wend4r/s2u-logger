@@ -20,6 +20,9 @@ public:
 	virtual LoggingResponse_t DetailedFormat(const char *pszFormat, ...) FMTFUNCTION(2, 3);
 	virtual LoggingResponse_t DetailedFormat(Color aColor, const char *pszFormat, ...) FMTFUNCTION(3, 4);
 
+	virtual LoggingResponse_t DetailedFormatLn(const char *pszFormat, ...) FMTFUNCTION(2, 3);
+	virtual LoggingResponse_t DetailedFormatLn(Color aColor, const char *pszFormat, ...) FMTFUNCTION(3, 4);
+
 public:
 	virtual LoggerScope CreateDetailsScope(const CUtlString &sStartWith = "", const CUtlString &sEnd = "\n");
 

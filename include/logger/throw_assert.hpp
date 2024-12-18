@@ -20,6 +20,9 @@ public:
 	virtual LoggingResponse_t ThrowAssertFormat(const LeafCodeInfo_t &aCode, const char *pszFormat, ...) FMTFUNCTION(3, 4);
 	virtual LoggingResponse_t ThrowAssertFormat(const LeafCodeInfo_t &aCode, Color aColor, const char *pszFormat, ...) FMTFUNCTION(4, 5);
 
+	virtual LoggingResponse_t ThrowAssertFormatLn(const LeafCodeInfo_t &aCode, const char *pszFormat, ...) FMTFUNCTION(3, 4);
+	virtual LoggingResponse_t ThrowAssertFormatLn(const LeafCodeInfo_t &aCode, Color aColor, const char *pszFormat, ...) FMTFUNCTION(4, 5);
+
 public:
 	virtual LoggerScope CreateAssertScope(const CUtlString &sStartWith = "", const CUtlString &sEnd = "\n");
 

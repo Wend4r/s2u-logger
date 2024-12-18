@@ -35,7 +35,7 @@
 #include "logger/throw_assert.hpp"
 #include "logger/error.hpp"
 
-class Logger final : public CLoggingDetailed, public CLoggingMessage, public CLoggingWarning, public CLoggingThrowAssert, public CLoggingError
+class Logger : public CLoggingDetailed, public CLoggingMessage, public CLoggingWarning, public CLoggingThrowAssert, public CLoggingError
 {
 public:
 	Logger(const CUtlString &sName, RegisterTagsFunc pfnRegisterTagsFunc, int iFlags = 0, LoggingVerbosity_t eVerbosity = LV_DEFAULT, Color aDefault = UNSPECIFIED_LOGGING_COLOR);

@@ -24,7 +24,7 @@ public:
 	virtual LoggingResponse_t ThrowAssertFormatLn(const LeafCodeInfo_t &aCode, Color aColor, const char *pszFormat, ...) FMTFUNCTION(4, 5);
 
 public:
-	virtual LoggerScope CreateAssertScope(const CUtlString &sStartWith = "", const CUtlString &sEnd = "\n");
+	virtual CLoggerScope CreateAssertScope(const CUtlString &sStartWith = "", const CUtlString &sEnd = "\n");
 
 protected:
 	static const LoggingSeverity_t s_eSeverity = LS_ASSERT;

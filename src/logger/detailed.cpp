@@ -72,7 +72,7 @@ LoggingResponse_t CLoggingDetailed::DetailedFormatLn(Color aColor, const char *p
 	return Detailed(aColor, sBuffer);
 }
 
-LoggerScope CLoggingDetailed::CreateDetailsScope(const CUtlString &sStartWith, const CUtlString &sEnd)
+CLoggerScope CLoggingDetailed::CreateDetailsScope(const CUtlString &sStartWith, const CUtlString &sEnd)
 {
 #ifdef DEBUG
 	char sDebugWith[32];

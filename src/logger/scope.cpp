@@ -5,7 +5,7 @@
 #include <tier0/logging.h>
 #include <tier0/strtools.h>
 
-LoggerScope::LoggerScope(Color rgba, const CUtlString &sStartWith, const CUtlString &sEnd)
+CLoggerScope::CLoggerScope(Color rgba, const CUtlString &sStartWith, const CUtlString &sEnd)
 {
 	m_aColor = rgba;
 
@@ -13,7 +13,7 @@ LoggerScope::LoggerScope(Color rgba, const CUtlString &sStartWith, const CUtlStr
 	m_aEnd = sEnd;
 }
 
-LoggerScope &LoggerScope::operator+=(const LoggerScope &aTarget)
+CLoggerScope &CLoggerScope::operator+=(const CLoggerScope &aTarget)
 {
 	if(aTarget.Count())
 	{
@@ -81,34 +81,34 @@ LoggerScope &LoggerScope::operator+=(const LoggerScope &aTarget)
 	return *this;
 }
 
-Color LoggerScope::GetColor() const
+Color CLoggerScope::GetColor() const
 {
 	return m_aColor;
 }
 
-const CUtlString &LoggerScope::GetStartWith() const
+const CUtlString &CLoggerScope::GetStartWith() const
 {
 	return m_sStartWith;
 }
 
-const CUtlString &LoggerScope::GetEnd() const
+const CUtlString &CLoggerScope::GetEnd() const
 {
 	return m_aEnd;
 }
 
-int LoggerScope::Count() const
+int CLoggerScope::Count() const
 {
 	return m_vec.Count();
 }
 
-void LoggerScope::SetColor(Color rgba)
+void CLoggerScope::SetColor(Color rgba)
 {
 	m_aColor = rgba;
 }
 
-int LoggerScope::Push(const CUtlString &sContent)
+int CLoggerScope::Push(const CUtlString &sContent)
 {
-	Message aMsg(m_aColor);
+	Message_t aMsg(m_aColor);
 
 	int nStoredLength = aMsg.SetWithCopy(sContent);
 
@@ -117,9 +117,9 @@ int LoggerScope::Push(const CUtlString &sContent)
 	return nStoredLength;
 }
 
-int LoggerScope::Push(Color rgba, const CUtlString &sContent)
+int CLoggerScope::Push(Color rgba, const CUtlString &sContent)
 {
-	Message aMsg(rgba);
+	Message_t aMsg(rgba);
 
 	int nStoredLength = aMsg.SetWithCopy(sContent);
 
@@ -128,7 +128,7 @@ int LoggerScope::Push(Color rgba, const CUtlString &sContent)
 	return nStoredLength;
 }
 
-int LoggerScope::PushFormat(const char *pszFormat, ...)
+int CLoggerScope::PushFormat(const char *pszFormat, ...)
 {
 	char sBuffer[MAX_LOGGING_MESSAGE_LENGTH];
 
@@ -138,7 +138,7 @@ int LoggerScope::PushFormat(const char *pszFormat, ...)
 	V_vsnprintf((char *)sBuffer, sizeof(sBuffer), pszFormat, aParams);
 	va_end(aParams);
 
-	Message aMsg(m_aColor);
+	Message_t aMsg(m_aColor);
 
 	int nStoredLength = aMsg.SetWithCopy(sBuffer);
 
@@ -147,7 +147,7 @@ int LoggerScope::PushFormat(const char *pszFormat, ...)
 	return nStoredLength;
 }
 
-int LoggerScope::PushFormat(Color rgba, const char *pszFormat, ...)
+int CLoggerScope::PushFormat(Color rgba, const char *pszFormat, ...)
 {
 	char sBuffer[MAX_LOGGING_MESSAGE_LENGTH];
 
@@ -157,7 +157,7 @@ int LoggerScope::PushFormat(Color rgba, const char *pszFormat, ...)
 	V_vsnprintf((char *)sBuffer, sizeof(sBuffer), pszFormat, aParams);
 	va_end(aParams);
 
-	Message aMsg(rgba);
+	Message_t aMsg(rgba);
 
 	int nStoredLength = aMsg.SetWithCopy(sBuffer);
 
@@ -166,7 +166,7 @@ int LoggerScope::PushFormat(Color rgba, const char *pszFormat, ...)
 	return nStoredLength;
 }
 
-int LoggerScope::Send(const SendFunc &funcOn)
+int CLoggerScope::Send(const SendFunc_t &funcOn)
 {
 	CUtlString sResultContent;
 
@@ -182,7 +182,7 @@ int LoggerScope::Send(const SendFunc &funcOn)
 	return nSize;
 }
 
-int LoggerScope::SendColor(const SendColorFunc &funcOn)
+int CLoggerScope::SendColor(const SendColorFunc_t &funcOn)
 {
 	CUtlString sResultContent;
 
@@ -215,23 +215,23 @@ int LoggerScope::SendColor(const SendColorFunc &funcOn)
 	return nSize;
 }
 
-LoggerScope::Message::Message(Color rgbaInit, const CUtlString &sContent)
+CLoggerScope::Message_t::Message_t(Color rgbaInit, const CUtlString &sContent)
  :  m_aColor(rgbaInit),
     m_sContent(sContent)
 {
 }
 
-Color LoggerScope::Message::GetColor() const
+Color CLoggerScope::Message_t::GetColor() const
 {
 	return m_aColor;
 }
 
-const CUtlString &LoggerScope::Message::Get() const
+const CUtlString &CLoggerScope::Message_t::Get() const
 {
 	return m_sContent;
 }
 
-int LoggerScope::Message::SetWithCopy(const CUtlString &sContent)
+int CLoggerScope::Message_t::SetWithCopy(const CUtlString &sContent)
 {
 	m_sContent = sContent;
 

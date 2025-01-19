@@ -72,7 +72,7 @@ LoggingResponse_t CLoggingWarning::WarningFormatLn(Color aColor, const char *psz
 	return Warning(aColor, sBuffer);
 }
 
-LoggerScope CLoggingWarning::CreateWarningsScope(const CUtlString &sStartWith, const CUtlString &sEnd)
+CLoggerScope CLoggingWarning::CreateWarningsScope(const CUtlString &sStartWith, const CUtlString &sEnd)
 {
 #ifdef DEBUG
 	char sDebugWith[32];

@@ -72,7 +72,7 @@ LoggingResponse_t CLoggingThrowAssert::ThrowAssertFormatLn(const LeafCodeInfo_t 
 	return ThrowAssert(aCode, aColor, sBuffer);
 }
 
-LoggerScope CLoggingThrowAssert::CreateAssertScope(const CUtlString &sStartWith, const CUtlString &sEnd)
+CLoggerScope CLoggingThrowAssert::CreateAssertScope(const CUtlString &sStartWith, const CUtlString &sEnd)
 {
 #ifdef DEBUG
 	char sDebugWith[32];

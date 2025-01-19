@@ -72,7 +72,7 @@ LoggingResponse_t CLoggingError::ErrorFormatLn(Color aColor, const char *pszForm
 	return Error(aColor, sBuffer);
 }
 
-LoggerScope CLoggingError::CreateErrorsScope(const CUtlString &sStartWith, const CUtlString &sEnd)
+CLoggerScope CLoggingError::CreateErrorsScope(const CUtlString &sStartWith, const CUtlString &sEnd)
 {
 #ifdef DEBUG
 	char sDebugWith[32];

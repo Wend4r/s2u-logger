@@ -8,17 +8,17 @@
 #include <tier0/utlstring.h>
 #include <tier1/utlvector.h>
 
-class LoggerScope
+class CLoggerScope
 {
-	using This = LoggerScope;
+	using This = CLoggerScope;
 
 public:
-	using SendFunc = std::function<void (const CUtlString &)>;
-	using SendColorFunc = std::function<void (Color, const CUtlString &)>;
+	using SendFunc_t = std::function<void (const CUtlString &)>;
+	using SendColorFunc_t = std::function<void (Color, const CUtlString &)>;
 
-	LoggerScope(Color rgbaInit, const CUtlString &sStartWith = "", const CUtlString &sEnd = "\n");
+	CLoggerScope(Color rgbaInit, const CUtlString &sStartWith = "", const CUtlString &sEnd = "\n");
 
-	LoggerScope &operator+=(const LoggerScope &);
+	CLoggerScope &operator+=(const CLoggerScope &);
 
 	Color GetColor() const;
 	const CUtlString &GetStartWith() const;
@@ -33,13 +33,13 @@ public:
 	int PushFormat(const char *pszFormat, ...) FMTFUNCTION(2, 3);
 	int PushFormat(Color rgba, const char *pszFormat, ...) FMTFUNCTION(3, 4);
 
-	int Send(const SendFunc &funcOn);
-	int SendColor(const SendColorFunc &funcOn);
+	int Send(const SendFunc_t &funcOn);
+	int SendColor(const SendColorFunc_t &funcOn);
 
-	class Message
+	class Message_t
 	{
 	public:
-		Message(Color rgbaInit, const CUtlString &sContent = "");
+		Message_t(Color rgbaInit, const CUtlString &sContent = "");
 
 		Color GetColor() const;
 		const CUtlString &Get() const;
@@ -48,14 +48,14 @@ public:
 	private:
 		Color m_aColor;
 		CUtlString m_sContent;
-	}; // LoggerScope::Message
+	}; // CLoggerScope::Message_t
 
 private:
 	Color m_aColor;
 
 	CUtlString m_sStartWith;
-	CUtlVector<Message> m_vec;
+	CUtlVector<Message_t> m_vec;
 	CUtlString m_aEnd;
-}; // LoggerScope
+}; // CLoggerScope
 
 #endif // _INCLUDE_LOGGER_SCOPE_HPP_

@@ -72,7 +72,7 @@ LoggingResponse_t CLoggingMessage::MessageFormatLn(Color aColor, const char *psz
 	return Message(aColor, sBuffer);
 }
 
-LoggerScope CLoggingMessage::CreateMessagesScope(const CUtlString &sStartWith, const CUtlString &sEnd)
+CLoggerScope CLoggingMessage::CreateMessagesScope(const CUtlString &sStartWith, const CUtlString &sEnd)
 {
 #ifdef DEBUG
 	char sDebugWith[32];

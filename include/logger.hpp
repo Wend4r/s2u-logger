@@ -47,7 +47,8 @@ public:
 	Color GetColor();
 	LoggingChannelFlags_t GetFlags();
 
-	using Scope = LoggerScope;
+	// Bcompatibility.
+	using Scope = CLoggerScope;
 
 protected:
 	LoggingResponse_t InternalMessage(LoggingSeverity_t eSeverity, const CUtlString &sContent) override;

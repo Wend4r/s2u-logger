@@ -21,27 +21,27 @@
 
 #include <logger.hpp>
 
-Logger::Logger(const char *pszName, RegisterTagsFunc pfnRegisterTagsFunc, int iFlags, LoggingVerbosity_t eVerbosity, Color aDefault)
+CLogger::CLogger(const char *pszName, RegisterTagsFunc pfnRegisterTagsFunc, int iFlags, LoggingVerbosity_t eVerbosity, Color aDefault)
 {
 	m_nChannelID = LoggingSystem_RegisterLoggingChannel(pszName, pfnRegisterTagsFunc, iFlags, eVerbosity, aDefault);
 }
 
-bool Logger::IsChannelEnabled(LoggingSeverity_t eSeverity)
+bool CLogger::IsChannelEnabled(LoggingSeverity_t eSeverity)
 {
 	return LoggingSystem_IsChannelEnabled(m_nChannelID, eSeverity);
 }
 
-bool Logger::IsChannelEnabled(LoggingVerbosity_t eVerbosity)
+bool CLogger::IsChannelEnabled(LoggingVerbosity_t eVerbosity)
 {
 	return LoggingSystem_IsChannelEnabled(m_nChannelID, eVerbosity);
 }
 
-LoggingVerbosity_t Logger::GetChannelVerbosity()
+LoggingVerbosity_t CLogger::GetChannelVerbosity()
 {
 	return LoggingSystem_GetChannelVerbosity(m_nChannelID);
 }
 
-Color Logger::GetColor()
+Color CLogger::GetColor()
 {
 	Color rgba;
 
@@ -50,32 +50,32 @@ Color Logger::GetColor()
 	return rgba;
 }
 
-LoggingChannelFlags_t Logger::GetFlags()
+LoggingChannelFlags_t CLogger::GetFlags()
 {
 	return LoggingSystem_GetChannelFlags(m_nChannelID);
 }
 
-LoggingResponse_t Logger::InternalMessage(LoggingSeverity_t eSeverity, const char *pszContent)
+LoggingResponse_t CLogger::InternalMessage(LoggingSeverity_t eSeverity, const char *pszContent)
 {
 	return LoggingSystem_LogDirect(m_nChannelID, eSeverity, pszContent);
 }
 
-LoggingResponse_t Logger::InternalMessage(LoggingSeverity_t eSeverity, Color aColor, const char *pszContent)
+LoggingResponse_t CLogger::InternalMessage(LoggingSeverity_t eSeverity, Color aColor, const char *pszContent)
 {
 	return LoggingSystem_LogDirect(m_nChannelID, eSeverity, aColor, pszContent);
 }
 
-LoggingResponse_t Logger::InternalMessage(LoggingSeverity_t eSeverity, const LeafCodeInfo_t &aCode, const char *pszContent)
+LoggingResponse_t CLogger::InternalMessage(LoggingSeverity_t eSeverity, const LeafCodeInfo_t &aCode, const char *pszContent)
 {
 	return LoggingSystem_LogDirect(m_nChannelID, eSeverity, aCode, pszContent);
 }
 
-LoggingResponse_t Logger::InternalMessage(LoggingSeverity_t eSeverity, const LeafCodeInfo_t &aCode, Color aColor, const char *pszContent)
+LoggingResponse_t CLogger::InternalMessage(LoggingSeverity_t eSeverity, const LeafCodeInfo_t &aCode, Color aColor, const char *pszContent)
 {
 	return LoggingSystem_LogDirect(m_nChannelID, eSeverity, aCode, aColor, pszContent);
 }
 
-LoggingResponse_t Logger::InternalMessageFormat(LoggingSeverity_t eSeverity, const char *pszFormat, ...)
+LoggingResponse_t CLogger::InternalMessageFormat(LoggingSeverity_t eSeverity, const char *pszFormat, ...)
 {
 	char sBuffer[1024];
 
@@ -88,7 +88,7 @@ LoggingResponse_t Logger::InternalMessageFormat(LoggingSeverity_t eSeverity, con
 	return InternalMessage(eSeverity, sBuffer);
 }
 
-LoggingResponse_t Logger::InternalMessageFormat(LoggingSeverity_t eSeverity, Color aColor, const char *pszFormat, ...)
+LoggingResponse_t CLogger::InternalMessageFormat(LoggingSeverity_t eSeverity, Color aColor, const char *pszFormat, ...)
 {
 	char sBuffer[MAX_LOGGING_MESSAGE_LENGTH];
 
@@ -101,7 +101,7 @@ LoggingResponse_t Logger::InternalMessageFormat(LoggingSeverity_t eSeverity, Col
 	return InternalMessage(eSeverity, aColor, sBuffer);
 }
 
-LoggingResponse_t Logger::InternalMessageFormat(LoggingSeverity_t eSeverity, const LeafCodeInfo_t &aCode, const char *pszFormat, ...)
+LoggingResponse_t CLogger::InternalMessageFormat(LoggingSeverity_t eSeverity, const LeafCodeInfo_t &aCode, const char *pszFormat, ...)
 {
 	char sBuffer[MAX_LOGGING_MESSAGE_LENGTH];
 
@@ -114,7 +114,7 @@ LoggingResponse_t Logger::InternalMessageFormat(LoggingSeverity_t eSeverity, con
 	return InternalMessage(eSeverity, sBuffer);
 }
 
-LoggingResponse_t Logger::InternalMessageFormat(LoggingSeverity_t eSeverity, const LeafCodeInfo_t &aCode, Color aColor, const char *pszFormat, ...)
+LoggingResponse_t CLogger::InternalMessageFormat(LoggingSeverity_t eSeverity, const LeafCodeInfo_t &aCode, Color aColor, const char *pszFormat, ...)
 {
 	char sBuffer[MAX_LOGGING_MESSAGE_LENGTH];
 
@@ -127,7 +127,7 @@ LoggingResponse_t Logger::InternalMessageFormat(LoggingSeverity_t eSeverity, con
 	return InternalMessage(eSeverity, aColor, sBuffer);
 }
 
-void Logger::DoTests()
+void CLogger::DoTests()
 { 
 	DetailedFormat("LS_DETAILED = %d\n", LS_DETAILED);
 	MessageFormat("LS_MESSAGE = %d\n", LS_MESSAGE);

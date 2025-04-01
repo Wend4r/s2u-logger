@@ -35,10 +35,10 @@
 #include "logger/throw_assert.hpp"
 #include "logger/error.hpp"
 
-class Logger : public CLoggingDetailed, public CLoggingMessage, public CLoggingWarning, public CLoggingThrowAssert, public CLoggingError
+class CLogger : public CLoggingDetailed, public CLoggingMessage, public CLoggingWarning, public CLoggingThrowAssert, public CLoggingError
 {
 public:
-	Logger(const char *pszName, RegisterTagsFunc pfnRegisterTagsFunc, int iFlags = 0, LoggingVerbosity_t eVerbosity = LV_DEFAULT, Color aDefault = UNSPECIFIED_LOGGING_COLOR);
+	CLogger(const char *pszName, RegisterTagsFunc pfnRegisterTagsFunc, int iFlags = 0, LoggingVerbosity_t eVerbosity = LV_DEFAULT, Color aDefault = UNSPECIFIED_LOGGING_COLOR);
 
 public:
 	bool IsChannelEnabled(LoggingSeverity_t eSeverity);
@@ -65,6 +65,10 @@ protected:
 
 private:
 	LoggingChannelID_t m_nChannelID;
+}; // CLogger
+
+class Logger final : public CLogger
+{
 }; // Logger
 
 #endif // _INCLUDE_LOGGER_HPP_

@@ -16,7 +16,7 @@ public:
 	using SendFunc_t = std::function<void (const CUtlString &)>;
 	using SendColorFunc_t = std::function<void (Color, const CUtlString &)>;
 
-	CLoggerScope(Color rgbaInit, const CUtlString &sStartWith = "", const CUtlString &sEnd = "\n");
+	CLoggerScope(Color rgbaInit, const char *pszStartWith = "", const char *pszEnd = "\n");
 
 	CLoggerScope &operator+=(const CLoggerScope &);
 
@@ -27,8 +27,8 @@ public:
 
 	void SetColor(Color rgba);
 
-	int Push(const CUtlString &sContent);
-	int Push(Color rgba, const CUtlString &sContent);
+	int Push(const char *pszContent);
+	int Push(Color rgba, const char *pszContent);
 
 	int PushFormat(const char *pszFormat, ...) FMTFUNCTION(2, 3);
 	int PushFormat(Color rgba, const char *pszFormat, ...) FMTFUNCTION(3, 4);
@@ -39,11 +39,11 @@ public:
 	class Message_t
 	{
 	public:
-		Message_t(Color rgbaInit, const CUtlString &sContent = "");
+		Message_t(Color rgbaInit, const char *pszContent = "");
 
 		Color GetColor() const;
 		const CUtlString &Get() const;
-		int SetWithCopy(const CUtlString &sContent);
+		int SetWithCopy(const char *pszContent);
 
 	private:
 		Color m_aColor;

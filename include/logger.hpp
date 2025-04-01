@@ -38,7 +38,7 @@
 class Logger : public CLoggingDetailed, public CLoggingMessage, public CLoggingWarning, public CLoggingThrowAssert, public CLoggingError
 {
 public:
-	Logger(const CUtlString &sName, RegisterTagsFunc pfnRegisterTagsFunc, int iFlags = 0, LoggingVerbosity_t eVerbosity = LV_DEFAULT, Color aDefault = UNSPECIFIED_LOGGING_COLOR);
+	Logger(const char *pszName, RegisterTagsFunc pfnRegisterTagsFunc, int iFlags = 0, LoggingVerbosity_t eVerbosity = LV_DEFAULT, Color aDefault = UNSPECIFIED_LOGGING_COLOR);
 
 public:
 	bool IsChannelEnabled(LoggingSeverity_t eSeverity);
@@ -51,10 +51,10 @@ public:
 	using Scope = CLoggerScope;
 
 protected:
-	LoggingResponse_t InternalMessage(LoggingSeverity_t eSeverity, const CUtlString &sContent) override;
-	LoggingResponse_t InternalMessage(LoggingSeverity_t eSeverity, Color aColor, const CUtlString &sContent) override;
-	LoggingResponse_t InternalMessage(LoggingSeverity_t eSeverity, const LeafCodeInfo_t &aCode, const CUtlString &sContent) override;
-	LoggingResponse_t InternalMessage(LoggingSeverity_t eSeverity, const LeafCodeInfo_t &aCode, Color aColor, const CUtlString &sContent) override;
+	LoggingResponse_t InternalMessage(LoggingSeverity_t eSeverity, const char *pszContent) override;
+	LoggingResponse_t InternalMessage(LoggingSeverity_t eSeverity, Color aColor, const char *pszContent) override;
+	LoggingResponse_t InternalMessage(LoggingSeverity_t eSeverity, const LeafCodeInfo_t &aCode, const char *pszContent) override;
+	LoggingResponse_t InternalMessage(LoggingSeverity_t eSeverity, const LeafCodeInfo_t &aCode, Color aColor, const char *pszContent) override;
 
 	LoggingResponse_t InternalMessageFormat(LoggingSeverity_t eSeverity, const char *pszFormat, ...) override;
 	LoggingResponse_t InternalMessageFormat(LoggingSeverity_t eSeverity, Color aColor, const char *pszFormat, ...) override;

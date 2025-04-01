@@ -21,9 +21,9 @@
 
 #include <logger.hpp>
 
-Logger::Logger(const CUtlString &sName, RegisterTagsFunc pfnRegisterTagsFunc, int iFlags, LoggingVerbosity_t eVerbosity, Color aDefault)
+Logger::Logger(const char *pszName, RegisterTagsFunc pfnRegisterTagsFunc, int iFlags, LoggingVerbosity_t eVerbosity, Color aDefault)
 {
-	m_nChannelID = LoggingSystem_RegisterLoggingChannel(sName, pfnRegisterTagsFunc, iFlags, eVerbosity, aDefault);
+	m_nChannelID = LoggingSystem_RegisterLoggingChannel(pszName, pfnRegisterTagsFunc, iFlags, eVerbosity, aDefault);
 }
 
 bool Logger::IsChannelEnabled(LoggingSeverity_t eSeverity)
@@ -55,24 +55,24 @@ LoggingChannelFlags_t Logger::GetFlags()
 	return LoggingSystem_GetChannelFlags(m_nChannelID);
 }
 
-LoggingResponse_t Logger::InternalMessage(LoggingSeverity_t eSeverity, const CUtlString &sContent)
+LoggingResponse_t Logger::InternalMessage(LoggingSeverity_t eSeverity, const char *pszContent)
 {
-	return LoggingSystem_LogDirect(m_nChannelID, eSeverity, sContent);
+	return LoggingSystem_LogDirect(m_nChannelID, eSeverity, pszContent);
 }
 
-LoggingResponse_t Logger::InternalMessage(LoggingSeverity_t eSeverity, Color aColor, const CUtlString &sContent)
+LoggingResponse_t Logger::InternalMessage(LoggingSeverity_t eSeverity, Color aColor, const char *pszContent)
 {
-	return LoggingSystem_LogDirect(m_nChannelID, eSeverity, aColor, sContent);
+	return LoggingSystem_LogDirect(m_nChannelID, eSeverity, aColor, pszContent);
 }
 
-LoggingResponse_t Logger::InternalMessage(LoggingSeverity_t eSeverity, const LeafCodeInfo_t &aCode, const CUtlString &sContent)
+LoggingResponse_t Logger::InternalMessage(LoggingSeverity_t eSeverity, const LeafCodeInfo_t &aCode, const char *pszContent)
 {
-	return LoggingSystem_LogDirect(m_nChannelID, eSeverity, aCode, sContent);
+	return LoggingSystem_LogDirect(m_nChannelID, eSeverity, aCode, pszContent);
 }
 
-LoggingResponse_t Logger::InternalMessage(LoggingSeverity_t eSeverity, const LeafCodeInfo_t &aCode, Color aColor, const CUtlString &sContent)
+LoggingResponse_t Logger::InternalMessage(LoggingSeverity_t eSeverity, const LeafCodeInfo_t &aCode, Color aColor, const char *pszContent)
 {
-	return LoggingSystem_LogDirect(m_nChannelID, eSeverity, aCode, aColor, sContent);
+	return LoggingSystem_LogDirect(m_nChannelID, eSeverity, aCode, aColor, pszContent);
 }
 
 LoggingResponse_t Logger::InternalMessageFormat(LoggingSeverity_t eSeverity, const char *pszFormat, ...)

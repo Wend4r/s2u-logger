@@ -14,8 +14,8 @@ class CLoggingDetailed : virtual protected ILogging
 	using This = CLoggingDetailed;
 
 public:
-	virtual LoggingResponse_t Detailed(const CUtlString &sContent);
-	virtual LoggingResponse_t Detailed(Color aColor, const CUtlString &sContent);
+	virtual LoggingResponse_t Detailed(const char *pszContent);
+	virtual LoggingResponse_t Detailed(Color aColor, const char *pszContent);
 
 	virtual LoggingResponse_t DetailedFormat(const char *pszFormat, ...) FMTFUNCTION(2, 3);
 	virtual LoggingResponse_t DetailedFormat(Color aColor, const char *pszFormat, ...) FMTFUNCTION(3, 4);
@@ -24,7 +24,7 @@ public:
 	virtual LoggingResponse_t DetailedFormatLn(Color aColor, const char *pszFormat, ...) FMTFUNCTION(3, 4);
 
 public:
-	virtual CLoggerScope CreateDetailsScope(const CUtlString &sStartWith = "", const CUtlString &sEnd = "\n");
+	virtual CLoggerScope CreateDetailsScope(const char *pszStartWith = "", const char *pszEnd = "\n");
 
 protected:
 	static const LoggingSeverity_t s_eSeverity = LS_DETAILED;

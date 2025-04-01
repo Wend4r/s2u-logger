@@ -5,12 +5,12 @@
 #include <tier0/logging.h>
 #include <tier0/strtools.h>
 
-CLoggerScope::CLoggerScope(Color rgba, const CUtlString &sStartWith, const CUtlString &sEnd)
+CLoggerScope::CLoggerScope(Color rgba, const char *pszStartWith, const char *pszEnd)
 {
 	m_aColor = rgba;
 
-	m_sStartWith = sStartWith;
-	m_aEnd = sEnd;
+	m_sStartWith = pszStartWith;
+	m_aEnd = pszEnd;
 }
 
 CLoggerScope &CLoggerScope::operator+=(const CLoggerScope &aTarget)
@@ -106,22 +106,22 @@ void CLoggerScope::SetColor(Color rgba)
 	m_aColor = rgba;
 }
 
-int CLoggerScope::Push(const CUtlString &sContent)
+int CLoggerScope::Push(const char *pszContent)
 {
 	Message_t aMsg(m_aColor);
 
-	int nStoredLength = aMsg.SetWithCopy(sContent);
+	int nStoredLength = aMsg.SetWithCopy(pszContent);
 
 	m_vec.AddToTail(aMsg);
 
 	return nStoredLength;
 }
 
-int CLoggerScope::Push(Color rgba, const CUtlString &sContent)
+int CLoggerScope::Push(Color rgba, const char *pszContent)
 {
 	Message_t aMsg(rgba);
 
-	int nStoredLength = aMsg.SetWithCopy(sContent);
+	int nStoredLength = aMsg.SetWithCopy(pszContent);
 
 	m_vec.AddToTail(aMsg);
 
@@ -215,9 +215,9 @@ int CLoggerScope::SendColor(const SendColorFunc_t &funcOn)
 	return nSize;
 }
 
-CLoggerScope::Message_t::Message_t(Color rgbaInit, const CUtlString &sContent)
+CLoggerScope::Message_t::Message_t(Color rgbaInit, const char *pszContent)
  :  m_aColor(rgbaInit),
-    m_sContent(sContent)
+    m_sContent(pszContent)
 {
 }
 
@@ -231,9 +231,9 @@ const CUtlString &CLoggerScope::Message_t::Get() const
 	return m_sContent;
 }
 
-int CLoggerScope::Message_t::SetWithCopy(const CUtlString &sContent)
+int CLoggerScope::Message_t::SetWithCopy(const char *pszContent)
 {
-	m_sContent = sContent;
+	m_sContent = pszContent;
 
 	return m_sContent.Length();
 }

@@ -4,14 +4,14 @@
 
 #include <tier0/strtools.h>
 
-LoggingResponse_t CLoggingWarning::Warning(const CUtlString &sContent)
+LoggingResponse_t CLoggingWarning::Warning(const char *pszContent)
 {
-	return InternalMessage(This::s_eSeverity, sContent);
+	return InternalMessage(This::s_eSeverity, pszContent);
 }
 
-LoggingResponse_t CLoggingWarning::Warning(Color aColor, const CUtlString &sContent)
+LoggingResponse_t CLoggingWarning::Warning(Color aColor, const char *pszContent)
 {
-	return InternalMessage(This::s_eSeverity, aColor, sContent);
+	return InternalMessage(This::s_eSeverity, aColor, pszContent);
 }
 
 LoggingResponse_t CLoggingWarning::WarningFormat(const char *pszFormat, ...)
@@ -72,7 +72,7 @@ LoggingResponse_t CLoggingWarning::WarningFormatLn(Color aColor, const char *psz
 	return Warning(aColor, sBuffer);
 }
 
-CLoggerScope CLoggingWarning::CreateWarningsScope(const CUtlString &sStartWith, const CUtlString &sEnd)
+CLoggerScope CLoggingWarning::CreateWarningsScope(const char *pszStartWith, const char *pszEnd)
 {
 #ifdef DEBUG
 	char sDebugWith[32];
@@ -83,10 +83,10 @@ CLoggerScope CLoggingWarning::CreateWarningsScope(const CUtlString &sStartWith, 
 
 	int nResultSize = V_strlen(pDebugWithResult);
 
-	V_strncpy(&pDebugWithResult[nResultSize], sStartWith, (int)(sizeof(sDebugWith) - nResultSize));
+	V_strncpy(&pDebugWithResult[nResultSize], pszStartWith, (int)(sizeof(sDebugWith) - nResultSize));
 
-	return {LOGGER_COLOR_WARNING, pDebugWithResult, sEnd};
+	return {LOGGER_COLOR_WARNING, pDebugWithResult, pszEnd};
 #else
-	return {LOGGER_COLOR_WARNING, sStartWith, sEnd};
+	return {LOGGER_COLOR_WARNING, pszStartWith, pszEnd};
 #endif
 }

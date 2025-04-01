@@ -4,14 +4,14 @@
 
 #include <tier0/strtools.h>
 
-LoggingResponse_t CLoggingMessage::Message(const CUtlString &sContent)
+LoggingResponse_t CLoggingMessage::Message(const char *pszContent)
 {
-	return InternalMessage(This::s_eSeverity, sContent);
+	return InternalMessage(This::s_eSeverity, pszContent);
 }
 
-LoggingResponse_t CLoggingMessage::Message(Color aColor, const CUtlString &sContent)
+LoggingResponse_t CLoggingMessage::Message(Color aColor, const char *pszContent)
 {
-	return InternalMessage(This::s_eSeverity, aColor, sContent);
+	return InternalMessage(This::s_eSeverity, aColor, pszContent);
 }
 
 LoggingResponse_t CLoggingMessage::MessageFormat(const char *pszFormat, ...)
@@ -72,7 +72,7 @@ LoggingResponse_t CLoggingMessage::MessageFormatLn(Color aColor, const char *psz
 	return Message(aColor, sBuffer);
 }
 
-CLoggerScope CLoggingMessage::CreateMessagesScope(const CUtlString &sStartWith, const CUtlString &sEnd)
+CLoggerScope CLoggingMessage::CreateMessagesScope(const char *pszStartWith, const char *pszEnd)
 {
 #ifdef DEBUG
 	char sDebugWith[32];
@@ -83,10 +83,10 @@ CLoggerScope CLoggingMessage::CreateMessagesScope(const CUtlString &sStartWith, 
 
 	int nResultSize = V_strlen(pDebugWithResult);
 
-	V_strncpy(&pDebugWithResult[nResultSize], sStartWith, (int)(sizeof(sDebugWith) - nResultSize));
+	V_strncpy(&pDebugWithResult[nResultSize], pszStartWith, (int)(sizeof(sDebugWith) - nResultSize));
 
-	return {LOGGER_COLOR_MESSAGE, pDebugWithResult, sEnd};
+	return {LOGGER_COLOR_MESSAGE, pDebugWithResult, pszEnd};
 #else
-	return {LOGGER_COLOR_MESSAGE, sStartWith, sEnd};
+	return {LOGGER_COLOR_MESSAGE, pszStartWith, pszEnd};
 #endif
 }

@@ -71,6 +71,9 @@ private:
 
 class Logger final : public CLogger
 {
+public:
+	using CBase = CLogger;
+	using CBase::CBase;
 }; // Logger
 
 #endif // _INCLUDE_LOGGER_HPP_

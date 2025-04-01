@@ -1,8 +1,6 @@
 #ifndef _INCLUDE_LOGGER_WARNING_HPP_
 #define _INCLUDE_LOGGER_WARNING_HPP_
 
-#pragma once
-
 #include "ilogging.hpp"
 #include "scope.hpp"
 
@@ -16,17 +14,17 @@ class CLoggingWarning : virtual protected ILogging
 	using This = CLoggingWarning;
 
 public:
-	virtual LoggingResponse_t Warning(const char *pszContent);
-	virtual LoggingResponse_t Warning(Color aColor, const char *pszContent);
+	virtual LoggingResponse_t Warning(const char *pszContent) const;
+	virtual LoggingResponse_t Warning(Color aColor, const char *pszContent) const;
 
-	virtual LoggingResponse_t WarningFormat(const char *pszFormat, ...) FMTFUNCTION(2, 3);
-	virtual LoggingResponse_t WarningFormat(Color aColor, const char *pszFormat, ...) FMTFUNCTION(3, 4);
+	virtual LoggingResponse_t WarningFormat(const char *pszFormat, ...) const FMTFUNCTION(2, 3);
+	virtual LoggingResponse_t WarningFormat(Color aColor, const char *pszFormat, ...) const FMTFUNCTION(3, 4);
 
-	virtual LoggingResponse_t WarningFormatLn(const char *pszFormat, ...) FMTFUNCTION(2, 3);
-	virtual LoggingResponse_t WarningFormatLn(Color aColor, const char *pszFormat, ...) FMTFUNCTION(3, 4);
+	virtual LoggingResponse_t WarningFormatLn(const char *pszFormat, ...) const FMTFUNCTION(2, 3);
+	virtual LoggingResponse_t WarningFormatLn(Color aColor, const char *pszFormat, ...) const FMTFUNCTION(3, 4);
 
 public:
-	virtual CLoggerScope CreateWarningsScope(const char *pszStartWith = "", const char *pszEnd = "\n");
+	virtual CLoggerScope CreateWarningsScope(const char *pszStartWith = "", const char *pszEnd = "\n") const;
 
 protected:
 	static const LoggingSeverity_t s_eSeverity = LS_WARNING;

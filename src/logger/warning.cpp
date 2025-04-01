@@ -6,17 +6,17 @@
 #include <tier0/bufferstring.h>
 #include <tier0/strtools.h>
 
-LoggingResponse_t CLoggingWarning::Warning(const char *pszContent)
+LoggingResponse_t CLoggingWarning::Warning(const char *pszContent) const
 {
 	return InternalMessage(This::s_eSeverity, pszContent);
 }
 
-LoggingResponse_t CLoggingWarning::Warning(Color aColor, const char *pszContent)
+LoggingResponse_t CLoggingWarning::Warning(Color aColor, const char *pszContent) const
 {
 	return InternalMessage(This::s_eSeverity, aColor, pszContent);
 }
 
-LoggingResponse_t CLoggingWarning::WarningFormat(const char *pszFormat, ...)
+LoggingResponse_t CLoggingWarning::WarningFormat(const char *pszFormat, ...) const
 {
 	CBufferStringLog sBuffer;
 
@@ -25,7 +25,7 @@ LoggingResponse_t CLoggingWarning::WarningFormat(const char *pszFormat, ...)
 	return Warning(sBuffer);
 }
 
-LoggingResponse_t CLoggingWarning::WarningFormat(Color aColor, const char *pszFormat, ...)
+LoggingResponse_t CLoggingWarning::WarningFormat(Color aColor, const char *pszFormat, ...) const
 {
 	CBufferStringLog sBuffer;
 
@@ -34,7 +34,7 @@ LoggingResponse_t CLoggingWarning::WarningFormat(Color aColor, const char *pszFo
 	return Warning(aColor, sBuffer);
 }
 
-LoggingResponse_t CLoggingWarning::WarningFormatLn(const char *pszFormat, ...)
+LoggingResponse_t CLoggingWarning::WarningFormatLn(const char *pszFormat, ...) const
 {
 	CBufferStringLog sBuffer;
 
@@ -44,7 +44,7 @@ LoggingResponse_t CLoggingWarning::WarningFormatLn(const char *pszFormat, ...)
 	return Warning(sBuffer);
 }
 
-LoggingResponse_t CLoggingWarning::WarningFormatLn(Color aColor, const char *pszFormat, ...)
+LoggingResponse_t CLoggingWarning::WarningFormatLn(Color aColor, const char *pszFormat, ...) const
 {
 	CBufferStringLog sBuffer;
 
@@ -54,7 +54,7 @@ LoggingResponse_t CLoggingWarning::WarningFormatLn(Color aColor, const char *psz
 	return Warning(aColor, sBuffer);
 }
 
-CLoggerScope CLoggingWarning::CreateWarningsScope(const char *pszStartWith, const char *pszEnd)
+CLoggerScope CLoggingWarning::CreateWarningsScope(const char *pszStartWith, const char *pszEnd) const
 {
 #ifdef DEBUG
 	CBufferStringLog sStartWith(LOGGER_FORMAT_WARNING_STARTWITH);

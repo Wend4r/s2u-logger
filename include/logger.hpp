@@ -43,27 +43,27 @@ public:
 	CLogger(const char *pszName, RegisterTagsFunc pfnRegisterTagsFunc, int iFlags = 0, LoggingVerbosity_t eVerbosity = LV_DEFAULT, Color aDefault = UNSPECIFIED_LOGGING_COLOR);
 
 public:
-	bool IsChannelEnabled(LoggingSeverity_t eSeverity);
-	bool IsChannelEnabled(LoggingVerbosity_t eVerbosity);
-	LoggingVerbosity_t GetChannelVerbosity();
-	Color GetColor();
-	LoggingChannelFlags_t GetFlags();
+	bool IsChannelEnabled(LoggingSeverity_t eSeverity) const;
+	bool IsChannelEnabled(LoggingVerbosity_t eVerbosity) const;
+	LoggingVerbosity_t GetChannelVerbosity() const;
+	Color GetColor() const;
+	LoggingChannelFlags_t GetFlags() const;
 
 	// Bcompatibility.
 	using Scope = CLoggerScope;
 
 protected:
-	LoggingResponse_t InternalMessage(LoggingSeverity_t eSeverity, const char *pszContent) override;
-	LoggingResponse_t InternalMessage(LoggingSeverity_t eSeverity, Color aColor, const char *pszContent) override;
-	LoggingResponse_t InternalMessage(LoggingSeverity_t eSeverity, const LeafCodeInfo_t &aCode, const char *pszContent) override;
-	LoggingResponse_t InternalMessage(LoggingSeverity_t eSeverity, const LeafCodeInfo_t &aCode, Color aColor, const char *pszContent) override;
+	LoggingResponse_t InternalMessage(LoggingSeverity_t eSeverity, const char *pszContent) const override;
+	LoggingResponse_t InternalMessage(LoggingSeverity_t eSeverity, Color aColor, const char *pszContent) const override;
+	LoggingResponse_t InternalMessage(LoggingSeverity_t eSeverity, const LeafCodeInfo_t &aCode, const char *pszContent) const override;
+	LoggingResponse_t InternalMessage(LoggingSeverity_t eSeverity, const LeafCodeInfo_t &aCode, Color aColor, const char *pszContent) const override;
 
-	LoggingResponse_t InternalMessageFormat(LoggingSeverity_t eSeverity, const char *pszFormat, ...) override;
-	LoggingResponse_t InternalMessageFormat(LoggingSeverity_t eSeverity, Color aColor, const char *pszFormat, ...) override;
-	LoggingResponse_t InternalMessageFormat(LoggingSeverity_t eSeverity, const LeafCodeInfo_t &aCode, const char *pszFormat, ...) override;
-	LoggingResponse_t InternalMessageFormat(LoggingSeverity_t eSeverity, const LeafCodeInfo_t &aCode, Color aColor, const char *pszFormat, ...) override;
+	LoggingResponse_t InternalMessageFormat(LoggingSeverity_t eSeverity, const char *pszFormat, ...) const override;
+	LoggingResponse_t InternalMessageFormat(LoggingSeverity_t eSeverity, Color aColor, const char *pszFormat, ...) const override;
+	LoggingResponse_t InternalMessageFormat(LoggingSeverity_t eSeverity, const LeafCodeInfo_t &aCode, const char *pszFormat, ...) const override;
+	LoggingResponse_t InternalMessageFormat(LoggingSeverity_t eSeverity, const LeafCodeInfo_t &aCode, Color aColor, const char *pszFormat, ...) const override;
 
-	void DoTests();
+	void DoTests() const;
 
 private:
 	LoggingChannelID_t m_nChannelID;

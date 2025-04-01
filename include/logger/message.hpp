@@ -16,17 +16,17 @@ class CLoggingMessage : virtual protected ILogging
 	using This = CLoggingMessage;
 
 public:
-	virtual LoggingResponse_t Message(const char *pszContent);
-	virtual LoggingResponse_t Message(Color aColor, const char *pszContent);
+	virtual LoggingResponse_t Message(const char *pszContent) const;
+	virtual LoggingResponse_t Message(Color aColor, const char *pszContent) const;
 
-	virtual LoggingResponse_t MessageFormat(const char *pszFormat, ...) FMTFUNCTION(2, 3);
-	virtual LoggingResponse_t MessageFormat(Color aColor, const char *pszFormat, ...) FMTFUNCTION(3, 4);
+	virtual LoggingResponse_t MessageFormat(const char *pszFormat, ...) const FMTFUNCTION(2, 3);
+	virtual LoggingResponse_t MessageFormat(Color aColor, const char *pszFormat, ...) const FMTFUNCTION(3, 4);
 
-	virtual LoggingResponse_t MessageFormatLn(const char *pszFormat, ...) FMTFUNCTION(2, 3);
-	virtual LoggingResponse_t MessageFormatLn(Color aColor, const char *pszFormat, ...) FMTFUNCTION(3, 4);
+	virtual LoggingResponse_t MessageFormatLn(const char *pszFormat, ...) const FMTFUNCTION(2, 3);
+	virtual LoggingResponse_t MessageFormatLn(Color aColor, const char *pszFormat, ...) const FMTFUNCTION(3, 4);
 
 public:
-	virtual CLoggerScope CreateMessagesScope(const char *pszStartWith = "", const char *pszEnd = "\n");
+	virtual CLoggerScope CreateMessagesScope(const char *pszStartWith = "", const char *pszEnd = "\n") const;
 
 protected:
 	static const LoggingSeverity_t s_eSeverity = LS_MESSAGE;

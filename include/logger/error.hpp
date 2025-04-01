@@ -16,17 +16,17 @@ class CLoggingError : virtual protected ILogging
 	using This = CLoggingError;
 
 public:
-	virtual LoggingResponse_t Error(const char *pszContent);
-	virtual LoggingResponse_t Error(Color aColor, const char *pszContent);
+	virtual LoggingResponse_t Error(const char *pszContent) const;
+	virtual LoggingResponse_t Error(Color aColor, const char *pszContent) const;
 
-	virtual LoggingResponse_t ErrorFormat(const char *pszFormat, ...) FMTFUNCTION(2, 3);
-	virtual LoggingResponse_t ErrorFormat(Color aColor, const char *pszFormat, ...) FMTFUNCTION(3, 4);
+	virtual LoggingResponse_t ErrorFormat(const char *pszFormat, ...) const FMTFUNCTION(2, 3);
+	virtual LoggingResponse_t ErrorFormat(Color aColor, const char *pszFormat, ...) const FMTFUNCTION(3, 4);
 
-	virtual LoggingResponse_t ErrorFormatLn(const char *pszFormat, ...) FMTFUNCTION(2, 3);
-	virtual LoggingResponse_t ErrorFormatLn(Color aColor, const char *pszFormat, ...) FMTFUNCTION(3, 4);
+	virtual LoggingResponse_t ErrorFormatLn(const char *pszFormat, ...) const FMTFUNCTION(2, 3);
+	virtual LoggingResponse_t ErrorFormatLn(Color aColor, const char *pszFormat, ...) const FMTFUNCTION(3, 4);
 
 public:
-	virtual CLoggerScope CreateErrorsScope(const char *pszStartWith = "", const char *pszEnd = "\n");
+	virtual CLoggerScope CreateErrorsScope(const char *pszStartWith = "", const char *pszEnd = "\n") const;
 
 protected:
 	static const LoggingSeverity_t s_eSeverity = LS_ERROR;

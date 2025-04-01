@@ -6,17 +6,17 @@
 #include <tier0/bufferstring.h>
 #include <tier0/strtools.h>
 
-LoggingResponse_t CLoggingDetailed::Detailed(const char *pszContent)
+LoggingResponse_t CLoggingDetailed::Detailed(const char *pszContent) const
 {
 	return InternalMessage(This::s_eSeverity, pszContent);
 }
 
-LoggingResponse_t CLoggingDetailed::Detailed(Color aColor, const char *pszContent)
+LoggingResponse_t CLoggingDetailed::Detailed(Color aColor, const char *pszContent) const
 {
 	return InternalMessage(This::s_eSeverity, aColor, pszContent);
 }
 
-LoggingResponse_t CLoggingDetailed::DetailedFormat(const char *pszFormat, ...)
+LoggingResponse_t CLoggingDetailed::DetailedFormat(const char *pszFormat, ...) const
 {
 	CBufferStringLog sBuffer;
 
@@ -25,7 +25,7 @@ LoggingResponse_t CLoggingDetailed::DetailedFormat(const char *pszFormat, ...)
 	return Detailed(sBuffer);
 }
 
-LoggingResponse_t CLoggingDetailed::DetailedFormat(Color aColor, const char *pszFormat, ...)
+LoggingResponse_t CLoggingDetailed::DetailedFormat(Color aColor, const char *pszFormat, ...) const
 {
 	CBufferStringLog sBuffer;
 
@@ -34,7 +34,7 @@ LoggingResponse_t CLoggingDetailed::DetailedFormat(Color aColor, const char *psz
 	return Detailed(aColor, sBuffer);
 }
 
-LoggingResponse_t CLoggingDetailed::DetailedFormatLn(const char *pszFormat, ...)
+LoggingResponse_t CLoggingDetailed::DetailedFormatLn(const char *pszFormat, ...) const
 {
 	CBufferStringLog sBuffer;
 
@@ -44,7 +44,7 @@ LoggingResponse_t CLoggingDetailed::DetailedFormatLn(const char *pszFormat, ...)
 	return Detailed(sBuffer);
 }
 
-LoggingResponse_t CLoggingDetailed::DetailedFormatLn(Color aColor, const char *pszFormat, ...)
+LoggingResponse_t CLoggingDetailed::DetailedFormatLn(Color aColor, const char *pszFormat, ...) const
 {
 	CBufferStringLog sBuffer;
 
@@ -54,7 +54,7 @@ LoggingResponse_t CLoggingDetailed::DetailedFormatLn(Color aColor, const char *p
 	return Detailed(aColor, sBuffer);
 }
 
-CLoggerScope CLoggingDetailed::CreateDetailsScope(const char *pszStartWith, const char *pszEnd)
+CLoggerScope CLoggingDetailed::CreateDetailsScope(const char *pszStartWith, const char *pszEnd) const
 {
 #ifdef DEBUG
 	CBufferStringLog sStartWith(LOGGER_FORMAT_DETAILED_STARTWITH);

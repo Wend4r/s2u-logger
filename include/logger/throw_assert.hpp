@@ -16,17 +16,17 @@ class CLoggingThrowAssert : virtual protected ILogging
 	using This = CLoggingThrowAssert;
 
 public:
-	virtual LoggingResponse_t ThrowAssert(const LeafCodeInfo_t &aCode, const char *pszContent);
-	virtual LoggingResponse_t ThrowAssert(const LeafCodeInfo_t &aCode, Color aColor, const char *pszContent);
+	virtual LoggingResponse_t ThrowAssert(const LeafCodeInfo_t &aCode, const char *pszContent) const;
+	virtual LoggingResponse_t ThrowAssert(const LeafCodeInfo_t &aCode, Color aColor, const char *pszContent) const;
 
-	virtual LoggingResponse_t ThrowAssertFormat(const LeafCodeInfo_t &aCode, const char *pszFormat, ...) FMTFUNCTION(3, 4);
-	virtual LoggingResponse_t ThrowAssertFormat(const LeafCodeInfo_t &aCode, Color aColor, const char *pszFormat, ...) FMTFUNCTION(4, 5);
+	virtual LoggingResponse_t ThrowAssertFormat(const LeafCodeInfo_t &aCode, const char *pszFormat, ...) const FMTFUNCTION(3, 4);
+	virtual LoggingResponse_t ThrowAssertFormat(const LeafCodeInfo_t &aCode, Color aColor, const char *pszFormat, ...) const FMTFUNCTION(4, 5);
 
-	virtual LoggingResponse_t ThrowAssertFormatLn(const LeafCodeInfo_t &aCode, const char *pszFormat, ...) FMTFUNCTION(3, 4);
-	virtual LoggingResponse_t ThrowAssertFormatLn(const LeafCodeInfo_t &aCode, Color aColor, const char *pszFormat, ...) FMTFUNCTION(4, 5);
+	virtual LoggingResponse_t ThrowAssertFormatLn(const LeafCodeInfo_t &aCode, const char *pszFormat, ...) const FMTFUNCTION(3, 4);
+	virtual LoggingResponse_t ThrowAssertFormatLn(const LeafCodeInfo_t &aCode, Color aColor, const char *pszFormat, ...) const FMTFUNCTION(4, 5);
 
 public:
-	virtual CLoggerScope CreateAssertScope(const char *pszStartWith = "", const char *pszEnd = "\n");
+	virtual CLoggerScope CreateAssertScope(const char *pszStartWith = "", const char *pszEnd = "\n") const;
 
 protected:
 	static const LoggingSeverity_t s_eSeverity = LS_ASSERT;

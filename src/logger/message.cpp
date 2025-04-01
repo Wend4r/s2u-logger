@@ -6,17 +6,17 @@
 #include <tier0/bufferstring.h>
 #include <tier0/strtools.h>
 
-LoggingResponse_t CLoggingMessage::Message(const char *pszContent)
+LoggingResponse_t CLoggingMessage::Message(const char *pszContent) const
 {
 	return InternalMessage(This::s_eSeverity, pszContent);
 }
 
-LoggingResponse_t CLoggingMessage::Message(Color aColor, const char *pszContent)
+LoggingResponse_t CLoggingMessage::Message(Color aColor, const char *pszContent) const
 {
 	return InternalMessage(This::s_eSeverity, aColor, pszContent);
 }
 
-LoggingResponse_t CLoggingMessage::MessageFormat(const char *pszFormat, ...)
+LoggingResponse_t CLoggingMessage::MessageFormat(const char *pszFormat, ...) const
 {
 	CBufferStringLog sBuffer;
 
@@ -25,7 +25,7 @@ LoggingResponse_t CLoggingMessage::MessageFormat(const char *pszFormat, ...)
 	return Message(sBuffer);
 }
 
-LoggingResponse_t CLoggingMessage::MessageFormat(Color aColor, const char *pszFormat, ...)
+LoggingResponse_t CLoggingMessage::MessageFormat(Color aColor, const char *pszFormat, ...) const
 {
 	CBufferStringLog sBuffer;
 
@@ -34,7 +34,7 @@ LoggingResponse_t CLoggingMessage::MessageFormat(Color aColor, const char *pszFo
 	return Message(aColor, sBuffer);
 }
 
-LoggingResponse_t CLoggingMessage::MessageFormatLn(const char *pszFormat, ...)
+LoggingResponse_t CLoggingMessage::MessageFormatLn(const char *pszFormat, ...) const
 {
 	CBufferStringLog sBuffer;
 
@@ -44,7 +44,7 @@ LoggingResponse_t CLoggingMessage::MessageFormatLn(const char *pszFormat, ...)
 	return Message(sBuffer);
 }
 
-LoggingResponse_t CLoggingMessage::MessageFormatLn(Color aColor, const char *pszFormat, ...)
+LoggingResponse_t CLoggingMessage::MessageFormatLn(Color aColor, const char *pszFormat, ...) const
 {
 	CBufferStringLog sBuffer;
 
@@ -54,7 +54,7 @@ LoggingResponse_t CLoggingMessage::MessageFormatLn(Color aColor, const char *psz
 	return Message(aColor, sBuffer);
 }
 
-CLoggerScope CLoggingMessage::CreateMessagesScope(const char *pszStartWith, const char *pszEnd)
+CLoggerScope CLoggingMessage::CreateMessagesScope(const char *pszStartWith, const char *pszEnd) const
 {
 #ifdef DEBUG
 	CBufferStringLog sStartWith(LOGGER_FORMAT_MESSAGE_STARTWITH);

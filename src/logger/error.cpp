@@ -6,17 +6,17 @@
 #include <tier0/bufferstring.h>
 #include <tier0/strtools.h>
 
-LoggingResponse_t CLoggingError::Error(const char *pszContent)
+LoggingResponse_t CLoggingError::Error(const char *pszContent) const
 {
 	return InternalMessage(This::s_eSeverity, pszContent);
 }
 
-LoggingResponse_t CLoggingError::Error(Color aColor, const char *pszContent)
+LoggingResponse_t CLoggingError::Error(Color aColor, const char *pszContent) const
 {
 	return InternalMessage(This::s_eSeverity, aColor, pszContent);
 }
 
-LoggingResponse_t CLoggingError::ErrorFormat(const char *pszFormat, ...)
+LoggingResponse_t CLoggingError::ErrorFormat(const char *pszFormat, ...) const
 {
 	CBufferStringLog sBuffer;
 
@@ -25,7 +25,7 @@ LoggingResponse_t CLoggingError::ErrorFormat(const char *pszFormat, ...)
 	return Error(sBuffer);
 }
 
-LoggingResponse_t CLoggingError::ErrorFormat(Color aColor, const char *pszFormat, ...)
+LoggingResponse_t CLoggingError::ErrorFormat(Color aColor, const char *pszFormat, ...) const
 {
 	CBufferStringLog sBuffer;
 
@@ -34,7 +34,7 @@ LoggingResponse_t CLoggingError::ErrorFormat(Color aColor, const char *pszFormat
 	return Error(aColor, sBuffer);
 }
 
-LoggingResponse_t CLoggingError::ErrorFormatLn(const char *pszFormat, ...)
+LoggingResponse_t CLoggingError::ErrorFormatLn(const char *pszFormat, ...) const
 {
 	CBufferStringLog sBuffer;
 
@@ -44,7 +44,7 @@ LoggingResponse_t CLoggingError::ErrorFormatLn(const char *pszFormat, ...)
 	return Error(sBuffer);
 }
 
-LoggingResponse_t CLoggingError::ErrorFormatLn(Color aColor, const char *pszFormat, ...)
+LoggingResponse_t CLoggingError::ErrorFormatLn(Color aColor, const char *pszFormat, ...) const
 {
 	CBufferStringLog sBuffer;
 
@@ -54,7 +54,7 @@ LoggingResponse_t CLoggingError::ErrorFormatLn(Color aColor, const char *pszForm
 	return Error(aColor, sBuffer);
 }
 
-CLoggerScope CLoggingError::CreateErrorsScope(const char *pszStartWith, const char *pszEnd)
+CLoggerScope CLoggingError::CreateErrorsScope(const char *pszStartWith, const char *pszEnd) const
 {
 #ifdef DEBUG
 	CBufferStringLog sStartWith(LOGGER_FORMAT_ERROR_STARTWITH);

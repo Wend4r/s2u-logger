@@ -6,17 +6,17 @@
 #include <tier0/bufferstring.h>
 #include <tier0/strtools.h>
 
-LoggingResponse_t CLoggingThrowAssert::ThrowAssert(const LeafCodeInfo_t &aCode, const char *pszContent)
+LoggingResponse_t CLoggingThrowAssert::ThrowAssert(const LeafCodeInfo_t &aCode, const char *pszContent) const
 {
 	return InternalMessage(This::s_eSeverity, aCode, pszContent);
 }
 
-LoggingResponse_t CLoggingThrowAssert::ThrowAssert(const LeafCodeInfo_t &aCode, Color aColor, const char *pszContent)
+LoggingResponse_t CLoggingThrowAssert::ThrowAssert(const LeafCodeInfo_t &aCode, Color aColor, const char *pszContent) const
 {
 	return InternalMessage(This::s_eSeverity, aCode, aColor, pszContent);
 }
 
-LoggingResponse_t CLoggingThrowAssert::ThrowAssertFormat(const LeafCodeInfo_t &aCode, const char *pszFormat, ...)
+LoggingResponse_t CLoggingThrowAssert::ThrowAssertFormat(const LeafCodeInfo_t &aCode, const char *pszFormat, ...) const
 {
 	CBufferStringLog sBuffer;
 
@@ -25,7 +25,7 @@ LoggingResponse_t CLoggingThrowAssert::ThrowAssertFormat(const LeafCodeInfo_t &a
 	return ThrowAssert(aCode, sBuffer);
 }
 
-LoggingResponse_t CLoggingThrowAssert::ThrowAssertFormat(const LeafCodeInfo_t &aCode, Color aColor, const char *pszFormat, ...)
+LoggingResponse_t CLoggingThrowAssert::ThrowAssertFormat(const LeafCodeInfo_t &aCode, Color aColor, const char *pszFormat, ...) const
 {
 	CBufferStringLog sBuffer;
 
@@ -34,7 +34,7 @@ LoggingResponse_t CLoggingThrowAssert::ThrowAssertFormat(const LeafCodeInfo_t &a
 	return ThrowAssert(aCode, aColor, sBuffer);
 }
 
-LoggingResponse_t CLoggingThrowAssert::ThrowAssertFormatLn(const LeafCodeInfo_t &aCode, const char *pszFormat, ...)
+LoggingResponse_t CLoggingThrowAssert::ThrowAssertFormatLn(const LeafCodeInfo_t &aCode, const char *pszFormat, ...) const
 {
 	CBufferStringLog sBuffer;
 
@@ -44,7 +44,7 @@ LoggingResponse_t CLoggingThrowAssert::ThrowAssertFormatLn(const LeafCodeInfo_t 
 	return ThrowAssert(aCode, sBuffer);
 }
 
-LoggingResponse_t CLoggingThrowAssert::ThrowAssertFormatLn(const LeafCodeInfo_t &aCode, Color aColor, const char *pszFormat, ...)
+LoggingResponse_t CLoggingThrowAssert::ThrowAssertFormatLn(const LeafCodeInfo_t &aCode, Color aColor, const char *pszFormat, ...) const
 {
 	CBufferStringLog sBuffer;
 
@@ -54,7 +54,7 @@ LoggingResponse_t CLoggingThrowAssert::ThrowAssertFormatLn(const LeafCodeInfo_t 
 	return ThrowAssert(aCode, aColor, sBuffer);
 }
 
-CLoggerScope CLoggingThrowAssert::CreateAssertScope(const char *pszStartWith, const char *pszEnd)
+CLoggerScope CLoggingThrowAssert::CreateAssertScope(const char *pszStartWith, const char *pszEnd) const
 {
 #ifdef DEBUG
 	CBufferStringLog sStartWith(LOGGER_FORMAT_ASSERT_STARTWITH);

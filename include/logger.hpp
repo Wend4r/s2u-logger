@@ -22,6 +22,8 @@
 #ifndef _INCLUDE_LOGGER_HPP_
 #define _INCLUDE_LOGGER_HPP_
 
+#pragma once
+
 #include <stddef.h>
 #include <functional>
 #include <string>

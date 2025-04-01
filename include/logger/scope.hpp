@@ -1,6 +1,8 @@
 #ifndef _INCLUDE_LOGGER_SCOPE_HPP_
 #define _INCLUDE_LOGGER_SCOPE_HPP_
 
+#pragma once
+
 #include <functional>
 
 #include <color.h>

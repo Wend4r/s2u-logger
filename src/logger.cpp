@@ -19,7 +19,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+#include <logger/macros.hpp>
 #include <logger.hpp>
+
+#include <tier0/bufferstring.h>
 
 CLogger::CLogger(const char *pszName, RegisterTagsFunc pfnRegisterTagsFunc, int iFlags, LoggingVerbosity_t eVerbosity, Color aDefault)
 {
@@ -77,52 +80,36 @@ LoggingResponse_t CLogger::InternalMessage(LoggingSeverity_t eSeverity, const Le
 
 LoggingResponse_t CLogger::InternalMessageFormat(LoggingSeverity_t eSeverity, const char *pszFormat, ...)
 {
-	char sBuffer[1024];
+	CBufferStringLog sBuffer;
 
-	va_list aParams;
-
-	va_start(aParams, pszFormat);
-	V_vsnprintf((char *)sBuffer, sizeof(sBuffer), pszFormat, aParams);
-	va_end(aParams);
+	LOGGER_APPEND_VA_TO_BUFFERSTRING(pszFormat, sBuffer);
 
 	return InternalMessage(eSeverity, sBuffer);
 }
 
 LoggingResponse_t CLogger::InternalMessageFormat(LoggingSeverity_t eSeverity, Color aColor, const char *pszFormat, ...)
 {
-	char sBuffer[MAX_LOGGING_MESSAGE_LENGTH];
+	CBufferStringLog sBuffer;
 
-	va_list aParams;
-
-	va_start(aParams, pszFormat);
-	V_vsnprintf((char *)sBuffer, sizeof(sBuffer), pszFormat, aParams);
-	va_end(aParams);
+	LOGGER_APPEND_VA_TO_BUFFERSTRING(pszFormat, sBuffer);
 
 	return InternalMessage(eSeverity, aColor, sBuffer);
 }
 
 LoggingResponse_t CLogger::InternalMessageFormat(LoggingSeverity_t eSeverity, const LeafCodeInfo_t &aCode, const char *pszFormat, ...)
 {
-	char sBuffer[MAX_LOGGING_MESSAGE_LENGTH];
+	CBufferStringLog sBuffer;
 
-	va_list aParams;
-
-	va_start(aParams, pszFormat);
-	V_vsnprintf((char *)sBuffer, sizeof(sBuffer), pszFormat, aParams);
-	va_end(aParams);
+	LOGGER_APPEND_VA_TO_BUFFERSTRING(pszFormat, sBuffer);
 
 	return InternalMessage(eSeverity, sBuffer);
 }
 
 LoggingResponse_t CLogger::InternalMessageFormat(LoggingSeverity_t eSeverity, const LeafCodeInfo_t &aCode, Color aColor, const char *pszFormat, ...)
 {
-	char sBuffer[MAX_LOGGING_MESSAGE_LENGTH];
+	CBufferStringLog sBuffer;
 
-	va_list aParams;
-
-	va_start(aParams, pszFormat);
-	V_vsnprintf((char *)sBuffer, sizeof(sBuffer), pszFormat, aParams);
-	va_end(aParams);
+	LOGGER_APPEND_VA_TO_BUFFERSTRING(pszFormat, sBuffer);
 
 	return InternalMessage(eSeverity, aColor, sBuffer);
 }

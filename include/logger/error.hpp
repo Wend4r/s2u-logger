@@ -1,6 +1,8 @@
 #ifndef _INCLUDE_LOGGER_ERROR_HPP_
 #define _INCLUDE_LOGGER_ERROR_HPP_
 
+#pragma once
+
 #include "ilogging.hpp"
 #include "scope.hpp"
 

@@ -1,7 +1,9 @@
 #include <logger/scope.hpp>
+#include <logger/macros.hpp>
 
 #include <stdarg.h>
 
+#include <tier0/bufferstring.h>
 #include <tier0/logging.h>
 #include <tier0/strtools.h>
 
@@ -130,13 +132,9 @@ int CLoggerScope::Push(Color rgba, const char *pszContent)
 
 int CLoggerScope::PushFormat(const char *pszFormat, ...)
 {
-	char sBuffer[MAX_LOGGING_MESSAGE_LENGTH];
+	CBufferStringLog sBuffer;
 
-	va_list aParams;
-
-	va_start(aParams, pszFormat);
-	V_vsnprintf((char *)sBuffer, sizeof(sBuffer), pszFormat, aParams);
-	va_end(aParams);
+	LOGGER_APPEND_VA_TO_BUFFERSTRING(pszFormat, sBuffer);
 
 	Message_t aMsg(m_aColor);
 
@@ -149,13 +147,9 @@ int CLoggerScope::PushFormat(const char *pszFormat, ...)
 
 int CLoggerScope::PushFormat(Color rgba, const char *pszFormat, ...)
 {
-	char sBuffer[MAX_LOGGING_MESSAGE_LENGTH];
+	CBufferStringLog sBuffer;
 
-	va_list aParams;
-
-	va_start(aParams, pszFormat);
-	V_vsnprintf((char *)sBuffer, sizeof(sBuffer), pszFormat, aParams);
-	va_end(aParams);
+	LOGGER_APPEND_VA_TO_BUFFERSTRING(pszFormat, sBuffer);
 
 	Message_t aMsg(rgba);
 

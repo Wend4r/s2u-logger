@@ -1,7 +1,9 @@
 #include <logger/throw_assert.hpp>
+#include <logger/macros.hpp>
 
 #include <stdarg.h>
 
+#include <tier0/bufferstring.h>
 #include <tier0/strtools.h>
 
 LoggingResponse_t CLoggingThrowAssert::ThrowAssert(const LeafCodeInfo_t &aCode, const char *pszContent)
@@ -16,58 +18,38 @@ LoggingResponse_t CLoggingThrowAssert::ThrowAssert(const LeafCodeInfo_t &aCode, 
 
 LoggingResponse_t CLoggingThrowAssert::ThrowAssertFormat(const LeafCodeInfo_t &aCode, const char *pszFormat, ...)
 {
-	char sBuffer[MAX_LOGGING_MESSAGE_LENGTH];
+	CBufferStringLog sBuffer;
 
-	va_list aParams;
-
-	va_start(aParams, pszFormat);
-	V_vsnprintf((char *)sBuffer, sizeof(sBuffer), pszFormat, aParams);
-	va_end(aParams);
+	LOGGER_APPEND_VA_TO_BUFFERSTRING(pszFormat, sBuffer);
 
 	return ThrowAssert(aCode, sBuffer);
 }
 
 LoggingResponse_t CLoggingThrowAssert::ThrowAssertFormat(const LeafCodeInfo_t &aCode, Color aColor, const char *pszFormat, ...)
 {
-	char sBuffer[MAX_LOGGING_MESSAGE_LENGTH];
+	CBufferStringLog sBuffer;
 
-	va_list aParams;
-
-	va_start(aParams, pszFormat);
-	V_vsnprintf((char *)sBuffer, sizeof(sBuffer), pszFormat, aParams);
-	va_end(aParams);
+	LOGGER_APPEND_VA_TO_BUFFERSTRING(pszFormat, sBuffer);
 
 	return ThrowAssert(aCode, aColor, sBuffer);
 }
 
 LoggingResponse_t CLoggingThrowAssert::ThrowAssertFormatLn(const LeafCodeInfo_t &aCode, const char *pszFormat, ...)
 {
-	char sBuffer[MAX_LOGGING_MESSAGE_LENGTH];
+	CBufferStringLog sBuffer;
 
-	va_list aParams;
-
-	va_start(aParams, pszFormat);
-	int nLength = V_vsnprintf((char *)sBuffer, sizeof(sBuffer) - 1, pszFormat, aParams);
-	va_end(aParams);
-
-	sBuffer[nLength++] = '\n';
-	sBuffer[nLength++] = '\0';
+	LOGGER_APPEND_VA_TO_BUFFERSTRING(pszFormat, sBuffer);
+	sBuffer += '\n';
 
 	return ThrowAssert(aCode, sBuffer);
 }
 
 LoggingResponse_t CLoggingThrowAssert::ThrowAssertFormatLn(const LeafCodeInfo_t &aCode, Color aColor, const char *pszFormat, ...)
 {
-	char sBuffer[MAX_LOGGING_MESSAGE_LENGTH];
+	CBufferStringLog sBuffer;
 
-	va_list aParams;
-
-	va_start(aParams, pszFormat);
-	int nLength = V_vsnprintf((char *)sBuffer, sizeof(sBuffer) - 1, pszFormat, aParams);
-	va_end(aParams);
-
-	sBuffer[nLength++] = '\n';
-	sBuffer[nLength++] = '\0';
+	LOGGER_APPEND_VA_TO_BUFFERSTRING(pszFormat, sBuffer);
+	sBuffer += '\n';
 
 	return ThrowAssert(aCode, aColor, sBuffer);
 }
@@ -75,17 +57,11 @@ LoggingResponse_t CLoggingThrowAssert::ThrowAssertFormatLn(const LeafCodeInfo_t 
 CLoggerScope CLoggingThrowAssert::CreateAssertScope(const char *pszStartWith, const char *pszEnd)
 {
 #ifdef DEBUG
-	char sDebugWith[32];
+	CBufferStringLog sStartWith(LOGGER_FORMAT_ASSERT_STARTWITH);
 
-	char *pDebugWithResult = (char *)sDebugWith;
+	sStartWith += pszStartWith;
 
-	V_strncpy(pDebugWithResult, LOGGER_FORMAT_ASSERT_STARTWITH, sizeof(sDebugWith));
-
-	int nResultSize = V_strlen(pDebugWithResult);
-
-	V_strncpy(&pDebugWithResult[nResultSize], pszStartWith, (int)(sizeof(sDebugWith) - nResultSize));
-
-	return {LOGGER_COLOR_ASSERT, pDebugWithResult, pszEnd};
+	return {LOGGER_COLOR_ASSERT, sStartWith, pszEnd};
 #else
 	return {LOGGER_COLOR_ASSERT, pszStartWith, pszEnd};
 #endif

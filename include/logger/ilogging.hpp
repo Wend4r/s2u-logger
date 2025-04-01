@@ -1,9 +1,12 @@
 #ifndef _INCLUDE_LOGGER_ILOGGING_HPP_
 #define _INCLUDE_LOGGER_ILOGGING_HPP_
 
+#pragma once
+
+#include <stdarg.h>
+
 #include <tier0/logging.h>
 #include <tier0/utlstring.h>
-#include <stdarg.h>
 
 class ILogging
 {

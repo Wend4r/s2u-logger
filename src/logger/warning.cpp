@@ -1,7 +1,9 @@
 #include <logger/warning.hpp>
+#include <logger/macros.hpp>
 
 #include <stdarg.h>
 
+#include <tier0/bufferstring.h>
 #include <tier0/strtools.h>
 
 LoggingResponse_t CLoggingWarning::Warning(const char *pszContent)
@@ -16,58 +18,38 @@ LoggingResponse_t CLoggingWarning::Warning(Color aColor, const char *pszContent)
 
 LoggingResponse_t CLoggingWarning::WarningFormat(const char *pszFormat, ...)
 {
-	char sBuffer[MAX_LOGGING_MESSAGE_LENGTH];
+	CBufferStringLog sBuffer;
 
-	va_list aParams;
-
-	va_start(aParams, pszFormat);
-	V_vsnprintf((char *)sBuffer, sizeof(sBuffer), pszFormat, aParams);
-	va_end(aParams);
+	LOGGER_APPEND_VA_TO_BUFFERSTRING(pszFormat, sBuffer);
 
 	return Warning(sBuffer);
 }
 
 LoggingResponse_t CLoggingWarning::WarningFormat(Color aColor, const char *pszFormat, ...)
 {
-	char sBuffer[MAX_LOGGING_MESSAGE_LENGTH];
+	CBufferStringLog sBuffer;
 
-	va_list aParams;
-
-	va_start(aParams, pszFormat);
-	V_vsnprintf((char *)sBuffer, sizeof(sBuffer), pszFormat, aParams);
-	va_end(aParams);
+	LOGGER_APPEND_VA_TO_BUFFERSTRING(pszFormat, sBuffer);
 
 	return Warning(aColor, sBuffer);
 }
 
 LoggingResponse_t CLoggingWarning::WarningFormatLn(const char *pszFormat, ...)
 {
-	char sBuffer[MAX_LOGGING_MESSAGE_LENGTH];
+	CBufferStringLog sBuffer;
 
-	va_list aParams;
-
-	va_start(aParams, pszFormat);
-	int nLength = V_vsnprintf((char *)sBuffer, sizeof(sBuffer) - 1, pszFormat, aParams);
-	va_end(aParams);
-
-	sBuffer[nLength++] = '\n';
-	sBuffer[nLength++] = '\0';
+	LOGGER_APPEND_VA_TO_BUFFERSTRING(pszFormat, sBuffer);
+	sBuffer += '\n';
 
 	return Warning(sBuffer);
 }
 
 LoggingResponse_t CLoggingWarning::WarningFormatLn(Color aColor, const char *pszFormat, ...)
 {
-	char sBuffer[MAX_LOGGING_MESSAGE_LENGTH];
+	CBufferStringLog sBuffer;
 
-	va_list aParams;
-
-	va_start(aParams, pszFormat);
-	int nLength = V_vsnprintf((char *)sBuffer, sizeof(sBuffer) - 1, pszFormat, aParams);
-	va_end(aParams);
-
-	sBuffer[nLength++] = '\n';
-	sBuffer[nLength++] = '\0';
+	LOGGER_APPEND_VA_TO_BUFFERSTRING(pszFormat, sBuffer);
+	sBuffer += '\n';
 
 	return Warning(aColor, sBuffer);
 }
@@ -75,17 +57,11 @@ LoggingResponse_t CLoggingWarning::WarningFormatLn(Color aColor, const char *psz
 CLoggerScope CLoggingWarning::CreateWarningsScope(const char *pszStartWith, const char *pszEnd)
 {
 #ifdef DEBUG
-	char sDebugWith[32];
+	CBufferStringLog sStartWith(LOGGER_FORMAT_WARNING_STARTWITH);
 
-	char *pDebugWithResult = (char *)sDebugWith;
+	sStartWith += pszStartWith;
 
-	V_strncpy(pDebugWithResult, LOGGER_FORMAT_WARNING_STARTWITH, sizeof(sDebugWith));
-
-	int nResultSize = V_strlen(pDebugWithResult);
-
-	V_strncpy(&pDebugWithResult[nResultSize], pszStartWith, (int)(sizeof(sDebugWith) - nResultSize));
-
-	return {LOGGER_COLOR_WARNING, pDebugWithResult, pszEnd};
+	return {LOGGER_COLOR_WARNING, sStartWith, pszEnd};
 #else
 	return {LOGGER_COLOR_WARNING, pszStartWith, pszEnd};
 #endif

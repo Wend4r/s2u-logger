@@ -1,6 +1,8 @@
 #ifndef _INCLUDE_LOGGER_THROW_ASSERT_HPP_
 #define _INCLUDE_LOGGER_THROW_ASSERT_HPP_
 
+#pragma once
+
 #include "ilogging.hpp"
 #include "scope.hpp"
 

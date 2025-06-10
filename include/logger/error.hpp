@@ -9,15 +9,16 @@
 #define LOGGER_FORMAT_ERROR_STARTWITH "ERROR: "
 #define LOGGER_FORMAT_ERROR_STARTWITH_PREIFIX "[%s] " LOGGER_FORMAT_ERROR_STARTWITH
 #define LOGGER_FORMAT_ERROR LOGGER_FORMAT_ERROR_STARTWITH_PREIFIX "%s\n"
-#define LOGGER_COLOR_ERROR {255, 0, 0, 255}
+#define LOGGER_COLOR_ERROR Color(255, 0, 0, 255)
 
 class CLoggingError : virtual protected ILogging
 {
-	using This = CLoggingError;
+protected:
+	static const LoggingSeverity_t s_eSeverity = LS_ERROR;
 
 public:
-	virtual LoggingResponse_t Error(const char *pszContent) const;
-	virtual LoggingResponse_t Error(Color aColor, const char *pszContent) const;
+	virtual LoggingResponse_t Error(const char *pszContent) const { return InternalMessage(s_eSeverity, pszContent); }
+	virtual LoggingResponse_t Error(Color aColor, const char *pszContent) const { return InternalMessage(s_eSeverity, aColor, pszContent); }
 
 	virtual LoggingResponse_t ErrorFormat(const char *pszFormat, ...) const FMTFUNCTION(2, 3);
 	virtual LoggingResponse_t ErrorFormat(Color aColor, const char *pszFormat, ...) const FMTFUNCTION(3, 4);
@@ -27,9 +28,6 @@ public:
 
 public:
 	virtual CLoggerScope CreateErrorsScope(const char *pszStartWith = "", const char *pszEnd = "\n") const;
-
-protected:
-	static const LoggingSeverity_t s_eSeverity = LS_ERROR;
 }; // CLoggingError
 
 #endif // _INCLUDE_LOGGER_ERROR_HPP_

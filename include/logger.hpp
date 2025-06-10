@@ -40,23 +40,26 @@
 class CLogger : public CLoggingDetailed, public CLoggingMessage, public CLoggingWarning, public CLoggingThrowAssert, public CLoggingError
 {
 public:
-	CLogger(const char *pszName, RegisterTagsFunc pfnRegisterTagsFunc, int iFlags = 0, LoggingVerbosity_t eVerbosity = LV_DEFAULT, Color aDefault = UNSPECIFIED_LOGGING_COLOR);
+	CLogger(const char *pszName, RegisterTagsFunc pfnRegisterTagsFunc, int nFlags = 0, LoggingVerbosity_t eVerbosity = LV_DEFAULT, Color rgba = UNSPECIFIED_LOGGING_COLOR)
+	 :  m_nChannelID(LoggingSystem_RegisterLoggingChannel(pszName, pfnRegisterTagsFunc, nFlags, eVerbosity, rgba))
+	{
+	}
 
 public:
-	bool IsChannelEnabled(LoggingSeverity_t eSeverity) const;
-	bool IsChannelEnabled(LoggingVerbosity_t eVerbosity) const;
-	LoggingVerbosity_t GetChannelVerbosity() const;
-	Color GetColor() const;
-	LoggingChannelFlags_t GetFlags() const;
+	bool IsChannelEnabled(LoggingSeverity_t eSeverity) const    { return LoggingSystem_IsChannelEnabled(m_nChannelID, eSeverity); }
+	bool IsChannelEnabled(LoggingVerbosity_t eVerbosity) const  { return LoggingSystem_IsChannelEnabled(m_nChannelID, eVerbosity); }
+	LoggingVerbosity_t GetChannelVerbosity() const              { return LoggingSystem_GetChannelVerbosity(m_nChannelID); }
+	Color GetColor() const                                      { return LoggingSystem_GetChannelColor(m_nChannelID); }
+	LoggingChannelFlags_t GetFlags() const                      { return LoggingSystem_GetChannelFlags(m_nChannelID); }
 
 	// Bcompatibility.
 	using Scope = CLoggerScope;
 
 protected:
-	LoggingResponse_t InternalMessage(LoggingSeverity_t eSeverity, const char *pszContent) const override;
-	LoggingResponse_t InternalMessage(LoggingSeverity_t eSeverity, Color aColor, const char *pszContent) const override;
-	LoggingResponse_t InternalMessage(LoggingSeverity_t eSeverity, const LeafCodeInfo_t &aCode, const char *pszContent) const override;
-	LoggingResponse_t InternalMessage(LoggingSeverity_t eSeverity, const LeafCodeInfo_t &aCode, Color aColor, const char *pszContent) const override;
+	LoggingResponse_t InternalMessage(LoggingSeverity_t eSeverity, const char *pszContent) const override { return LoggingSystem_LogDirect(m_nChannelID, eSeverity, pszContent); }
+	LoggingResponse_t InternalMessage(LoggingSeverity_t eSeverity, Color aColor, const char *pszContent) const override { return LoggingSystem_LogDirect(m_nChannelID, eSeverity, aColor, pszContent); }
+	LoggingResponse_t InternalMessage(LoggingSeverity_t eSeverity, const LeafCodeInfo_t &aCode, const char *pszContent) const override { return LoggingSystem_LogDirect(m_nChannelID, eSeverity, aCode, pszContent); }
+	LoggingResponse_t InternalMessage(LoggingSeverity_t eSeverity, const LeafCodeInfo_t &aCode, Color aColor, const char *pszContent) const override { return LoggingSystem_LogDirect(m_nChannelID, eSeverity, aCode, aColor, pszContent); }
 
 	LoggingResponse_t InternalMessageFormat(LoggingSeverity_t eSeverity, const char *pszFormat, ...) const override;
 	LoggingResponse_t InternalMessageFormat(LoggingSeverity_t eSeverity, Color aColor, const char *pszFormat, ...) const override;

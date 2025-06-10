@@ -6,16 +6,6 @@
 #include <tier0/bufferstring.h>
 #include <tier0/strtools.h>
 
-LoggingResponse_t CLoggingMessage::Message(const char *pszContent) const
-{
-	return InternalMessage(This::s_eSeverity, pszContent);
-}
-
-LoggingResponse_t CLoggingMessage::Message(Color aColor, const char *pszContent) const
-{
-	return InternalMessage(This::s_eSeverity, aColor, pszContent);
-}
-
 LoggingResponse_t CLoggingMessage::MessageFormat(const char *pszFormat, ...) const
 {
 	CBufferStringLog sBuffer;
@@ -61,8 +51,8 @@ CLoggerScope CLoggingMessage::CreateMessagesScope(const char *pszStartWith, cons
 
 	sStartWith += pszStartWith;
 
-	return {LOGGER_COLOR_MESSAGE, sStartWith, pszEnd};
+	return CLoggerScope(LOGGER_COLOR_MESSAGE, sStartWith.String(), pszEnd);
 #else
-	return {LOGGER_COLOR_MESSAGE, pszStartWith, pszEnd};
+	return CLoggerScope(LOGGER_COLOR_MESSAGE, pszStartWith, pszEnd);
 #endif
 }

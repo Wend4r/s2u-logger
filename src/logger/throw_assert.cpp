@@ -6,16 +6,6 @@
 #include <tier0/bufferstring.h>
 #include <tier0/strtools.h>
 
-LoggingResponse_t CLoggingThrowAssert::ThrowAssert(const LeafCodeInfo_t &aCode, const char *pszContent) const
-{
-	return InternalMessage(This::s_eSeverity, aCode, pszContent);
-}
-
-LoggingResponse_t CLoggingThrowAssert::ThrowAssert(const LeafCodeInfo_t &aCode, Color aColor, const char *pszContent) const
-{
-	return InternalMessage(This::s_eSeverity, aCode, aColor, pszContent);
-}
-
 LoggingResponse_t CLoggingThrowAssert::ThrowAssertFormat(const LeafCodeInfo_t &aCode, const char *pszFormat, ...) const
 {
 	CBufferStringLog sBuffer;
@@ -61,9 +51,9 @@ CLoggerScope CLoggingThrowAssert::CreateAssertScope(const char *pszStartWith, co
 
 	sStartWith += pszStartWith;
 
-	return {LOGGER_COLOR_ASSERT, sStartWith, pszEnd};
+	return CLoggerScope(LOGGER_COLOR_ASSERT, sStartWith.String(), pszEnd);
 #else
-	return {LOGGER_COLOR_ASSERT, pszStartWith, pszEnd};
+	return CLoggerScope(LOGGER_COLOR_ASSERT, pszStartWith, pszEnd);
 #endif
 }
 

@@ -32,7 +32,7 @@ public:
 	{
 	}
 
-	CLoggerScope &operator+=(const CLoggerScope &other) { AppendFrom(other); }
+	CLoggerScope &operator+=(const CLoggerScope &other) { return AppendFrom(other); }
 
 	Color GetColor() const                      { return m_color; }
 	void SetColor(Color rgbaNew)                { m_color = rgbaNew; }

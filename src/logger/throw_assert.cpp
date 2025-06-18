@@ -49,7 +49,7 @@ CLoggerScope CLoggingThrowAssert::CreateAssertScope(const char *pszStartWith, co
 #ifdef DEBUG
 	CBufferStringLog sStartWith(LOGGER_FORMAT_ASSERT_STARTWITH);
 
-	sStartWith += pszStartWith;
+	sStartWith.Append(pszStartWith, -1);
 
 	return CLoggerScope(LOGGER_COLOR_ASSERT, sStartWith.String(), pszEnd);
 #else

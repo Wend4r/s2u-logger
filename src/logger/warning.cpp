@@ -49,7 +49,7 @@ CLoggerScope CLoggingWarning::CreateWarningsScope(const char *pszStartWith, cons
 #ifdef DEBUG
 	CBufferStringLog sStartWith(LOGGER_FORMAT_WARNING_STARTWITH);
 
-	sStartWith += pszStartWith;
+	sStartWith.Append(pszStartWith, -1);
 
 	return CLoggerScope(LOGGER_COLOR_WARNING, sStartWith.String(), pszEnd);
 #else

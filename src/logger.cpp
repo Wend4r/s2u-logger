@@ -42,7 +42,7 @@ LoggingResponse_t CLogger::InternalMessageFormat(LoggingSeverity_t eSeverity, Co
 	return InternalMessage(eSeverity, aColor, sBuffer);
 }
 
-LoggingResponse_t CLogger::InternalMessageFormat(LoggingSeverity_t eSeverity, const LeafCodeInfo_t &aCode, const char *pszFormat, ...) const
+LoggingResponse_t CLogger::InternalMessageFormat(LoggingSeverity_t eSeverity, const LoggingRareOptions_t &aCode, const char *pszFormat, ...) const
 {
 	CBufferStringLog sBuffer;
 
@@ -51,7 +51,7 @@ LoggingResponse_t CLogger::InternalMessageFormat(LoggingSeverity_t eSeverity, co
 	return InternalMessage(eSeverity, sBuffer);
 }
 
-LoggingResponse_t CLogger::InternalMessageFormat(LoggingSeverity_t eSeverity, const LeafCodeInfo_t &aCode, Color aColor, const char *pszFormat, ...) const
+LoggingResponse_t CLogger::InternalMessageFormat(LoggingSeverity_t eSeverity, const LoggingRareOptions_t &aCode, Color aColor, const char *pszFormat, ...) const
 {
 	CBufferStringLog sBuffer;
 

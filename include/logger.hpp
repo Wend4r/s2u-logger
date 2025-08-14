@@ -58,13 +58,13 @@ public:
 protected:
 	LoggingResponse_t InternalMessage(LoggingSeverity_t eSeverity, const char *pszContent) const override { return LoggingSystem_LogDirect(m_nChannelID, eSeverity, pszContent); }
 	LoggingResponse_t InternalMessage(LoggingSeverity_t eSeverity, Color aColor, const char *pszContent) const override { return LoggingSystem_LogDirect(m_nChannelID, eSeverity, aColor, pszContent); }
-	LoggingResponse_t InternalMessage(LoggingSeverity_t eSeverity, const LeafCodeInfo_t &aCode, const char *pszContent) const override { return LoggingSystem_LogDirect(m_nChannelID, eSeverity, aCode, pszContent); }
-	LoggingResponse_t InternalMessage(LoggingSeverity_t eSeverity, const LeafCodeInfo_t &aCode, Color aColor, const char *pszContent) const override { return LoggingSystem_LogDirect(m_nChannelID, eSeverity, aCode, aColor, pszContent); }
+	LoggingResponse_t InternalMessage(LoggingSeverity_t eSeverity, const LoggingRareOptions_t &aCode, const char *pszContent) const override { return LoggingSystem_LogDirect(m_nChannelID, eSeverity, aCode, pszContent); }
+	LoggingResponse_t InternalMessage(LoggingSeverity_t eSeverity, const LoggingRareOptions_t &aCode, Color aColor, const char *pszContent) const override { return LoggingSystem_LogDirect(m_nChannelID, eSeverity, aCode, aColor, pszContent); }
 
 	LoggingResponse_t InternalMessageFormat(LoggingSeverity_t eSeverity, const char *pszFormat, ...) const override;
 	LoggingResponse_t InternalMessageFormat(LoggingSeverity_t eSeverity, Color aColor, const char *pszFormat, ...) const override;
-	LoggingResponse_t InternalMessageFormat(LoggingSeverity_t eSeverity, const LeafCodeInfo_t &aCode, const char *pszFormat, ...) const override;
-	LoggingResponse_t InternalMessageFormat(LoggingSeverity_t eSeverity, const LeafCodeInfo_t &aCode, Color aColor, const char *pszFormat, ...) const override;
+	LoggingResponse_t InternalMessageFormat(LoggingSeverity_t eSeverity, const LoggingRareOptions_t &aCode, const char *pszFormat, ...) const override;
+	LoggingResponse_t InternalMessageFormat(LoggingSeverity_t eSeverity, const LoggingRareOptions_t &aCode, Color aColor, const char *pszFormat, ...) const override;
 
 	void DoTests() const;
 

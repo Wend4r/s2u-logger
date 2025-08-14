@@ -6,7 +6,7 @@
 #include <tier0/bufferstring.h>
 #include <tier0/strtools.h>
 
-LoggingResponse_t CLoggingThrowAssert::ThrowAssertFormat(const LeafCodeInfo_t &aCode, const char *pszFormat, ...) const
+LoggingResponse_t CLoggingThrowAssert::ThrowAssertFormat(const LoggingRareOptions_t &aCode, const char *pszFormat, ...) const
 {
 	CBufferStringLog sBuffer;
 
@@ -15,7 +15,7 @@ LoggingResponse_t CLoggingThrowAssert::ThrowAssertFormat(const LeafCodeInfo_t &a
 	return ThrowAssert(aCode, sBuffer);
 }
 
-LoggingResponse_t CLoggingThrowAssert::ThrowAssertFormat(const LeafCodeInfo_t &aCode, Color aColor, const char *pszFormat, ...) const
+LoggingResponse_t CLoggingThrowAssert::ThrowAssertFormat(const LoggingRareOptions_t &aCode, Color aColor, const char *pszFormat, ...) const
 {
 	CBufferStringLog sBuffer;
 
@@ -24,7 +24,7 @@ LoggingResponse_t CLoggingThrowAssert::ThrowAssertFormat(const LeafCodeInfo_t &a
 	return ThrowAssert(aCode, aColor, sBuffer);
 }
 
-LoggingResponse_t CLoggingThrowAssert::ThrowAssertFormatLn(const LeafCodeInfo_t &aCode, const char *pszFormat, ...) const
+LoggingResponse_t CLoggingThrowAssert::ThrowAssertFormatLn(const LoggingRareOptions_t &aCode, const char *pszFormat, ...) const
 {
 	CBufferStringLog sBuffer;
 
@@ -34,7 +34,7 @@ LoggingResponse_t CLoggingThrowAssert::ThrowAssertFormatLn(const LeafCodeInfo_t 
 	return ThrowAssert(aCode, sBuffer);
 }
 
-LoggingResponse_t CLoggingThrowAssert::ThrowAssertFormatLn(const LeafCodeInfo_t &aCode, Color aColor, const char *pszFormat, ...) const
+LoggingResponse_t CLoggingThrowAssert::ThrowAssertFormatLn(const LoggingRareOptions_t &aCode, Color aColor, const char *pszFormat, ...) const
 {
 	CBufferStringLog sBuffer;
 
